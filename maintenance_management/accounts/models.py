@@ -1,4 +1,6 @@
+import uuid
 from django.contrib.auth import models as auth_models, get_user_model
+from django.contrib.auth.models import Group
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -70,3 +72,15 @@ class AbstractProfile(models.Model):
 
     class Meta:
         abstract = True
+
+
+class DynamicRegisterInvitation(models.Model):
+    email = models.EmailField(
+        blank=False,
+        null=False,
+    )
+    unique_identifier = models.UUIDField(default=uuid.uuid4)
+
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+    groups = models.ForeignKey(auth_models.Group, on_delete=models.CASCADE)
