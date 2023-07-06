@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from maintenance_management.supervisor.models import SupervisorProfile
+
+
+@admin.register(SupervisorProfile)
+class SupervisorAdmin(admin.ModelAdmin):
+    pass

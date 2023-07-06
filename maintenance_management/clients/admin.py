@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from maintenance_management.clients.models import ClientProfile
+
+
+@admin.register(ClientProfile)
+class ClientAdmin(admin.ModelAdmin):
+    pass
