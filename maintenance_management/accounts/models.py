@@ -39,7 +39,7 @@ class AppUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
 UserModel = get_user_model()
 
 
-class AbstractProfile(models.Model):
+class AppUserProfile(models.Model):
     user = models.OneToOneField(
         UserModel,
         on_delete=models.CASCADE,
@@ -47,40 +47,49 @@ class AbstractProfile(models.Model):
     )
 
     first_name = models.CharField(
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
         max_length=30,
     )
 
     last_name = models.CharField(
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
         max_length=30,
     )
 
     phone_number = models.IntegerField(
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
     )
 
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
 
     profile_picture = models.ImageField(
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
     )
 
-    class Meta:
-        abstract = True
 
-
-class DynamicRegisterInvitation(models.Model):
+class RegisterInvitation(models.Model):
     email = models.EmailField(
         blank=False,
         null=False,
     )
-    unique_identifier = models.UUIDField(default=uuid.uuid4)
+    unique_identifier = models.UUIDField(default=uuid.uuid4, primary_key=True)
 
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
     groups = models.ForeignKey(auth_models.Group, on_delete=models.CASCADE)
+
+    secondary_email = models.EmailField(
+        blank=False,
+        null=False,
+        help_text=_("You will get a copy of the invitation to be sure sending was properly handled"),
+        verbose_name="Your Email:"
+    )

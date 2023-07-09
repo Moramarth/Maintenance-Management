@@ -1,13 +1,17 @@
 from django import forms
 from django.contrib.auth import forms as auth_forms
 
-from maintenance_management.accounts.models import DynamicRegisterInvitation, AppUser
+from maintenance_management.accounts.models import RegisterInvitation, AppUser
 
 
-class DynamicRegisterInvitationForm(forms.ModelForm):
+class RegisterInvitationForm(forms.ModelForm):
     class Meta:
-        model = DynamicRegisterInvitation
+        model = RegisterInvitation
         fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["unique_identifier"].widget.attrs["readonly"] = "readonly"
 
 
 class UserRegistrationForm(auth_forms.BaseUserCreationForm):
@@ -16,9 +20,9 @@ class UserRegistrationForm(auth_forms.BaseUserCreationForm):
         fields = ['email', "groups"]
         field_classes = {"email": auth_forms.UsernameField}
 
-        # widgets = {
-        #     "groups": forms.HiddenInput()
-        # }
+        widgets = {
+            "groups": forms.HiddenInput()
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -27,5 +31,3 @@ class UserRegistrationForm(auth_forms.BaseUserCreationForm):
                 "autofocus"
             ] = True
             self.fields["email"].widget.attrs["readonly"] = "readonly"
-            self.fields["groups"].widget.attrs["readonly"] = "readonly"
-            self.fields["groups"].widget.attrs["disabled"] = "disabled"

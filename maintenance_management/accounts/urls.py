@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import test_email, registration_view
+from .views import registration_invite_view, register_user_view
+from .signals import *
 
 urlpatterns = [
-    path("", test_email),
-    path("register/<uuid:unique_identifier>/", registration_view)
+    path("", registration_invite_view, name='register invite'),
+    path("register/<uuid:unique_identifier>/", register_user_view, name='register user'),
 ]
