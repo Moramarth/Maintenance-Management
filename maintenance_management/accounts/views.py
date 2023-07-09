@@ -1,23 +1,11 @@
-from decouple import config
-from django.contrib.auth import get_user_model
+from django.contrib.auth import views as auth_views, login
 from django.contrib.auth.models import Group
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
-
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views import generic as views
 
 from maintenance_management.accounts.forms import RegisterInvitationForm, UserRegistrationForm
-from maintenance_management.accounts.models import RegisterInvitation
-
-UserModel = get_user_model()
-
-
-def registration_invite_view(request):
-    form = RegisterInvitationForm()
-    if request.method == "POST":
-        form = RegisterInvitationForm(request.POST)
-        if form.is_valid():
-            form.save()
-    return render(request, 'accounts/dynamic_register_invite.html', {"form": form})
+from maintenance_management.accounts.models import RegisterInvitation, AppUserProfile
 
 
 def register_user_view(request, unique_identifier):
@@ -28,9 +16,26 @@ def register_user_view(request, unique_identifier):
         data["groups"] = [Group.objects.get(pk=invitation.groups_id)]
         form = UserRegistrationForm(data)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(
-                f"{config('DOMAIN_NAME')}"
-                f"{invitation.groups.name.lower()}"
-                f"/profile/{UserModel.objects.get(email=invitation.email).pk}/")
+            user = form.save()
+            login(request, user)
+            return redirect('profile details', pk=user.pk)
     return render(request, 'accounts/dynamic_register_invite.html', {"form": form})
+
+
+class RegistrationInviteView(views.CreateView):
+    template_name = 'accounts/dynamic_register_invite.html'
+    form_class = RegisterInvitationForm
+    success_url = reverse_lazy('home page')
+
+
+class AppUserProfileDetails(views.DetailView):
+    template_name = 'accounts/profile_details.html'
+    model = AppUserProfile
+
+
+class LoginUserView(auth_views.LoginView):
+    template_name = 'accounts/login_page.html'
+
+
+class LogoutUserView(auth_views.LogoutView):
+    pass

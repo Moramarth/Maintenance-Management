@@ -1,17 +1,10 @@
-"""
-TODO:
- 1) create empty profile when user is saved
- 2) set event to delete dynamic url info if user and profile are created;
- 3) set event to delete user if profile is deleted;
-
-"""
 from decouple import config
 from django.core.mail import EmailMessage
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template.loader import render_to_string
 
-from maintenance_management.accounts.models import RegisterInvitation
+from maintenance_management.accounts.models import RegisterInvitation, AppUser, AppUserProfile
 
 
 @receiver(post_save, sender=RegisterInvitation)
@@ -30,3 +23,16 @@ def send_email_invitation(instance, *args, **kwargs):
     message = EmailMessage(subject=subject, body=html_message, to=[instance.email], bcc=bcc)
     message.content_subtype = 'html'
     message.send()
+
+
+@receiver(post_save, sender=AppUser)
+def create_empty_app_user_profile(instance, created, *args, **kwargs):
+    if created:
+        company = RegisterInvitation.objects.get(email=instance.email).company
+        AppUserProfile.objects.create(user=instance, company=company)
+
+
+@receiver(post_save, sender=AppUserProfile)
+def delete_invitation_info_after_user_and_profile_creation(instance, *args, **kwargs):
+    invitation = RegisterInvitation.objects.get(email=instance.user.email)
+    invitation.delete()
