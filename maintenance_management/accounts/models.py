@@ -2,6 +2,7 @@ import uuid
 from django.contrib.auth import models as auth_models, get_user_model
 from django.contrib.auth.models import Group
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from maintenance_management.accounts.managers import AppUserManager
@@ -74,6 +75,9 @@ class AppUserProfile(models.Model):
         blank=True,
         null=True,
     )
+
+    def get_absolute_url(self):
+        return reverse('profile details', args=[self.pk])
 
 
 class RegisterInvitation(models.Model):

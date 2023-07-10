@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block page_title %}
+    Profile Details
+{% endblock %}
+{% block content %}
     <p>{{ object.first_name }}</p>
     <p>{{ object.last_name }}</p>
     <p>{{ object.company }}</p>
@@ -13,5 +11,6 @@
     <p>{{ object.user.email }}</p>
     <p>{{ object.user.group }}</p>
 
-</body>
-</html>
+    <a href="{% url 'edit profile' appuserprofile.pk %}" class="btn btn-warning">Edit</a>
+
+{% endblock %}

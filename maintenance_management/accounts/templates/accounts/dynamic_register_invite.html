@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-</head>
-<body>
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button>Send Invite</button>
-</form>
-
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block page_title %}
+    Registration
+{% endblock %}
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary">
+            {% if request.user.is_authenticated %}
+                Send Invite
+            {% else %}
+                Register
+            {% endif %}
+        </button>
+    </form>
+{% endblock %}

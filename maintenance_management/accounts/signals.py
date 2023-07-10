@@ -33,6 +33,7 @@ def create_empty_app_user_profile(instance, created, *args, **kwargs):
 
 
 @receiver(post_save, sender=AppUserProfile)
-def delete_invitation_info_after_user_and_profile_creation(instance, *args, **kwargs):
-    invitation = RegisterInvitation.objects.get(email=instance.user.email)
-    invitation.delete()
+def delete_invitation_info_after_user_and_profile_creation(instance, created, *args, **kwargs):
+    if created:
+        invitation = RegisterInvitation.objects.get(email=instance.user.email)
+        invitation.delete()

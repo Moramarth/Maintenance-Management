@@ -39,3 +39,9 @@ class LoginUserView(auth_views.LoginView):
 
 class LogoutUserView(auth_views.LogoutView):
     pass
+
+
+class EditAppUserProfile(views.UpdateView):
+    template_name = "accounts/edit_profile_page.html"
+    model = AppUserProfile
+    fields = ["first_name", "last_name", "phone_number", "profile_picture"]
