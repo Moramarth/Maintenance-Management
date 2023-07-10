@@ -1,5 +1,7 @@
 from django.db import models
 
+from maintenance_management.accounts.validators import validate_file_size
+
 
 class Company(models.Model):
     name = models.CharField(
@@ -23,4 +25,6 @@ class Company(models.Model):
     company_logo = models.ImageField(
         blank=True,
         null=True,
+        upload_to="images",
+        validators=[validate_file_size]
     )

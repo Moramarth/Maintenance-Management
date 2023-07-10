@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from maintenance_management.accounts.models import AppUser, AppUserProfile
+from maintenance_management.accounts.models import AppUser, AppUserProfile, RegisterInvitation
 
 
 # Register your models here.
@@ -12,4 +12,9 @@ class AppUserAdmin(admin.ModelAdmin):
 
 @admin.register(AppUserProfile)
 class AppUserProfile(admin.ModelAdmin):
+    pass
+
+
+@admin.register(RegisterInvitation)
+class RegisterInvitationAdmin(admin.ModelAdmin):
     pass

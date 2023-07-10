@@ -1,16 +1,31 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block page_title %}
     Profile Details
 {% endblock %}
 {% block content %}
+    <div>
+        {% if object.profile_picture %}
+            <img src="{{ object.profile_picture.url }}" alt="Profile Picture" width="300" height="300">
+        {% else %}
+            <img src="{% static '/images/IMG_3978_2.png' %}" alt="" width="300" height="300">
+
+        {% endif %}
+    </div>
+
     <p>{{ object.first_name }}</p>
     <p>{{ object.last_name }}</p>
-    <p>{{ object.company }}</p>
+
     <p>{{ object.phone_number }}</p>
-    <p>{{ object.profile_picture }}</p>
+
     <p>{{ object.user.email }}</p>
     <p>{{ object.user.group }}</p>
+    {# TODO: properly show company info and add edit button #}
+    <p>{{ object.company.name }}</p>
+    <p>{{ object.company.company_logo }}</p>
 
     <a href="{% url 'edit profile' appuserprofile.pk %}" class="btn btn-warning">Edit</a>
+    {# TODO: fix url for company edit #}
+    <a href="{% url 'edit profile' appuserprofile.pk %}" class="btn btn-danger">Edit Company Info</a>
 
 {% endblock %}

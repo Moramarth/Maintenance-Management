@@ -1,6 +1,7 @@
 import uuid
 from django.contrib.auth import models as auth_models, get_user_model
 from django.contrib.auth.models import Group
+from django.core.validators import MinLengthValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -8,8 +9,8 @@ from django.utils.translation import gettext_lazy as _
 from maintenance_management.accounts.managers import AppUserManager
 from maintenance_management.common.models import Company
 
+from .validators import only_letters_validator, PHONE_VALIDATION, validate_file_size, first_char_validation
 
-#  TODO: Validators for fields where needed
 
 class AppUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     USERNAME_FIELD = "email"
@@ -51,17 +52,21 @@ class AppUserProfile(models.Model):
         blank=True,
         null=True,
         max_length=30,
+        validators=[MinLengthValidator(2), only_letters_validator, first_char_validation],
     )
 
     last_name = models.CharField(
         blank=True,
         null=True,
         max_length=30,
+        validators=[MinLengthValidator(2), only_letters_validator, first_char_validation],
     )
 
-    phone_number = models.IntegerField(
+    phone_number = models.CharField(
+        max_length=15,
         blank=True,
         null=True,
+        validators=[PHONE_VALIDATION]
     )
 
     company = models.ForeignKey(
@@ -72,8 +77,10 @@ class AppUserProfile(models.Model):
     )
 
     profile_picture = models.ImageField(
+        upload_to="images",
         blank=True,
         null=True,
+        validators=[validate_file_size]
     )
 
     def get_absolute_url(self):
@@ -84,6 +91,7 @@ class RegisterInvitation(models.Model):
     email = models.EmailField(
         blank=False,
         null=False,
+        unique=True,
     )
     unique_identifier = models.UUIDField(default=uuid.uuid4, primary_key=True)
 

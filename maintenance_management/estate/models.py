@@ -1,6 +1,7 @@
 from django.db import models
 
 from maintenance_management.common.models import Company
+from maintenance_management.estate.validators import city_name_validation
 
 
 class Building(models.Model):
@@ -13,6 +14,7 @@ class Building(models.Model):
         max_length=50,
         blank=False,
         null=False,
+        validators=[city_name_validation]
     )
     address = models.CharField(
         max_length=200,
