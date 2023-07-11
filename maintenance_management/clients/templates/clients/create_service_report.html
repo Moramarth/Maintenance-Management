@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Service Reports
+{% endblock %}
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if not object %}
+            <button class="btn btn-primary">Create</button>
+        {% else %}
+            <button class="btn btn-warning">Edit</button>
+        {% endif %}
+    </form>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Service Reports
+{% endblock %}
+{% block content %}
+    <p>{{ object.title }}</p>
+    <p>{{ object.user.profile.first_name }}</p>
+    <p>{{ object.company.name }}</p>
+    <p>{{ object.description }}</p>
+    <div>
+        <a href="{% url 'edit report' object.pk %}" class="btn btn-warning">Edit Report</a>
+        <a href="{% url 'delete report' object.pk %}" class="btn btn-danger">Delete Report</a>
+    </div>
+{% endblock %}

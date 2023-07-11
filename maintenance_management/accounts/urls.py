@@ -12,7 +12,5 @@ urlpatterns = [
          include([
              path("", AppUserProfileDetails.as_view(), name='profile details'),
              path("edit/", EditAppUserProfile.as_view(), name='edit profile'),
-         ]
-         )
-         ),
+         ])),
 ]

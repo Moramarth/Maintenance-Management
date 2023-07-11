@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_tags %}
+
 {% block page_title %}
     Profile Details
 {% endblock %}
 {% block content %}
+    {% client_group_validation object.user as groups %}
+    {% address_display object as address %}
     <div>
         {% if object.profile_picture %}
             <img src="{{ object.profile_picture.url }}" alt="Profile Picture" width="300" height="300">
@@ -12,20 +16,40 @@
 
         {% endif %}
     </div>
-
     <p>{{ object.first_name }}</p>
     <p>{{ object.last_name }}</p>
 
     <p>{{ object.phone_number }}</p>
 
     <p>{{ object.user.email }}</p>
-    <p>{{ object.user.group }}</p>
-    {# TODO: properly show company info and add edit button #}
-    <p>{{ object.company.name }}</p>
-    <p>{{ object.company.company_logo }}</p>
 
-    <a href="{% url 'edit profile' appuserprofile.pk %}" class="btn btn-warning">Edit</a>
-    {# TODO: fix url for company edit #}
-    <a href="{% url 'edit profile' appuserprofile.pk %}" class="btn btn-danger">Edit Company Info</a>
+    <p>{% profile_group_info object.user %}</p>
+
+    <div>
+        {% if object.company.company_logo %}
+            <img src="{{ object.company.company_logo.url }}" alt="Company Logo">
+        {% else %}
+            {# TODO: grab a better company logo replacement #}
+            <img src="{% static '/images/IMG_3978_2.png' %}" alt="" width="300" height="300">
+        {% endif %}
+        <p>{{ object.company.name }}</p>
+        <p>{{ object.company.business_field }}</p>
+        <p>{{ object.company.additional_information }}</p>
+
+        <p>{{ address.building.name }}</p>
+        <p>{{ address.building.city }}</p>
+        <p>{{ address.building.address }}</p>
+        <p>{{ address.section }}</p>
+        <p>{{ address.floor }}</p>
+        <p>{{ address.office_number }}</p>
+    </div>
+    <div>
+        {% if groups %}
+            <a href="{% url 'create report' %}" class="btn btn-success">Create Service Report</a>
+        {% endif %}
+        <a href="{% url 'show all reports' %}" class="btn btn-success">View Service Reports</a>
+        <a href="{% url 'edit profile' appuserprofile.pk %}" class="btn btn-warning">Edit Profile</a>
+        <a href="{% url 'edit company' appuserprofile.company.pk %}" class="btn btn-danger">Edit Company Info</a>
+    </div>
 
 {% endblock %}

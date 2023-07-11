@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Service Reports
+{% endblock %}
+{% block content %}
+    <ul>
+    {% for object in object_list %}
+        <li><a href="{% url 'report details' object.pk %}">{{ object.title }} {{ object.submit_date }} {{ object.company }} {{ object.user }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}
