@@ -1,11 +1,14 @@
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 
-from maintenance_management.accounts.models import AppUser, AppUserProfile, RegisterInvitation
+from maintenance_management.accounts.models import AppUserProfile, RegisterInvitation
+
+UserModel = get_user_model()
 
 
 # Register your models here.
 
-@admin.register(AppUser)
+@admin.register(UserModel)
 class AppUserAdmin(admin.ModelAdmin):
     pass
 

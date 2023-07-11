@@ -45,3 +45,5 @@ class EditAppUserProfile(views.UpdateView):
     template_name = "accounts/edit_profile_page.html"
     model = AppUserProfile
     fields = ["first_name", "last_name", "phone_number", "profile_picture"]
+
+# TODO: password change and reset

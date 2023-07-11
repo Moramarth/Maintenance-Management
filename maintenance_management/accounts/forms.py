@@ -1,7 +1,9 @@
 from django import forms
-from django.contrib.auth import forms as auth_forms
+from django.contrib.auth import forms as auth_forms, get_user_model
 
-from maintenance_management.accounts.models import RegisterInvitation, AppUser
+from maintenance_management.accounts.models import RegisterInvitation
+
+UserModel = get_user_model()
 
 
 class RegisterInvitationForm(forms.ModelForm):
@@ -16,7 +18,7 @@ class RegisterInvitationForm(forms.ModelForm):
 
 class UserRegistrationForm(auth_forms.BaseUserCreationForm):
     class Meta:
-        model = AppUser
+        model = UserModel
         fields = ['email', "groups"]
         field_classes = {"email": auth_forms.UsernameField}
 

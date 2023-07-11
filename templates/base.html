@@ -25,7 +25,9 @@
                      class="d-inline-block align-text-top"/>
                 Maintenance Management
             </a>
-
+            {% if request.user.is_staff %}
+                <a class="nav-link" href="{% url 'admin page' %}">Go to Administration</a>
+            {% endif %}
             {% if request.user.is_authenticated %}
                 <div class="container-fluid">
                     <a class="nav-link" href="{% url 'profile details' request.user.pk %}">Profile</a>

@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from decouple import config
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
 
@@ -20,3 +22,7 @@ class EditCompanyInfo(views.UpdateView):
     model = Company
     fields = "__all__"
     success_url = reverse_lazy('home page')
+
+
+def redirect_to_admin(request):
+    return HttpResponseRedirect(f"{config('DOMAIN_NAME')}admin/")
