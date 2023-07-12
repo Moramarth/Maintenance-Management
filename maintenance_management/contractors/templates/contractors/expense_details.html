@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Expenses
+{% endblock %}
+{% block content %}
+    <p>{{ object.title }}</p>
+    <p>{{ object.additional_information }}</p>
+    <p>{{ object.created_by.appuserprofile.first_name }}</p>
+    <a href="{{ object.attached_file.url }}">View Offer</a>
+
+    <div>
+        <a href="{% url 'edit expense' object.pk %}" class="btn btn-warning">Edit</a>
+        <a href="{% url 'delete expense' object.pk %}" class="btn btn-danger">Delete</a>
+    </div>
+{% endblock %}

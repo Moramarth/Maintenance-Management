@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Meetings
+{% endblock %}
+{% block content %}
+    <p>{{ object.assignment }}</p>
+    <p>{{ object.description }}</p>
+    <p>{{ object.created_by.appuserprofile.first_name }}</p>
+    <p>{{ object.meeting_date }}</p>
+
+    <div>
+        <a href="{% url 'edit meeting' object.pk %}" class="btn btn-warning">Edit Meeting</a>
+        <a href="{% url 'delete meeting' object.pk %}" class="btn btn-danger">Delete Meeting</a>
+    </div>
+
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from maintenance_management.accounts.validators import validate_file_size
 from maintenance_management.supervisor.models import Assignments
 
 UserModel = get_user_model()
@@ -45,4 +46,5 @@ class ExpensesEstimate(models.Model):
         upload_to="documents",
         blank=True,
         null=True,
+        validators=[validate_file_size],
     )

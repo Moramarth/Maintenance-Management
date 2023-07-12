@@ -14,9 +14,9 @@ urlpatterns = [
     # path("reviews/",
     #      include([
     #          path("", ShowAllReviews.as_view(), name='show all reviews'),
-    #          path("create/", CreateReview.as_view(), name='create report'),
-    #          path("<int:pk>/", ShowReviewDetails.as_view(), name='report details'),
-    #          path("<int:pk>/edit", EditReview.as_view(), name='edit report'),
-    #          path("<int:pk>/delete", DeleteReview.as_view(), name='delete report'),
+    #          path("create/", CreateReview.as_view(), name='create review'),
+    #          path("<int:pk>/", ShowReviewDetails.as_view(), name='review details'),
+    #          path("<int:pk>/edit", EditReview.as_view(), name='edit review'),
+    #          path("<int:pk>/delete", DeleteReview.as_view(), name='delete review'),
     #      ])),
 ]

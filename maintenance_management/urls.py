@@ -24,4 +24,6 @@ urlpatterns = [
     path('', include('maintenance_management.common.urls')),
     path('accounts/', include('maintenance_management.accounts.urls')),
     path('clients/', include('maintenance_management.clients.urls')),
+    path('contractors/', include('maintenance_management.contractors.urls')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

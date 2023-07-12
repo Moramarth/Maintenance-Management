@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Expenses
+{% endblock %}
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if not object %}
+            <button class="btn btn-primary">Create</button>
+        {% else %}
+            <button class="btn btn-warning">Edit</button>
+        {% endif %}
+    </form>
+{% endblock %}

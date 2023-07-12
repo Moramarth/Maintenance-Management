@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Expenses
+{% endblock %}
+{% block content %}
+    <ul>
+        {% for object in object_list %}
+            <li>
+                <a href="{% url 'meeting details' object.pk %}">{{ object.meeting_date }} {{ object.created_by }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
