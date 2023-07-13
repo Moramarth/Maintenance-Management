@@ -101,6 +101,13 @@ class AppUserProfile(models.Model):
     def get_absolute_url(self):
         return reverse('profile details', args=[self.pk])
 
+    @property
+    def full_name(self):
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        else:
+            return
+
 
 class RegisterInvitation(models.Model):
     email = models.EmailField(

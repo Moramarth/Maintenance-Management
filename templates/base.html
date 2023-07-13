@@ -1,4 +1,6 @@
 {% load static %}
+{% load custom_tags %}
+{% profile_group_info request.user as viwer_group %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -18,7 +20,7 @@
 <header>
 
 
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-light bg-transparent">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'home page' %}">
                 <img src="{% static '/images/IMG_3978_2.png' %}" alt="logo" width="100" height="100"
@@ -29,16 +31,19 @@
                 <a class="nav-link" href="{% url 'admin page' %}">Go to Administration</a>
             {% endif %}
             {% if request.user.is_authenticated %}
-                <div class="container-fluid">
-                    <a class="nav-link" href="{% url 'profile details' request.user.pk %}">Profile</a>
-                    <a class="nav-link" href="{% url 'logout user' %}">Logout</a>
-                </div>
+                <a class="nav-link" href="{% url 'profile details' request.user.pk %}">Profile</a>
+                <a class="nav-link" href="{% url 'logout user' %}">Logout</a>
+                <a href="{% url 'show all reports' %}" class="btn btn-success">View Service Reports</a>
             {% else %}
-                <div class="container-fluid">
-                    <a class="nav-link" href="{% url 'login user' %}">Login</a>
-                    <a class="nav-link" href="{% url 'register info' %}">Registration</a>
-                </div>
+                <a class="nav-link" href="{% url 'login user' %}">Login</a>
+                <a class="nav-link" href="{% url 'register info' %}">Registration</a>
             {% endif %}
+            {% if viwer_group.name == 'Clients' %}
+            <a href="{% url 'create report' %}" class="btn btn-success">Create Service Report</a>
+                {% elif viwer_group.name == "Supervisor" %}
+            {% endif %}
+
+
         </div>
     </nav>
 </header>

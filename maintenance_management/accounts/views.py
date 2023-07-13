@@ -1,10 +1,11 @@
+from decouple import config
 from django.contrib.auth import views as auth_views, login
 from django.contrib.auth.models import Group
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
 
-from maintenance_management.accounts.forms import RegisterInvitationForm, UserRegistrationForm
+from maintenance_management.accounts.forms import RegisterInvitationForm, UserRegistrationForm, EditAppUserProfileForm
 from maintenance_management.accounts.models import RegisterInvitation, AppUserProfile
 
 
@@ -44,6 +45,33 @@ class LogoutUserView(auth_views.LogoutView):
 class EditAppUserProfile(views.UpdateView):
     template_name = "accounts/edit_profile_page.html"
     model = AppUserProfile
-    fields = ["first_name", "last_name", "phone_number", "profile_picture"]
+    form_class = EditAppUserProfileForm
+
 
 # TODO: password change and reset
+
+
+class ChangePassword(auth_views.PasswordChangeView):
+    template_name = 'accounts/password/change_password.html'
+    success_url = reverse_lazy('change password successful')
+
+
+class ChangePasswordDone(auth_views.PasswordChangeDoneView):
+    template_name = 'accounts/password/change_password_successful.html'
+
+
+class PasswordReset(auth_views.PasswordResetView):
+    html_email_template_name = 'accounts/password/reset_password_email.html'
+    success_url = reverse_lazy('reset password successful')
+
+
+class PasswordResetDone(auth_views.PasswordResetDoneView):
+    template_name = "accounts/password/reset_password_done.html"
+
+
+class PasswordResetConfirm(auth_views.PasswordResetConfirmView):
+    pass
+
+
+class PasswordResetComplete(auth_views.PasswordResetCompleteView):
+    pass

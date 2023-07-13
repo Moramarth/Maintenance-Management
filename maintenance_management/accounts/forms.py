@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import forms as auth_forms, get_user_model
 
-from maintenance_management.accounts.models import RegisterInvitation
+from maintenance_management.accounts.models import RegisterInvitation, AppUserProfile
 
 UserModel = get_user_model()
 
@@ -33,3 +33,21 @@ class UserRegistrationForm(auth_forms.BaseUserCreationForm):
                 "autofocus"
             ] = True
             self.fields["email"].widget.attrs["readonly"] = "readonly"
+
+
+class EditAppUserProfileForm(forms.ModelForm):
+    class Meta:
+        model = AppUserProfile
+        fields = ["first_name", "last_name", "phone_number", "profile_picture"]
+
+        widgets = {
+            "first_name": forms.TextInput(attrs={"required": True, "placeholder": "John"}),
+            "last_name": forms.TextInput(attrs={"required": True, "placeholder": "Doe"}),
+            "phone_number": forms.TextInput(attrs={"required": True, "placeholder": "+359123456789"}),
+        }
+        labels = {
+            "first_name": "First Name",
+            "last_name": "Last Name",
+            "phone_number": "Phone Number",
+            "profile_picture": "Profile Picture",
+        }

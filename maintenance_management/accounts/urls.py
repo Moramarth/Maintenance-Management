@@ -1,6 +1,12 @@
 from django.urls import path, include
-from .views import register_user_view, AppUserProfileDetails, LogoutUserView, LoginUserView, RegistrationInviteView, \
-    EditAppUserProfile
+from .views import (
+    register_user_view, AppUserProfileDetails,
+    LogoutUserView, LoginUserView,
+    RegistrationInviteView, EditAppUserProfile,
+    ChangePassword, ChangePasswordDone,
+    PasswordResetDone, PasswordReset,
+    PasswordResetConfirm, PasswordResetComplete,
+)
 from .signals import *
 
 urlpatterns = [
@@ -13,4 +19,14 @@ urlpatterns = [
              path("", AppUserProfileDetails.as_view(), name='profile details'),
              path("edit/", EditAppUserProfile.as_view(), name='edit profile'),
          ])),
+    path("password/",
+         include([
+             path("change/<int:pk>/", ChangePassword.as_view(), name='change password'),
+             path("change-done/", ChangePasswordDone.as_view(), name='change password successful'),
+             path("reset/", PasswordReset.as_view(), name='reset password'),
+             path("reset-done/", PasswordResetDone.as_view(), name='reset password successful'),
+             path('password-reset-confirm/<uidb64>/<token>/', PasswordResetConfirm.as_view(),
+                  name='password_reset_confirm'),
+             path('password-reset-complete/', PasswordResetComplete.as_view(), name='password_reset_complete'),
+         ]))
 ]

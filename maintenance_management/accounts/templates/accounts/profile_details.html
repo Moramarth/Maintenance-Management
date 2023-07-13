@@ -8,7 +8,6 @@
 {% block content %}
     {% address_display object as address %}
     {% profile_group_info object.user as owner_group %}
-    {% profile_group_info request.user as viwer_group %}
     <div>
         {% if object.profile_picture %}
             <img src="{{ object.profile_picture.url }}" alt="Profile Picture" width="300" height="300">
@@ -17,40 +16,48 @@
 
         {% endif %}
     </div>
-    <p>{{ object.first_name }}</p>
-    <p>{{ object.last_name }}</p>
+    <h5>Personal Information</h5>
+    <p>Name: {{ object.full_name }}</p>
 
-    <p>{{ object.phone_number }}</p>
 
-    <p>{{ object.user.email }}</p>
+    <p>Phone number: {{ object.phone_number }}</p>
 
-    <p>{{owner_group.name}}</p>
+    <p>Email: {{ object.user.email }}</p>
+
+    <p>{{ owner_group.name }}</p>
+    <a href="{% url 'edit profile' appuserprofile.pk %}" class="btn btn-warning">Edit Profile</a>
+    <a href="{% url 'change password' appuserprofile.pk %}" class="btn btn-danger">Change Password</a>
 
     <div>
+        <h5>Company Information</h5>
         {% if object.company.company_logo %}
             <img src="{{ object.company.company_logo.url }}" alt="Company Logo">
         {% else %}
-            {# TODO: grab a better company logo replacement #}
             <img src="{% static '/images/IMG_3978_2.png' %}" alt="" width="300" height="300">
         {% endif %}
-        <p>{{ object.company.name }}</p>
-        <p>{{ object.company.business_field }}</p>
-        <p>{{ object.company.additional_information }}</p>
-
-        <p>{{ address.building.name }}</p>
-        <p>{{ address.building.city }}</p>
-        <p>{{ address.building.address }}</p>
-        <p>{{ address.section }}</p>
-        <p>{{ address.floor }}</p>
-        <p>{{ address.office_number }}</p>
+        <p>Brand: {{ object.company.name }}</p>
+        <p>Business type: {{ object.company.business_field }}</p>
+        <p>More info: {{ object.company.additional_information }}</p>
+        <a href="{% url 'edit company' appuserprofile.company.pk %}" class="btn btn-danger">Edit Company Info</a>
+    </div>
+    <div>
+        <h5>Current address</h5>
+        <p>Location: {{ address.building.city }}, {{ address.building.address }}</p>
+        <p>Building name: {{ address.building.name }}</p>
+        <p>{% if address.section %}
+            {{ address.section }},
+        {% endif %}
+            floor {{ address.floor }},
+            office {{ address.office_number }}
+        </p>
     </div>
     <div>
         {% if viwer_group.name == 'Clients' %}
             <a href="{% url 'create report' %}" class="btn btn-success">Create Service Report</a>
         {% endif %}
         <a href="{% url 'show all reports' %}" class="btn btn-success">View Service Reports</a>
-        <a href="{% url 'edit profile' appuserprofile.pk %}" class="btn btn-warning">Edit Profile</a>
-        <a href="{% url 'edit company' appuserprofile.company.pk %}" class="btn btn-danger">Edit Company Info</a>
+
+
     </div>
 
 {% endblock %}

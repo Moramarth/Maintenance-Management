@@ -14,7 +14,7 @@ class AppUserAdmin(admin.ModelAdmin):
 
 
 @admin.register(AppUserProfile)
-class AppUserProfile(admin.ModelAdmin):
+class AppUserProfileAdmin(admin.ModelAdmin):
     pass
 
 

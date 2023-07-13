@@ -4,8 +4,8 @@
     Service Reports
 {% endblock %}
 {% block content %}
-    {% profile_group_info request.user as groups %}
-    {% if groups.name == 'Supervisor' %}
+
+    {% if viwer_group.name == 'Supervisor' %}
         <a href="{% url 'assign report' object.pk %}" class="btn btn-success">Assign Report</a>
         <a href="{% url 'show all reports' %}" class="btn btn-success">View Service Reports</a>
     {% endif %}
