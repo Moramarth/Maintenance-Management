@@ -6,8 +6,9 @@
     Profile Details
 {% endblock %}
 {% block content %}
-    {% client_group_validation object.user as groups %}
     {% address_display object as address %}
+    {% profile_group_info object.user as owner_group %}
+    {% profile_group_info request.user as viwer_group %}
     <div>
         {% if object.profile_picture %}
             <img src="{{ object.profile_picture.url }}" alt="Profile Picture" width="300" height="300">
@@ -23,7 +24,7 @@
 
     <p>{{ object.user.email }}</p>
 
-    <p>{% profile_group_info object.user %}</p>
+    <p>{{owner_group.name}}</p>
 
     <div>
         {% if object.company.company_logo %}
@@ -44,7 +45,7 @@
         <p>{{ address.office_number }}</p>
     </div>
     <div>
-        {% if groups %}
+        {% if viwer_group.name == 'Clients' %}
             <a href="{% url 'create report' %}" class="btn btn-success">Create Service Report</a>
         {% endif %}
         <a href="{% url 'show all reports' %}" class="btn btn-success">View Service Reports</a>

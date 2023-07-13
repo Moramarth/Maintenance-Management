@@ -4,8 +4,15 @@
 {% endblock %}
 {% block content %}
     <ul>
-    {% for object in object_list %}
-        <li><a href="{% url 'report details' object.pk %}">{{ object.title }} {{ object.submit_date }} {{ object.company }} {{ object.user }}</a></li>
-    {% endfor %}
+        {% for object in object_list %}
+            <li>
+                <a href="{% url 'report details' object.pk %}"> {{ object.title }} </a>
+                {{ object.submit_date }}
+                {{ object.company }}
+                {{ object.user }}
+                {{ object.report_status }}
+
+            </li>
+        {% endfor %}
     </ul>
 {% endblock %}

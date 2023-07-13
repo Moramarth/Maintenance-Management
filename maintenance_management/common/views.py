@@ -26,3 +26,8 @@ class EditCompanyInfo(views.UpdateView):
 
 def redirect_to_admin(request):
     return HttpResponseRedirect(f"{config('DOMAIN_NAME')}admin/")
+
+
+class CompanyDetails(views.DetailView):
+    template_name = 'common/company_details.html'
+    model = Company

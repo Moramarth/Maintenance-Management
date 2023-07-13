@@ -4,11 +4,25 @@ from django.db import models
 from maintenance_management.accounts.validators import validate_file_size
 from maintenance_management.common.models import Company
 
-
 UserModel = get_user_model()
 
 
 class ServiceReport(models.Model):
+    class ReportStatus(models.TextChoices):
+        PENDING = "Pending"
+        ASSIGNED = "Assigned"
+        DONE = "Done"
+        REJECTED = "Rejected"
+
+    class ReportType(models.TextChoices):
+        NETWORKING = "Networking"
+        ELECTRICAL = "Electrical"
+        PLUMBING = "Plumbing"
+        STRUCTURAL_INTEGRITY = "Structural Integrity"
+        SECURITY_SYSTEMS = "Security Systems"
+        LANDSCAPING = "Landscaping"
+        OTHER = "Other"
+
     user = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE
@@ -34,9 +48,10 @@ class ServiceReport(models.Model):
         validators=[validate_file_size],
     )
     report_status = models.CharField(
-        max_length=50,
+        max_length=8,
         blank=False,
-        default="Pending",  # TODO: Enumeration for status
+        choices=ReportStatus.choices,
+        default=ReportStatus.PENDING,
     )
     assigned_to = models.ForeignKey(
         UserModel,
@@ -48,5 +63,43 @@ class ServiceReport(models.Model):
     )
     submit_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
+    report_type = models.CharField(
+        max_length=20,
+        blank=False,
+        choices=ReportType.choices,
+        default=ReportType.OTHER,
+    )
+
 
 # TODO: create Review model
+
+class Review(models.Model):
+    class Rating(models.IntegerChoices):
+        ONE = 1
+        TWO = 2
+        THREE = 3
+        FOUR = 4
+        FIVE = 5
+
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.SET_NULL,
+        blank=False,
+        null=True,
+    )
+    service_report = models.ForeignKey(
+        ServiceReport,
+        on_delete=models.SET_NULL,
+        blank=False,
+        null=True,
+    )
+    rating = models.PositiveIntegerField(
+        blank=False,
+        null=False,
+    )
+    comment = models.TextField(
+        max_length=500,
+        blank=True,
+        null=True,
+    )
+    submitted = models.DateTimeField(auto_now_add=True)

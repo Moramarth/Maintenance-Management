@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Building Details
+{% endblock %}
+{% block content %}
+    <p> {{ object.name }} </p>
+    <p> {{ object.city }} </p>
+    <p> {{ object.address }} </p>
+    <p> Current tenants: {{ object.additionaladdressinformation_set.count }} companies </p>
+    {% if object.picture %}
+        <img src="{{ object.picture.url }}" alt="Building Picture">
+    {% endif %}
+{% endblock %}

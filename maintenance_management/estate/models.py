@@ -1,5 +1,6 @@
 from django.db import models
 
+from maintenance_management.accounts.validators import validate_file_size
 from maintenance_management.common.models import Company
 from maintenance_management.estate.validators import city_name_validation
 
@@ -20,6 +21,12 @@ class Building(models.Model):
         max_length=200,
         blank=False,
         null=False,
+    )
+    picture = models.ImageField(
+        upload_to="images",
+        blank=True,
+        null=True,
+        validators=[validate_file_size]
     )
     tenants = models.ManyToManyField(Company, through="AdditionalAddressInformation")
 

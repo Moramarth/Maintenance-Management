@@ -42,6 +42,14 @@ UserModel = get_user_model()
 
 
 class AppUserProfile(models.Model):
+    class FieldOfExpertise(models.TextChoices):
+        NETWORKING = "Networking"
+        ELECTRICAL = "Electrical"
+        PLUMBING = "Plumbing"
+        STRUCTURAL_INTEGRITY = "Structural Integrity"
+        SECURITY_SYSTEMS = "Security Systems"
+        LANDSCAPING = "Landscaping"
+
     user = models.OneToOneField(
         UserModel,
         on_delete=models.CASCADE,
@@ -81,6 +89,13 @@ class AppUserProfile(models.Model):
         blank=True,
         null=True,
         validators=[validate_file_size]
+    )
+
+    expertise = models.CharField(
+        max_length=20,
+        blank=True,
+        choices=FieldOfExpertise.choices,
+        default='Not suitable',
     )
 
     def get_absolute_url(self):

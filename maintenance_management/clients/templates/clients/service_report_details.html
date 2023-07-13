@@ -1,13 +1,24 @@
 {% extends 'base.html' %}
+{% load custom_tags %}
 {% block page_title %}
     Service Reports
 {% endblock %}
 {% block content %}
+    {% profile_group_info request.user as groups %}
+    {% if groups.name == 'Supervisor' %}
+        <a href="{% url 'assign report' object.pk %}" class="btn btn-success">Assign Report</a>
+        <a href="{% url 'show all reports' %}" class="btn btn-success">View Service Reports</a>
+    {% endif %}
     <p>{{ object.title }}</p>
     <p>{{ object.description }}</p>
     <p>{{ object.user.appuserprofile.first_name }}</p>
     <p>{{ object.company.name }}</p>
     <p>{{ object.report_status }}</p>
+    {% if object.assigned_to %}
+        <p>
+            <a href="{% url 'profile details' object.assigned_to.pk %}">{{ object.assigned_to.appuserprofile.first_name }}</a>
+        </p>
+    {% endif %}
     {% if object.report_status == "Pending" %}
         <div>
             <a href="{% url 'edit report' object.pk %}" class="btn btn-warning">Edit Report</a>

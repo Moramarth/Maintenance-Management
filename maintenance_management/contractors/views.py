@@ -68,3 +68,5 @@ class DeleteExpensesEstimate(views.DeleteView):
     template_name = 'contractors/delete_expenses.html'
     model = ExpensesEstimate
     success_url = reverse_lazy('show all expenses')
+
+# TODO: accept/ reject assignment

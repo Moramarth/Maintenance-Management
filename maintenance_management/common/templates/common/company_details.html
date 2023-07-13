@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Company Details
+{% endblock %}
+{% block content %}
+    <img src="{{ object.company_logo.url }}" alt="">
+    {{ object.name }}
+
+    <p>{{ object.additional_information }}</p>
+    <p>{{ object.business_field }}</p>
+    <p>Employees:</p>
+    {% for person in object.appuserprofile_set.all %}
+        <div>
+        {{ person.first_name }}
+        {{ person.last_name }}
+        <a href="{% url 'profile details' person.pk %}">Go to profile</a>
+        </div>
+    {% endfor %}
+{% endblock %}
