@@ -39,7 +39,6 @@ class ShowReportDetails(views.DetailView):
     model = ServiceReport
 
 
-# TODO: create views for Review model
 class ShowAllReviews(views.ListView):
     template_name = 'clients/show_all_reviews.html'
     model = Review

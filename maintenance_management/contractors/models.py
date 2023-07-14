@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from maintenance_management.accounts.validators import validate_file_size
-from maintenance_management.supervisor.models import Assignments
+from maintenance_management.supervisor.models import Assignment
 
 UserModel = get_user_model()
 
@@ -13,7 +13,7 @@ class Meeting(models.Model):
         on_delete=models.CASCADE,
     )
     assignment = models.ForeignKey(
-        Assignments,
+        Assignment,
         on_delete=models.CASCADE,
     )
     description = models.TextField(

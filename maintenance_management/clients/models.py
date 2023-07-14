@@ -71,8 +71,6 @@ class ServiceReport(models.Model):
     )
 
 
-# TODO: create Review model
-
 class Review(models.Model):
     class Rating(models.IntegerChoices):
         ONE = 1

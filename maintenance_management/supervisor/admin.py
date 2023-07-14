@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from maintenance_management.supervisor.models import Assignments
+from maintenance_management.supervisor.models import Assignment
 
 
-@admin.register(Assignments)
+@admin.register(Assignment)
 class AssignmentsAdmin(admin.ModelAdmin):
     pass

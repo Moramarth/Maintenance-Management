@@ -1,4 +1,3 @@
-from decouple import config
 from django.contrib.auth import views as auth_views, login
 from django.contrib.auth.models import Group
 from django.shortcuts import render, get_object_or_404, redirect
@@ -46,9 +45,6 @@ class EditAppUserProfile(views.UpdateView):
     template_name = "accounts/edit_profile_page.html"
     model = AppUserProfile
     form_class = EditAppUserProfileForm
-
-
-# TODO: password change and reset
 
 
 class ChangePassword(auth_views.PasswordChangeView):

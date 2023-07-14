@@ -6,7 +6,12 @@ from maintenance_management.clients.models import ServiceReport
 UserModel = get_user_model()
 
 
-class Assignments(models.Model):
+class Assignment(models.Model):
+    class AssignmentStatus(models.TextChoices):
+        PENDING = "Pending"
+        ACCEPTED = "Accepted"
+        REJECTED = "Rejected"
+
     service_report = models.ForeignKey(
         ServiceReport,
         on_delete=models.CASCADE,
@@ -29,7 +34,8 @@ class Assignments(models.Model):
         null=True,
     )
     assignment_status = models.CharField(
-        max_length=50,
+        max_length=8,
         blank=False,
-        default="Pending",  # TODO: Enumeration for status
+        choices=AssignmentStatus.choices,
+        default=AssignmentStatus.PENDING,
     )
