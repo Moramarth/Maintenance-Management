@@ -13,7 +13,7 @@ class ShowAllMeetings(views.ListView):
 
 
 class CreateMeeting(views.CreateView):
-    """ TODO: autopopulate some of the fields """
+    """ TODO: auto populate some fields """
     template_name = 'contractors/create_meeting.html'
     model = Meeting
     fields = '__all__'
@@ -45,7 +45,7 @@ class ShowAllExpensesEstimates(views.ListView):
 
 
 class CreateExpensesEstimate(views.CreateView):
-    """ TODO: autopopulate some of the fields """
+    """ TODO: auto populate some  fields """
     template_name = 'contractors/create_expenses.html'
     model = ExpensesEstimate
     fields = '__all__'

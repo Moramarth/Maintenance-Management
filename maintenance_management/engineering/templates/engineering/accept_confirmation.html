@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Accept Assignment
+{% endblock %}
+{% block content %}
+    {% if assignment.user %}
+        <h2>You have accepted {{ assignment.service_report }} successfully</h2>
+    {% else %}
+        <h2>Assignment to {{ assignment.service_report }} has been rejected</h2>
+    {% endif %}
+    <a href="{% url 'show my assignments' %}" class="btn btn-outline-primary">Back to My Assignments</a>
+{% endblock %}

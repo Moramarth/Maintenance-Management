@@ -6,7 +6,7 @@ from django.views import generic as views
 
 from maintenance_management.clients.models import ServiceReport
 from maintenance_management.supervisor.forms import AssignForm
-from maintenance_management.supervisor.helper_functions import create_assignment_object
+from maintenance_management.supervisor.helper_functions import create_assignment_object, report_is_assigned
 from maintenance_management.supervisor.models import Assignment
 
 UserModel = get_user_model()
@@ -20,9 +20,8 @@ def assign_report_to_engineer_or_contractor(request, pk):
     if form.is_valid():
         user = UserModel.objects.get(pk=form.cleaned_data["assign_to"])
         create_assignment_object(request.user, report, user)
-        report.report_status = ServiceReport.ReportStatus.ASSIGNED
-        report.assigned_to = user
-        report.save()
+        report_is_assigned(report, user)
+
         return redirect('report details', pk=report.pk)
     context = {
         "form": form,

@@ -14,5 +14,9 @@
         <a href="{% url 'delete assignment' object.pk %}" class="btn btn-outline-danger">Delete</a>
     {% endif %}
     <a href="{% url 'show all assignments' %}" class="btn btn-outline-primary">Back to Assignments</a>
-
+    {% if viewer_group.name == "Engineering" or viewer_group.name == "Contractors" %}
+        <a href="{% url 'accept assignment' object.pk %}" class="btn btn-outline-success">Accept</a>
+        <a href="{% url 'reject assignment' object.pk %}" class="btn btn-outline-danger">Reject</a>
+        <a href="{% url 'show my assignments' %}" class="btn btn-outline-primary">Back to My Assignments</a>
+    {% endif %}
 {% endblock %}

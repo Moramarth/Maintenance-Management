@@ -8,6 +8,10 @@
     {% if viewer_group.name == 'Supervisor' %}
         <a href="{% url 'assign report' object.pk %}" class="btn btn-success">Assign Report</a>
         <a href="{% url 'show all reports' %}" class="btn btn-success">View Service Reports</a>
+    {% elif viewer_group.name == 'Engineering' %}
+        <a href="{% url 'self assign' object.pk %}" class="btn btn-success">Assign Report to Me</a>
+        <a href="{% url 'assign to contractor' object.pk %}" class="btn btn-success">Assign Report to Contractor</a>
+        <a href="{% url 'show all reports' %}" class="btn btn-success">View Service Reports</a>
     {% endif %}
     <p>{{ object.title }}</p>
     <p>{{ object.description }}</p>

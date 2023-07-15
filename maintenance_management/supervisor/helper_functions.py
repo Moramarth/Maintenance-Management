@@ -1,3 +1,4 @@
+from maintenance_management.clients.models import ServiceReport
 from maintenance_management.supervisor.models import Assignment
 
 
@@ -18,3 +19,9 @@ def choice_population(query_set):
     for item in query_set:
         choices.append((item.pk, item))
     return choices
+
+
+def report_is_assigned(report, user):
+    report.report_status = ServiceReport.ReportStatus.ASSIGNED
+    report.assigned_to = user
+    report.save()
