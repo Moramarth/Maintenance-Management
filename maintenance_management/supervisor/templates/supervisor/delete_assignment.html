@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Assignment
+{% endblock %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete this Assignment?</p>
+        <p> {{ object.service_report}} assigned to {{ object.user }}</p>
+        <button class="btn btn-danger">YES</button>
+    </form>
+    <a href="{% url 'show all assignments' %}" class="btn btn-success">NO</a>
+{% endblock %}

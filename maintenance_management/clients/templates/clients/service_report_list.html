@@ -3,7 +3,7 @@
     Service Reports
 {% endblock %}
 {% block content %}
-    {% if viwer_group.name == "Supervisor"%}
+    {% if viewer_group.name == "Supervisor"%}
         <a href="{% url 'auto assign' %}" class="btn btn-outline-danger">Auto assign reports</a>
     {% endif %}
     <ul>

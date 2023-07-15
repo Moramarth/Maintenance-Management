@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 
-    {% if viwer_group.name == 'Supervisor' %}
+    {% if viewer_group.name == 'Supervisor' %}
         <a href="{% url 'assign report' object.pk %}" class="btn btn-success">Assign Report</a>
         <a href="{% url 'show all reports' %}" class="btn btn-success">View Service Reports</a>
     {% endif %}

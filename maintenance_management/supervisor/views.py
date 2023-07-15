@@ -1,10 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views import generic as views
 
 from maintenance_management.clients.models import ServiceReport
 from maintenance_management.supervisor.forms import AssignForm
 from maintenance_management.supervisor.helper_functions import create_assignment_object
+from maintenance_management.supervisor.models import Assignment
 
 UserModel = get_user_model()
 
@@ -56,3 +59,27 @@ def auto_assign_reports(request):
     if errors:
         context[errors] = errors
     return render(request, "supervisor/auto_assign_status.html", context)
+
+
+class ShowAllAssignments(views.ListView):
+    template_name = 'supervisor/show_all_assignments.html'
+    model = Assignment
+
+
+class ShowAssignmentDetails(views.DetailView):
+    template_name = 'supervisor/assignment_details.html'
+    model = Assignment
+
+
+class EditAssignment(views.UpdateView):
+    """ TODO: possibility of going with func based view and two different forms"""
+    template_name = 'supervisor/edit_assignment.html'
+    model = Assignment
+    fields = ["user", "meeting_required", "expense_estimate_available"]
+    success_url = reverse_lazy('show all assignments')
+
+
+class DeleteAssignment(views.DeleteView):
+    template_name = 'supervisor/delete_assignment.html'
+    model = Assignment
+    success_url = reverse_lazy('show all assignments')

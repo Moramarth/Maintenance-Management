@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Assignments
+{% endblock %}
+{% block content %}
+    <p>{{ object.service_report }}</p>
+    <p>{{ object.assigned_by }}</p>
+    <p>{{ object.user }}</p>
+    <p>{{ object.assignment_status }}</p>
+    <p>{{ object.date_assigned }}</p>
+    <p>{{ object.last_updated }}</p>
+    {% if viewer_group.name == "Supervisor" %}
+        <a href="{% url 'edit assignment' object.pk %}" class="btn btn-outline-warning">Edit</a>
+        <a href="{% url 'delete assignment' object.pk %}" class="btn btn-outline-danger">Delete</a>
+    {% endif %}
+    <a href="{% url 'show all assignments' %}" class="btn btn-outline-primary">Back to Assignments</a>
+
+{% endblock %}

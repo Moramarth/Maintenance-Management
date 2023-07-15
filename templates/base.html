@@ -1,6 +1,6 @@
 {% load static %}
 {% load custom_tags %}
-{% profile_group_info request.user as viwer_group %}
+{% profile_group_info request.user as viewer_group %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -29,10 +29,10 @@
                 {% if request.user.is_staff %}
                     <li><a class="nav-link" href="{% url 'admin page' %}">Go to Administration</a></li>
                 {% endif %}
-                {% if viwer_group.name == 'Clients' %}
+                {% if viewer_group.name == 'Clients' %}
                     <li><a href="{% url 'create report' %}" class="nav-link">Create Service Report</a>
                     </li>
-                {% elif viwer_group.name == "Supervisor" %}
+                {% elif viewer_group.name == "Supervisor" %}
                 {% endif %}
                 {% if request.user.is_authenticated %}
                     <li><a class="nav-link"
