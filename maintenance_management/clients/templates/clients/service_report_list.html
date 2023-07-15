@@ -3,14 +3,18 @@
     Service Reports
 {% endblock %}
 {% block content %}
+    {% if viwer_group.name == "Supervisor"%}
+        <a href="{% url 'auto assign' %}" class="btn btn-outline-danger">Auto assign reports</a>
+    {% endif %}
     <ul>
         {% for object in object_list %}
             <li>
-                <a href="{% url 'report details' object.pk %}"> {{ object.title }} </a>
+                {{ object.title }}
                 {{ object.submit_date }}
                 {{ object.company }}
                 {{ object.user }}
                 {{ object.report_status }}
+            <a href="{% url 'report details' object.pk %}" class="btn btn-outline-primary"> See Details </a>
 
             </li>
         {% endfor %}

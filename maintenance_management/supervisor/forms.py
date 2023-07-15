@@ -1,14 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
+from maintenance_management.supervisor.helper_functions import choice_population
+
 UserModel = get_user_model()
-
-
-def choice_population(query_set):
-    choices = list()
-    for item in query_set:
-        choices.append((item.pk, item))
-    return choices
 
 
 class AssignForm(forms.Form):

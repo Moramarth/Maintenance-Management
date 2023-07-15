@@ -18,6 +18,7 @@ class Assignment(models.Model):
         blank=False,
         null=False,
     )
+    # Engineer or Contractor that was given the assignment
     user = models.ForeignKey(
         UserModel,
         on_delete=models.SET_NULL,
