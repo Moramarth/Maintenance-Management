@@ -8,11 +8,17 @@ from maintenance_management.clients.models import ServiceReport, Review
 # Create your views here.
 
 class CreateServiceReport(views.CreateView):
-    """ TODO: autopopulate some of the fields """
     template_name = 'clients/create_service_report.html'
     model = ServiceReport
-    fields = "__all__"
+    fields = ["title", "description", "image", "report_type"]
     success_url = reverse_lazy('show all reports')
+
+    def form_valid(self, form):
+        report = form.save(commit=False)
+        report.user = self.request.user
+        report.company = self.request.user.appuserprofile.company
+        form.save()
+        return super(CreateServiceReport, self).form_valid(form)
 
 
 class EditServiceReport(views.UpdateView):
@@ -47,7 +53,14 @@ class ShowAllReviews(views.ListView):
 class CreateReview(views.CreateView):
     template_name = 'clients/create_review.html'
     model = Review
+    fields = ["service_report", "rating", "comment"]
     success_url = reverse_lazy('show all reviews')
+
+    def form_valid(self, form):
+        report = form.save(commit=False)
+        report.user = self.request.user
+        form.save()
+        return super(CreateReview, self).form_valid(form)
 
 
 class ShowReviewDetails(views.DetailView):
@@ -58,6 +71,7 @@ class ShowReviewDetails(views.DetailView):
 class EditReview(views.UpdateView):
     template_name = 'clients/create_review.html'
     model = Review
+    fields = ["service_report", "rating", "comment"]
     success_url = reverse_lazy('show all reviews')
 
 

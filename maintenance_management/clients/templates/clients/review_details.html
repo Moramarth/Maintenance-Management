@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Reviews
+{% endblock %}
+{% block content %}
+    <p> {{ object.service_report }}</p>
+    <p> {{ object.user }}</p>
+    <p> {{ object.rating }}</p>
+    <p> {{ object.comment }}</p>
+    <p> {{ object.user.appuserprofile.company }}</p>
+    {% if object.user.appuserprofile.company.logo %}
+        <p> {{ object.user.appuserprofile.company.logo.url }}</p>
+    {% endif %}
+{% endblock %}

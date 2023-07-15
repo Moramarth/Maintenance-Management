@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Reviews
+{% endblock %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {% if form.errors %}
+            <p>form.errors</p>
+        {% endif %}
+        <p>{{ form.service_report.label }}</p>
+        <p>{{ form.service_report }} Please choose a report you want to review</p>
+        <p>{{ form.rating.label }}</p>
+        <p>{{ form.rating }}</p>
+        <p>{{ form.comment.label }}</p>
+        <p>{{ form.comment }}</p>
+        {% if object %}
+            <button class="btn btn-warning">Edit</button>
+
+        {% else %}
+            <button class="btn btn-primary">Submit</button>
+        {% endif %}
+    </form>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Reviews
+{% endblock %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete your Review?</p>
+        <p> {{ object.service_report }} Rated: {{ object.rating }} Your comment: {{ object.comment | truncatechars:30 }}</p>
+        <button class="btn btn-danger">YES</button>
+    </form>
+    <a href="{% url 'show all reviews' %}" class="btn btn-success">NO</a>
+{% endblock %}

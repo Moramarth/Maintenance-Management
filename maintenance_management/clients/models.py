@@ -73,11 +73,11 @@ class ServiceReport(models.Model):
 
 class Review(models.Model):
     class Rating(models.IntegerChoices):
-        ONE = 1
-        TWO = 2
-        THREE = 3
-        FOUR = 4
-        FIVE = 5
+        ONE = 1, "Very Bad"
+        TWO = 2, "Bad"
+        THREE = 3, "Good"
+        FOUR = 4, "Very good"
+        FIVE = 5, "Excellent"
 
     user = models.ForeignKey(
         UserModel,
@@ -94,6 +94,7 @@ class Review(models.Model):
     rating = models.PositiveIntegerField(
         blank=False,
         null=False,
+        choices=Rating.choices
     )
     comment = models.TextField(
         max_length=500,
