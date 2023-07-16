@@ -28,3 +28,6 @@ class Company(models.Model):
         upload_to="images",
         validators=[validate_file_size]
     )
+
+    def __str__(self):
+        return f"{self.name} - Business Field: {self.business_field or 'Not shown'}"

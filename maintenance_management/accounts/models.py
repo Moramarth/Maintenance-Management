@@ -37,6 +37,19 @@ class AppUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
         ),
     )
 
+    groups = models.ForeignKey(
+        Group,
+        verbose_name=_("groups"),
+        help_text=_(
+            "The group this user belongs to. A user will get all permissions "
+            "granted to their group."
+        ),
+        related_name="user_set",
+        related_query_name="user",
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+
 
 UserModel = get_user_model()
 
@@ -107,6 +120,13 @@ class AppUserProfile(models.Model):
             return f"{self.first_name} {self.last_name}"
         else:
             return
+
+    def __str__(self):
+        if self.expertise != "Not suitable":
+            expertise = f"Expertise: {self.expertise}"
+        else:
+            expertise = ""
+        return f"{self.full_name} employee at {self.company.name} " + expertise
 
 
 class RegisterInvitation(models.Model):

@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.simple_tag()
 def profile_group_info(user):
-    return user.groups.first()
+    return user.groups
 
 
 @register.simple_tag()

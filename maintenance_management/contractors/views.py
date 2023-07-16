@@ -13,11 +13,17 @@ class ShowAllMeetings(views.ListView):
 
 
 class CreateMeeting(views.CreateView):
-    """ TODO: auto populate some fields """
+    """ TODO: Make sure we can create meetings only for our assignments """
     template_name = 'contractors/create_meeting.html'
     model = Meeting
-    fields = '__all__'
+    fields = ["assignment", "description", "meeting_date"]
     success_url = reverse_lazy('show all meetings')
+
+    def form_valid(self, form):
+        meeting = form.save(commit=False)
+        meeting.created_by = self.request.user
+        form.save()
+        return super(CreateMeeting, self).form_valid(form)
 
 
 class ShowMeetingDetails(views.DetailView):
@@ -45,11 +51,16 @@ class ShowAllExpensesEstimates(views.ListView):
 
 
 class CreateExpensesEstimate(views.CreateView):
-    """ TODO: auto populate some  fields """
     template_name = 'contractors/create_expenses.html'
     model = ExpensesEstimate
-    fields = '__all__'
+    fields = ["title", "additional_information", "attached_file"]
     success_url = reverse_lazy('show all expenses')
+
+    def form_valid(self, form):
+        expense_estimate = form.save(commit=False)
+        expense_estimate.created_by = self.request.user
+        form.save()
+        return super(CreateExpensesEstimate, self).form_valid(form)
 
 
 class ShowExpensesEstimateDetails(views.DetailView):
@@ -68,5 +79,3 @@ class DeleteExpensesEstimate(views.DeleteView):
     template_name = 'contractors/delete_expenses.html'
     model = ExpensesEstimate
     success_url = reverse_lazy('show all expenses')
-
-# TODO: accept/ reject assignment
