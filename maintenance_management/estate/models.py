@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from maintenance_management.accounts.validators import validate_file_size
 from maintenance_management.common.models import Company
@@ -30,6 +31,12 @@ class Building(models.Model):
     )
     tenants = models.ManyToManyField(Company, through="AdditionalAddressInformation")
 
+    def get_absolute_url(self):
+        return reverse('building details', args=[self.pk])
+
+    def __str__(self):
+        return self.name
+
 
 class AdditionalAddressInformation(models.Model):
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
@@ -47,3 +54,6 @@ class AdditionalAddressInformation(models.Model):
         blank=False,
         null=False,
     )
+
+    class Meta:
+        verbose_name_plural = "Additional address information"

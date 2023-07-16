@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 
 from maintenance_management.clients.models import ServiceReport
 
@@ -40,3 +41,9 @@ class Assignment(models.Model):
         choices=AssignmentStatus.choices,
         default=AssignmentStatus.PENDING,
     )
+
+    def get_absolute_url(self):
+        return reverse('assignment details', args=[self.pk])
+
+    def __str__(self):
+        return f"'{self.service_report}' assigned to {self.user}"

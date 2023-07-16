@@ -26,6 +26,9 @@ class Meeting(models.Model):
         null=False,
     )
 
+    def __str__(self):
+        return f"Meeting created by {self.created_by}"
+
 
 class ExpensesEstimate(models.Model):
     created_by = models.ForeignKey(
@@ -48,3 +51,6 @@ class ExpensesEstimate(models.Model):
         null=True,
         validators=[validate_file_size],
     )
+
+    def __str__(self):
+        return f"{self.title} created by {self.created_by}"

@@ -5,9 +5,12 @@ from maintenance_management.estate.models import Building, AdditionalAddressInfo
 
 @admin.register(Building)
 class BuildingAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["name", "city", "address"]
+    list_filter = ["city"]
+    view_on_site = True
 
 
 @admin.register(AdditionalAddressInformation)
 class AdditionalAddressInformationAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["building", "company", "section", "floor", "office_number"]
+    list_filter = ["building"]

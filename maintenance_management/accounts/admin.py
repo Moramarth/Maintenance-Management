@@ -16,7 +16,7 @@ class AppUserAdmin(admin.ModelAdmin):
     date_hierarchy = "last_login"
     fieldsets = [
         ("Auth Data", {
-            "classes": ["wide", "extrapretty"],
+            "classes": ["wide"],
             "fields": ["email", "password", "groups"]
         }),
         ("Additional Information", {"fields": ["is_staff", "is_active"]}),
@@ -31,9 +31,11 @@ class AppUserProfileAdmin(admin.ModelAdmin):
     list_filter = ["expertise", "company"]
     search_fields = ["first_name", "last_name"]
     search_help_text = "Search for a user by name"
+    view_on_site = True
 
 
 @admin.register(RegisterInvitation)
 class RegisterInvitationAdmin(admin.ModelAdmin):
     list_display = ["email", "company", "groups", "unique_identifier"]
     radio_fields = {"groups": admin.VERTICAL}
+
