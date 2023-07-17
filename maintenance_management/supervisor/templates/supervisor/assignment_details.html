@@ -10,13 +10,13 @@
     <p>{{ object.date_assigned }}</p>
     <p>{{ object.last_updated }}</p>
     {% if viewer_group.name == "Supervisor" %}
-        <a href="{% url 'edit assignment' object.pk %}" class="btn btn-outline-warning">Edit</a>
-        <a href="{% url 'delete assignment' object.pk %}" class="btn btn-outline-danger">Delete</a>
+        <a class="btn btn-outline-warning" href="{% url 'edit assignment' object.pk %}">Edit</a>
+        <a class="btn btn-outline-danger" href="{% url 'delete assignment' object.pk %}">Delete</a>
     {% endif %}
-    <a href="{% url 'show all assignments' %}" class="btn btn-outline-primary">Back to Assignments</a>
+    <a class="btn btn-outline-primary" href="{% url 'show all assignments' %}">Back to Assignments</a>
     {% if viewer_group.name == "Engineering" or viewer_group.name == "Contractors" %}
-        <a href="{% url 'accept assignment' object.pk %}" class="btn btn-outline-success">Accept</a>
-        <a href="{% url 'reject assignment' object.pk %}" class="btn btn-outline-danger">Reject</a>
-        <a href="{% url 'show my assignments' %}" class="btn btn-outline-primary">Back to My Assignments</a>
+        <a class="btn btn-outline-success" href="{% url 'accept assignment' object.pk %}">Accept</a>
+        <a class="btn btn-outline-danger" href="{% url 'reject assignment' object.pk %}">Reject</a>
+        <a class="btn btn-outline-primary" href="{% url 'show my assignments' %}">Back to My Assignments</a>
     {% endif %}
 {% endblock %}

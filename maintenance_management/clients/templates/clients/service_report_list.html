@@ -3,8 +3,8 @@
     Service Reports
 {% endblock %}
 {% block content %}
-    {% if viewer_group.name == "Supervisor"%}
-        <a href="{% url 'auto assign' %}" class="btn btn-outline-danger">Auto assign reports</a>
+    {% if viewer_group.name == "Supervisor" %}
+        <a class="btn btn-outline-danger" href="{% url 'auto assign' %}">Auto assign reports</a>
     {% endif %}
     <ul>
         {% for object in object_list %}
@@ -14,7 +14,7 @@
                 {{ object.company }}
                 {{ object.user }}
                 {{ object.report_status }}
-            <a href="{% url 'report details' object.pk %}" class="btn btn-outline-primary"> See Details </a>
+                <a class="btn btn-outline-primary" href="{% url 'report details' object.pk %}">See Details</a>
 
             </li>
         {% endfor %}

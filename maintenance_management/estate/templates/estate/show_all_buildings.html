@@ -3,12 +3,14 @@
     Buildings
 {% endblock %}
 {% block content %}
-
     {% for building in object_list %}
-        {# TODO: make this a card #}
-        {{ building.picture }}
-        {{ building.name }}
-        {{ building.city }}
-        <a href="{% url 'building details' building.pk %}"> See Details</a>
+        <p>{# TODO: make this a card #}
+            {% if building.picture %}
+                {{ building.picture }}
+            {% endif %}
+            {{ building.name }}
+            {{ building.city }}
+            <a href="{% url 'building details' building.pk %}">See Details</a>
+        </p>
     {% endfor %}
 {% endblock %}

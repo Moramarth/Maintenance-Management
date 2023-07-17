@@ -1,4 +1,3 @@
-{% load static %}
 {% load custom_tags %}
 {% profile_group_info request.user as viewer_group %}
 <!doctype html>
@@ -18,42 +17,12 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar navbar-brand" href="{% url 'home page' %}">
-                <img src="{% static '/images/IMG_3978_2.png' %}" alt="logo" width="30" height="30"
-                     class="d-inline-block align-text-top"/>
-                Maintenance Management
-            </a>
-            <ul class="navbar-nav">
-                {% if request.user.is_staff %}
-                    <li><a class="nav-link" href="{% url 'admin page' %}">Go to Administration</a></li>
-                {% endif %}
-                {% if viewer_group.name == 'Clients' %}
-                    <li><a href="{% url 'create report' %}" class="nav-link">Create Service Report</a>
-                    </li>
-                {% elif viewer_group.name == "Supervisor" %}
-                {% endif %}
-                {% if request.user.is_authenticated %}
-                    <li><a class="nav-link"
-                           href="{% url 'profile details' request.user.pk %}">Profile</a></li>
-
-                    <l><a href="{% url 'show all reports' %}" class="nav-link">View Service
-                        Reports</a></l>
-                    <li><a class="nav-link" href="{% url 'logout user' %}">Logout</a></li>
-                {% else %}
-                    <li><a class="nav-link" href="{% url 'login user' %}">Login</a></li>
-                    <li><a class="nav-link" href="{% url 'register info' %}">Registration</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
+    {% include 'partials/navbar/navigation-bar.html' %}
 </header>
 {% block content %}
 {% endblock %}
-<footer class="card-footer">
-    <p class="text-center"> Maintenance Management Project for Python Web Framework Exam SoftUni 2023</p>
-</footer>
+{% include 'partials/footer.html' %}
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>

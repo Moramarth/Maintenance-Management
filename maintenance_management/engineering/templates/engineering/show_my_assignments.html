@@ -4,10 +4,10 @@
 {% endblock %}
 {% block content %}
     {% for assignment in assignments %}
-    {{ assignment.service_report }}
-    {{ assignment.date_assigned }}
-    {{ assignment.assigned_by}}
-    {{ assignment.assignment_status}}
-        <a href="{% url 'assignment details' assignment.pk %}" class="btn btn-outline-primary">See Details</a>
+        {{ assignment.service_report }}
+        {{ assignment.date_assigned }}
+        {{ assignment.assigned_by }}
+        {{ assignment.assignment_status }}
+        <a class="btn btn-outline-primary" href="{% url 'assignment details' assignment.pk %}">See Details</a>
     {% endfor %}
 {% endblock %}

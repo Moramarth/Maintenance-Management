@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Tenants
+{% endblock %}
+{% block content %}
+
+    {% for company in companies %}
+       <p> {# TODO: make this a card #}
+        {% if company.logo %}
+            {{ company.logo }}
+        {% endif %}
+        {{ company.name }}
+        {% if company.businessfiled %}
+            {{ company.businessfiled }}
+        {% endif %}
+        <a href="{% url 'company details' company.pk %}">See Details</a>
+        </p>
+    {% endfor %}
+{% endblock %}

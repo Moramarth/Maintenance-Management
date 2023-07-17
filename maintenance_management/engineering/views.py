@@ -9,8 +9,6 @@ from maintenance_management.supervisor.models import Assignment
 # Create your views here.
 
 
-# TODO: self assign, assign to contractor, accept/reject assignment
-
 UserModel = get_user_model()
 
 

@@ -9,7 +9,7 @@
     <a href="{{ object.attached_file.url }}">View Offer</a>
 
     <div>
-        <a href="{% url 'edit expense' object.pk %}" class="btn btn-warning">Edit</a>
-        <a href="{% url 'delete expense' object.pk %}" class="btn btn-danger">Delete</a>
+        <a class="btn btn-warning" href="{% url 'edit expense' object.pk %}">Edit</a>
+        <a class="btn btn-danger" href="{% url 'delete expense' object.pk %}">Delete</a>
     </div>
 {% endblock %}

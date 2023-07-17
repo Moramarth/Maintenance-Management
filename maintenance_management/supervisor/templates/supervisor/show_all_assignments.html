@@ -4,10 +4,12 @@
 {% endblock %}
 {% block content %}
     {% for object in object_list %}
-        {{ object.service_report }}
-        {{ object.user }}
-        {{ object.assigned_by }}
-        {{ object.assignment_status }}
-        <a href="{% url 'assignment details' object.pk %}" class="btn btn-outline-primary">See Details</a>
+        <p>
+            {{ object.service_report }}
+            {{ object.user }}
+            {{ object.assigned_by }}
+            {{ object.assignment_status }}
+            <a class="btn btn-outline-primary" href="{% url 'assignment details' object.pk %}">See Details</a>
+        </p>
     {% endfor %}
 {% endblock %}

@@ -9,8 +9,8 @@
     <p>{{ object.meeting_date }}</p>
 
     <div>
-        <a href="{% url 'edit meeting' object.pk %}" class="btn btn-warning">Edit Meeting</a>
-        <a href="{% url 'delete meeting' object.pk %}" class="btn btn-danger">Delete Meeting</a>
+        <a class="btn btn-warning" href="{% url 'edit meeting' object.pk %}">Edit Meeting</a>
+        <a class="btn btn-danger" href="{% url 'delete meeting' object.pk %}">Delete Meeting</a>
     </div>
 
 {% endblock %}

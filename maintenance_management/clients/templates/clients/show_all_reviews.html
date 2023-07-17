@@ -7,7 +7,7 @@
         <p>{{ object.user.appuserprofile.full_name }}
             {{ object.rating }}
             {{ object.comment | truncatechars:30 }}
-            <a href="{% url 'review details' object.pk %}" class="btn btn-outline-primary">See Details</a>
+            <a class="btn btn-outline-primary" href="{% url 'review details' object.pk %}" >See Details</a>
         </p>
     {% endfor %}
 {% endblock %}

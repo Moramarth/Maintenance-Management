@@ -31,3 +31,9 @@ def redirect_to_admin(request):
 class CompanyDetails(views.DetailView):
     template_name = 'common/company_details.html'
     model = Company
+
+
+def show_all_companies(request):
+    companies = Company.objects.all()
+    context = {"companies": companies}
+    return render(request, 'common/show_all_companies.html', context)

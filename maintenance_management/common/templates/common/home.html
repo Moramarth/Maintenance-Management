@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-    <article>This is the home page!</article>
-    <span><a href="{% url 'show all buildings' %}" class="btn btn-primary"> See all buildings</a></span>
-    <span><a href="{% url 'show all reviews' %}" class="btn btn-primary"> See all reviews</a></span>
+    <h1>We take care of our buildings</h1>
+    <h2 class="text-muted">You focus on your business</h2>
+    <a class="btn btn-primary" href="{% url 'show all buildings' %}"> See all buildings</a>
+    <a class="btn btn-primary" href="{% url 'show all reviews' %}"> See all reviews</a>
+    <a class="btn btn-primary" href="{% url 'show all companies' %}"> See our tenants</a>
 {% endblock %}

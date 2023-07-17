@@ -48,8 +48,7 @@ def auto_assign_reports(request):
             for engineer in engineers:
                 if engineer.appuserprofile.expertise == report.report_type:
                     create_assignment_object(request.user, report, engineer)
-                    report.assigned_to = engineer
-                    report.report_status = ServiceReport.ReportStatus.ASSIGNED
+                    report_is_assigned(report, engineer)
                     reports_assigned_count += 1
     except Exception as errors:
         pass

@@ -107,4 +107,4 @@ class Review(models.Model):
     submitted = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"From: {self.user.appuserprofile.full_name} Rating: {self.rating}"
+        return f"Rating: {self.rating} Comment: {self.comment}"

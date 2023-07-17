@@ -3,17 +3,21 @@
     Company Details
 {% endblock %}
 {% block content %}
-    <img src="{{ object.company_logo.url }}" alt="">
+    {% if object.company_logo %}
+        <img src="{{ object.company_logo.url }}" alt="">
+    {% endif %}
     {{ object.name }}
 
     <p>{{ object.additional_information }}</p>
     <p>{{ object.business_field }}</p>
-    <p>Employees:</p>
-    {% for person in object.appuserprofile_set.all %}
-        <div>
-        {{ person.first_name }}
-        {{ person.last_name }}
-        <a href="{% url 'profile details' person.pk %}">Go to profile</a>
-        </div>
-    {% endfor %}
+    {% if user.is_authenticated %}
+        <p>Employees:</p>
+        {% for person in object.appuserprofile_set.all %}
+            <div>
+                {{ person.first_name }}
+                {{ person.last_name }}
+                <a class="btn btn-outline-primary" href="{% url 'profile details' person.pk %}">Go to profile</a>
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock %}
