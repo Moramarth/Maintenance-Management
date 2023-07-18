@@ -9,6 +9,6 @@
     <p> {{ object.comment }}</p>
     <p> {{ object.user.appuserprofile.company }}</p>
     {% if object.user.appuserprofile.company.logo %}
-        <p> {{ object.user.appuserprofile.company.logo.url }}</p>
+        <img src="{{ object.user.appuserprofile.company.logo.url }}" alt="">
     {% endif %}
 {% endblock %}

@@ -1,5 +1,6 @@
 {% load custom_tags %}
 {% profile_group_info request.user as viewer_group %}
+{% user_authentication request.user as user_is_authenticated %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,6 +10,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style> main {
+        padding-top: 50px;
+    }
+    </style>
     <title>
         {% block page_title %}
             Maintenance Management
@@ -19,8 +24,12 @@
 <header>
     {% include 'partials/navbar/navigation-bar.html' %}
 </header>
-{% block content %}
-{% endblock %}
+<main class="container">
+    <div class="bg-transparent p-5">
+        {% block content %}
+        {% endblock %}
+    </div>
+</main>
 {% include 'partials/footer.html' %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

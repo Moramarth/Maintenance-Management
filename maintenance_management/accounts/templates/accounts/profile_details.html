@@ -12,7 +12,7 @@
         {% if object.profile_picture %}
             <img src="{{ object.profile_picture.url }}" alt="Profile Picture" width="300" height="300">
         {% else %}
-            <img src="{% static '/images/IMG_3978_2.png' %}" alt="" width="300" height="300">
+            <img src="{% static '/images/default_profile_picture.png' %}" alt="" width="300" height="300">
 
         {% endif %}
     </div>
@@ -33,7 +33,7 @@
         {% if object.company.company_logo %}
             <img src="{{ object.company.company_logo.url }}" alt="Company Logo">
         {% else %}
-            <img src="{% static '/images/IMG_3978_2.png' %}" alt="" width="300" height="300">
+            <img src="{% static '/images/default_company_logo.jpg.png' %}" alt="" width="300" height="300">
         {% endif %}
         <p>Brand: {{ object.company.name }}</p>
         <p>Business type: {{ object.company.business_field }}</p>

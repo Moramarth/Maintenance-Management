@@ -1,13 +1,33 @@
 {% extends "base.html" %}
+{% load static %}
 {% block page_title %}
     Reviews
 {% endblock %}
 {% block content %}
-    {% for object in object_list %}
-        <p>{{ object.user.appuserprofile.full_name }}
-            {{ object.rating }}
-            {{ object.comment | truncatechars:30 }}
-            <a class="btn btn-outline-primary" href="{% url 'review details' object.pk %}" >See Details</a>
-        </p>
-    {% endfor %}
+    <div class="container">
+        {% for object in object_list %}
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        {% if object.user.appuserprofile.profile_picture %}
+                            <img src="{{ object.user.appuserprofile.profile_picture.url }}"
+                                 class="img-fluid rounded-start"
+                                 alt="">
+                        {% else %}
+                            <img src="{% static '/images/default_profile_picture.png' %}" class="img-fluid rounded-start"
+                                 alt="">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ object.user.appuserprofile.full_name }}</h5>
+                            <p class="card-text">{{ object.comment }}</p>
+                            <p class="card-text"><small class="text-muted">{{ object.submitted }}</small></p>
+                        </div>
+                    </div>
+                    <div>Rating: {{ object.rating }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

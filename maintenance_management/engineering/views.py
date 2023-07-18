@@ -15,6 +15,7 @@ UserModel = get_user_model()
 def assign_report_to_self(request, pk):
     report = get_object_or_404(ServiceReport, pk=pk)
     create_assignment_object(request.user, report, request.user)
+    report_is_assigned(report, request.user)
     return redirect('report details', pk=report.pk)
 
 
@@ -27,6 +28,9 @@ def assign_report_to_contractor(request, pk):
         report_is_assigned(report, user)
 
         return redirect('report details', pk=report.pk)
+
+    context = {"form": form}
+    return render(request, 'supervisor/assign_form.html', context)
 
 
 def show_my_assignments(request):

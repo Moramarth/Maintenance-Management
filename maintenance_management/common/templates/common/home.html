@@ -1,7 +1,86 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-    <h1>We take care of our buildings</h1>
-    <h2 class="text-muted">You focus on your business</h2>
+    <div class="container">
+        <h1>We take care of our buildings</h1>
+        <h2 class="text-muted">You focus on your business</h2>
+    </div>
+    <div class="container">
+        <h4>Our Buildings</h4>
+        <div class="row row-cols-3 row-cols-md-3 g-4">
+            {% for building in buildings %}
+                <div class="col">
+                    <div class="card">
+                        {% if building.picture %}
+                            <img src="{{ building.picture.url }}" class="card-img-top" alt="...">
+                        {% else %}
+                            <img src="{% static '/images/default_building_picture.png' %}" class="card-img-top"
+                                 alt="No picture">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ building.name }}</h5>
+                            <p class="card-text">{{ building.city }} </p>
+                            <a href="{% url 'building details' building.pk %}">See Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <h4>Our Tenants</h4>
+        <div class="row row-cols-3 row-cols-md-3 g-4">
+
+            {% for tenant in tenants %}
+                <div class="col">
+                    <div class="card">
+                        {% if tenant.company_logo %}
+                            <img src="{{ tenant.logo.url }}" class="card-img-top" alt="...">
+                        {% else %}
+                            <img src="{% static '/images/default_company_logo.jpg' %}" class="card-img-top"
+                                 alt="No picture">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ tenant.name }}</h5>
+                            {% if tenant.businessfiled %}
+                                <p class="card-text">{{ tenant.business_field }} </p>
+                            {% endif %}
+
+                            <a href="{% url 'company details' tenant.pk %}">See Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <h4>Feedback</h4>
+        {% for review in reviews %}
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        {% if review.user.appuserprofile.profile_picture %}
+                            <img src="{{ review.user.appuserprofile.profile_picture.url }}"
+                                 class="img-fluid rounded-start"
+                                 alt="">
+                        {% else %}
+                            <img src="{% static '/images/default_profile_picture.png' %}"
+                                 class="img-fluid rounded-start"
+                                 alt="">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ review.user.appuserprofile.full_name }}</h5>
+                            <p class="card-text">{{ review.comment }}</p>
+                            <p class="card-text"><small class="text-muted">{{ review.submitted }}</small></p>
+                        </div>
+                    </div>
+                    <div>Rating: {{ review.rating }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
     <a class="btn btn-primary" href="{% url 'show all buildings' %}"> See all buildings</a>
     <a class="btn btn-primary" href="{% url 'show all reviews' %}"> See all reviews</a>
     <a class="btn btn-primary" href="{% url 'show all companies' %}"> See our tenants</a>

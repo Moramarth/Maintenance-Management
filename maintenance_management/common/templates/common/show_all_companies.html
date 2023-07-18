@@ -1,19 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block page_title %}
     Tenants
 {% endblock %}
 {% block content %}
+    <div class="container">
+        <div class="row row-cols-3 row-cols-md-3 g-4">
+            {% for company in companies %}
+                <div class="col">
+                    <div class="card">
+                        {% if company.company_logo %}
+                            <img src="{{ company.logo.url }}" class="card-img-top" alt="...">
+                        {% else %}
+                            <img src="{% static '/images/default_company_logo.jpg' %}" class="card-img-top" alt="No picture">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ company.name }}</h5>
+                            {% if company.businessfiled %}
+                                <p class="card-text">{{ company.business_field }} </p>
+                            {% endif %}
 
-    {% for company in companies %}
-       <p> {# TODO: make this a card #}
-        {% if company.logo %}
-            {{ company.logo }}
-        {% endif %}
-        {{ company.name }}
-        {% if company.businessfiled %}
-            {{ company.businessfiled }}
-        {% endif %}
-        <a href="{% url 'company details' company.pk %}">See Details</a>
-        </p>
-    {% endfor %}
+                            <a href="{% url 'company details' company.pk %}">See Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block page_title %}
     Building Details
 {% endblock %}
@@ -9,5 +10,7 @@
     <p> Current tenants: {{ object.additionaladdressinformation_set.count }} companies </p>
     {% if object.picture %}
         <img src="{{ object.picture.url }}" alt="Building Picture">
+    {% else %}
+        <img src="{% static '/images/default_building_picture.png' %}" alt="Building Picture">
     {% endif %}
 {% endblock %}

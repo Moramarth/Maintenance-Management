@@ -1,5 +1,7 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+{% load custom_tags %}
+{% user_staff_status request.user as user_is_staff %}
+<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light">
     <div class="container-fluid">
         <a class="navbar navbar-brand" href="{% url 'home page' %}">
             <img src="{% static '/images/IMG_3978_2.png' %}" alt="logo" width="30" height="30"
@@ -7,10 +9,10 @@
             Maintenance Management
         </a>
         <ul class="navbar-nav">
-            {% if request.user.is_staff %}
+            {% if user_is_staff %}
                 <li><a class="nav-link" href="{% url 'admin page' %}">Go to Administration</a></li>
             {% endif %}
-            {% if request.user.is_authenticated %}
+            {% if user_is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
@@ -19,10 +21,12 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if viewer_group.name == 'Clients' %}
                             {% include 'partials/navbar/clients_actions.html' %}
+                        {% elif viewer_group.name == "Contractors" %}
+                            {% include 'partials/navbar/contractors_actions.html' %}
+                        {% elif viewer_group.name == "Engineering" %}
+                            {% include 'partials/navbar/engineering_actions.html' %}
                         {% elif viewer_group.name == "Supervisor" %}
-                            <li class="nav-item dropdown">
-                                {% include 'partials/navbar/supervisor_actions.html' %}
-                            </li>
+                            {% include 'partials/navbar/supervisor_actions.html' %}
                         {% endif %}
                         <li>
                             <hr class="dropdown-divider">
