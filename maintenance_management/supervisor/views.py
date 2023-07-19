@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
@@ -67,6 +68,20 @@ class ShowAllAssignments(views.ListView):
 class ShowAssignmentDetails(views.DetailView):
     template_name = 'supervisor/assignment_details.html'
     model = Assignment
+
+    def get_context_data(self, **kwargs):
+        """Insert the single object into the context dict."""
+        context = {}
+        if self.object:
+            if self.request.user != self.object.user:
+                raise PermissionDenied
+            context["object"] = self.object
+            context_object_name = self.get_context_object_name(self.object)
+            if context_object_name:
+                context[context_object_name] = self.object
+
+        context.update(kwargs)
+        return super().get_context_data(**context)
 
 
 class EditAssignment(views.UpdateView):

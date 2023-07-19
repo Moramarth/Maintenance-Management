@@ -5,7 +5,7 @@
 {% block content %}
     <p>{{ object.assignment }}</p>
     <p>{{ object.description }}</p>
-    <p>{{ object.created_by.appuserprofile.first_name }}</p>
+    <p>{{ object.created_by.appuserprofile.full_name }}</p>
     <p>{{ object.meeting_date }}</p>
 
     <div>

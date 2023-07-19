@@ -4,13 +4,17 @@
     Building Details
 {% endblock %}
 {% block content %}
-    <p> {{ object.name }} </p>
-    <p> {{ object.city }} </p>
-    <p> {{ object.address }} </p>
-    <p> Current tenants: {{ object.additionaladdressinformation_set.count }} companies </p>
-    {% if object.picture %}
-        <img src="{{ object.picture.url }}" alt="Building Picture">
-    {% else %}
-        <img src="{% static '/images/default_building_picture.png' %}" alt="Building Picture">
-    {% endif %}
+    <div class="p-5 bg-body-tertiary border rounded-3">
+        {% if object.picture %}
+            <img src="{{ object.picture.url }}" width="300px" height="300px" alt="Building Picture">
+        {% else %}
+            <img src="{% static '/images/default_building_picture.png' %}" width="300px" height="300px"
+                 alt="Building Picture">
+        {% endif %}
+        <h4> {{ object.name }} </h4>
+        <p> {{ object.city }} </p>
+        <p> {{ object.address }} </p>
+        <p> Current tenants: {{ object.additionaladdressinformation_set.count }} companies </p>
+        <div class="p-5 bg-body-tertiary border rounded-3">Placeholder for map</div>
+    </div>
 {% endblock %}

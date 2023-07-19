@@ -3,10 +3,12 @@
     Accept Assignment
 {% endblock %}
 {% block content %}
-    {% if assignment.user %}
-        <h2>You have accepted {{ assignment.service_report }} successfully</h2>
-    {% else %}
-        <h2>Assignment to {{ assignment.service_report }} has been rejected</h2>
-    {% endif %}
-    <a class="btn btn-outline-primary" href="{% url 'show my assignments' %}">Back to My Assignments</a>
+    <div class="p-5 bg-body-tertiary border rounded-3">
+        {% if assignment.user %}
+            <h2>You have accepted {{ assignment.service_report }} successfully</h2>
+        {% else %}
+            <h2>Assignment to {{ assignment.service_report }} has been rejected</h2>
+        {% endif %}
+        <a class="btn btn-outline-primary" href="{% url 'show my assignments' %}">Back to My Assignments</a>
+    </div>
 {% endblock %}

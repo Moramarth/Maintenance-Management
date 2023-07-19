@@ -1,7 +1,7 @@
 import random
 
 from decouple import config
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import mixins as auth_mixins
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic as views
@@ -40,7 +40,7 @@ def register_info(request):
     return render(request, 'common/registration_info_page.html')
 
 
-class EditCompanyInfo(LoginRequiredMixin, views.UpdateView):
+class EditCompanyInfo(auth_mixins.LoginRequiredMixin, views.UpdateView):
     template_name = 'common/edit_company_info.html'
     model = Company
     fields = "__all__"

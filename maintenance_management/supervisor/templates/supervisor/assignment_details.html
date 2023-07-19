@@ -3,20 +3,34 @@
     Assignments
 {% endblock %}
 {% block content %}
+    {% if viewer_group.name == "Supervisor" %}
+        <a class="btn btn-outline-warning" href="{% url 'edit assignment' object.pk %}">Edit</a>
+        <a class="btn btn-outline-danger" href="{% url 'delete assignment' object.pk %}">Delete</a>
+        <a class="btn btn-outline-primary" href="{% url 'show all assignments' %}">Back to Assignments</a>
+    {% endif %}
+
+    {% if viewer_group.name == "Engineering" or viewer_group.name == "Contractors" %}
+        <a class="btn btn-outline-success" href="{% url 'accept assignment' object.pk %}">Accept</a>
+        <a class="btn btn-outline-danger" href="{% url 'reject assignment' object.pk %}">Reject</a>
+        <a class="btn btn-outline-primary" href="{% url 'show my assignments' %}">Back to My Assignments</a>
+    {% endif %}
+
     <p>{{ object.service_report }}</p>
     <p>{{ object.assigned_by }}</p>
     <p>{{ object.user }}</p>
     <p>{{ object.assignment_status }}</p>
     <p>{{ object.date_assigned }}</p>
     <p>{{ object.last_updated }}</p>
-    {% if viewer_group.name == "Supervisor" %}
-        <a class="btn btn-outline-warning" href="{% url 'edit assignment' object.pk %}">Edit</a>
-        <a class="btn btn-outline-danger" href="{% url 'delete assignment' object.pk %}">Delete</a>
+
+
+
+    {% if request.user == object.user and viewer_group.name == "Contractors" %}
+
+        {% if assignment.assignment_status == "Accepted" %}
+            <a class="btn btn-outline-primary" href="{% url 'create meeting' object.pk %}">Create a Meeting</a>
+        {% else %}
+            <h6>You can create a Meeting once you accept the assignment</h6>
+        {% endif %}
     {% endif %}
-    <a class="btn btn-outline-primary" href="{% url 'show all assignments' %}">Back to Assignments</a>
-    {% if viewer_group.name == "Engineering" or viewer_group.name == "Contractors" %}
-        <a class="btn btn-outline-success" href="{% url 'accept assignment' object.pk %}">Accept</a>
-        <a class="btn btn-outline-danger" href="{% url 'reject assignment' object.pk %}">Reject</a>
-        <a class="btn btn-outline-primary" href="{% url 'show my assignments' %}">Back to My Assignments</a>
-    {% endif %}
+
 {% endblock %}

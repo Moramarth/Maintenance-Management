@@ -6,7 +6,9 @@
     <p>{{ object.title }}</p>
     <p>{{ object.additional_information }}</p>
     <p>{{ object.created_by.appuserprofile.first_name }}</p>
-    <a href="{{ object.attached_file.url }}">View Offer</a>
+    {% if object.attached_file %}
+        <a href="{{ object.attached_file.url }}">View Offer</a>
+    {% endif %}
 
     <div>
         <a class="btn btn-warning" href="{% url 'edit expense' object.pk %}">Edit</a>

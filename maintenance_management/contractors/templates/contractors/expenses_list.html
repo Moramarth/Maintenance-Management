@@ -7,7 +7,7 @@
         {% for object in object_list %}
             <li>
                 {{ object.title }} {{ object.created_by }}
-                <a class="btn btn-outline-primary" href="{{% url 'expense details' object.pk %}">See Details</a>
+                <a class="btn btn-outline-primary" href="{% url 'expense details' object.pk %}">See Details</a>
             </li>
         {% endfor %}
     </ul>
