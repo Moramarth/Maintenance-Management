@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from maintenance_management.accounts.validators import validate_file_size
 
@@ -28,6 +29,10 @@ class Company(models.Model):
         upload_to="images",
         validators=[validate_file_size]
     )
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def get_absolute_url(self):
+        return reverse('company details', args=[self.pk])
 
     def __str__(self):
         return f"{self.name} - Business Field: {self.business_field or 'Not shown'}"

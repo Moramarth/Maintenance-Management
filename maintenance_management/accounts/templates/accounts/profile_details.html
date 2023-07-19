@@ -6,56 +6,83 @@
     Profile Details
 {% endblock %}
 {% block content %}
-    {% address_display object as address %}
+    {% address_display_for_profile object as address %}
     {% profile_group_info object.user as owner_group %}
-    <div>
-        {% if object.profile_picture %}
-            <img src="{{ object.profile_picture.url }}" alt="Profile Picture" width="300" height="300">
-        {% else %}
-            <img src="{% static '/images/default_profile_picture.png' %}" alt="" width="300" height="300">
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                        role="tab" aria-controls="home" aria-selected="true">Personal information
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                        role="tab" aria-controls="profile" aria-selected="false">Company Info
+                </button>
+            </li>
+            {% if address %}
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
+                            type="button"
+                            role="tab" aria-controls="contact" aria-selected="false">Current address
+                    </button>
+                </li>
+            {% endif %}
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+                    <div>
+                        {% if object.profile_picture %}
+                            <img src="{{ object.profile_picture.url }}" alt="Profile Picture" width="300" height="300">
+                        {% else %}
+                            <img src="{% static '/images/default_profile_picture.png' %}" alt="" width="300"
+                                 height="300">
 
-        {% endif %}
+                        {% endif %}
+                    </div>
+                    <p>Name: {{ object.full_name }}</p>
+                    <p>Phone number: {{ object.phone_number }}</p>
+                    <p>Email: {{ object.user.email }}</p>
+                    {% if object.user.is_staff %}
+                        <p>{{ owner_group.name }}</p>
+                    {% endif %}
+                    {% if request.user == appuserprofile.user %}
+                        <a class="btn btn-warning" href="{% url 'edit profile' appuserprofile.pk %}">Edit Profile</a>
+                        <a class="btn btn-danger" href="{% url 'change password' appuserprofile.pk %}">Change
+                            Password</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+                    {% if object.company.company_logo %}
+                        <img src="{{ object.company.company_logo.url }}" alt="Company Logo">
+                    {% else %}
+                        <img src="{% static '/images/default_company_logo.jpg' %}" alt="" width="300" height="300">
+                    {% endif %}
+                    <h6>{{ object.company.name }}</h6>
+                    {% if object.company.business_field %}
+                        <p>Business type: {{ object.company.business_field }}</p>
+                    {% endif %}
+                    <a class="btn btn-danger" href="{% url 'edit company' appuserprofile.company.pk %}">Edit Company
+                        Info</a>
+                </div>
+            </div>
+            {% if address %}
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                    <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+                        <p>Location: {{ address.building.city }}, {{ address.building.address }}</p>
+                        <p>Building name: {{ address.building.name }}</p>
+                        <p>{% if address.section %}
+                            {{ address.section }},
+                        {% endif %}
+                            floor {{ address.floor }},
+                            office {{ address.office_number }}
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
     </div>
-    <h5>Personal Information</h5>
-    <p>Name: {{ object.full_name }}</p>
-
-
-    <p>Phone number: {{ object.phone_number }}</p>
-
-    <p>Email: {{ object.user.email }}</p>
-
-    <p>{{ owner_group.name }}</p>
-    <a class="btn btn-warning" href="{% url 'edit profile' appuserprofile.pk %}">Edit Profile</a>
-    <a class="btn btn-danger" href="{% url 'change password' appuserprofile.pk %}">Change Password</a>
-
-    <div>
-        <h5>Company Information</h5>
-        {% if object.company.company_logo %}
-            <img src="{{ object.company.company_logo.url }}" alt="Company Logo">
-        {% else %}
-            <img src="{% static '/images/default_company_logo.jpg.png' %}" alt="" width="300" height="300">
-        {% endif %}
-        <p>Brand: {{ object.company.name }}</p>
-        <p>Business type: {{ object.company.business_field }}</p>
-        <p>More info: {{ object.company.additional_information }}</p>
-        <a class="btn btn-danger" href="{% url 'edit company' appuserprofile.company.pk %}">Edit Company Info</a>
-    </div>
-    <div>
-        <h5>Current address</h5>
-        <p>Location: {{ address.building.city }}, {{ address.building.address }}</p>
-        <p>Building name: {{ address.building.name }}</p>
-        <p>{% if address.section %}
-            {{ address.section }},
-        {% endif %}
-            floor {{ address.floor }},
-            office {{ address.office_number }}
-        </p>
-    </div>
-    <div>
-        {% if viewer_group.name == 'Clients' %}
-            <a class="btn btn-success" href="{% url 'create report' %}">Create Service Report</a>
-        {% endif %}
-        <a class="btn btn-success" href="{% url 'show all reports' %}">View Service Reports</a>
-    </div>
-
 {% endblock %}

@@ -1,9 +1,9 @@
 import random
 
 from decouple import config
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse_lazy
 from django.views import generic as views
 
 from maintenance_management.common.helper_function import get_queries_as_list, verify_constants
@@ -13,7 +13,7 @@ from maintenance_management.common.models import Company
 
 
 TENANTS_DISPLAYED_ON_HOME_PAGE = 3
-BUILDINGS_DISPLAYED_ON_HOME_PAGE = 2
+BUILDINGS_DISPLAYED_ON_HOME_PAGE = 3
 REVIEWS_DISPLAYED_ON_HOME_PAGE = 5
 
 
@@ -40,11 +40,10 @@ def register_info(request):
     return render(request, 'common/registration_info_page.html')
 
 
-class EditCompanyInfo(views.UpdateView):
+class EditCompanyInfo(LoginRequiredMixin, views.UpdateView):
     template_name = 'common/edit_company_info.html'
     model = Company
     fields = "__all__"
-    success_url = reverse_lazy('home page')
 
 
 def redirect_to_admin(request):

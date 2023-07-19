@@ -19,5 +19,10 @@ def user_staff_status(user):
 
 
 @register.simple_tag()
-def address_display(obj):
+def address_display_for_profile(obj):
     return obj.company.additionaladdressinformation_set.first()
+
+
+@register.simple_tag()
+def address_display_for_company(obj):
+    return obj.additionaladdressinformation_set.first()
