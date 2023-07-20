@@ -51,6 +51,10 @@ class ExpensesEstimate(models.Model):
         null=True,
         validators=[validate_file_size],
     )
+    assignment = models.ForeignKey(
+        Assignment,
+        on_delete=models.CASCADE,
+    )
 
     def __str__(self):
         return f"{self.title} created by {self.created_by}"

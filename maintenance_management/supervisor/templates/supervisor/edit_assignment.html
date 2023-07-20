@@ -7,19 +7,10 @@
         {% csrf_token %}
         {% if viewer_group.name == "Supervisor" %}
             <p>
-                {{ form.user.label }}
+                <h6> Choose an engineer or contractor from the list:</h6>
                 {{ form.user }}
             </p>
         {% endif %}
-        <p>
-            {{ form.meeting_required.label }}
-            {{ form.meeting_required }}
-        </p>
-
-        <p>
-            {{ form.expense_estimate_available.label }}
-            {{ form.expense_estimate_available }}
-        </p>
         <button class="btn btn-warning">Edit</button>
     </form>
 {% endblock %}

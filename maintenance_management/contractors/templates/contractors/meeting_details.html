@@ -3,14 +3,22 @@
     Meetings
 {% endblock %}
 {% block content %}
-    <p>{{ object.assignment }}</p>
-    <p>{{ object.description }}</p>
-    <p>{{ object.created_by.appuserprofile.full_name }}</p>
-    <p>{{ object.meeting_date }}</p>
-
     <div>
-        <a class="btn btn-warning" href="{% url 'edit meeting' object.pk %}">Edit Meeting</a>
-        <a class="btn btn-danger" href="{% url 'delete meeting' object.pk %}">Delete Meeting</a>
+        <h5>For assignment: {{ object.assignment }}</h5>
+        <a class="btn btn-outline-primary" href="{% url 'assignment details' object.assignment.pk %}">See Details</a>
     </div>
+    <div class="p-5 bg-body-tertiary border rounded-3">
+        <h5>Description:</h5>
+        {{ object.description }}
+    </div>
+    <p>Meet at: {{ object.meeting_date }}</p>
+    <p>Created by : {{ object.created_by.appuserprofile.full_name }}</p>
+    {% if request.user == object.created_by %}
+        <div>
+            <a class="btn btn-warning" href="{% url 'edit meeting' object.pk %}">Edit Meeting</a>
+            <a class="btn btn-danger" href="{% url 'delete meeting' object.pk %}">Delete Meeting</a>
+        </div>
+    {% endif %}
+    <a class="btn btn-outline-primary" href="{% url 'show all meetings' %}">Back to Meetings</a>
 
 {% endblock %}

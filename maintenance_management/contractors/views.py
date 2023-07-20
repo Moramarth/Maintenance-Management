@@ -52,7 +52,8 @@ class ShowMeetingDetails(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, vie
         """Insert the single object into the context dict."""
         context = {}
         if self.object:
-            if self.request.user != self.object.created_by and self.request.user != self.object.assignment.assigned_by:
+            if self.request.user != self.object.created_by \
+                    and self.request.user != self.object.assignment.assigned_by:
                 raise PermissionDenied
             context["object"] = self.object
             context_object_name = self.get_context_object_name(self.object)
@@ -100,7 +101,9 @@ class CreateExpensesEstimate(auth_mixins.LoginRequiredMixin, GroupRequiredMixin,
 
     def form_valid(self, form):
         expense_estimate = form.save(commit=False)
+        assignment = get_object_or_404(Assignment, pk=self.kwargs['pk'])
         expense_estimate.created_by = self.request.user
+        expense_estimate.assignment = assignment
         form.save()
         return super(CreateExpensesEstimate, self).form_valid(form)
 
@@ -114,8 +117,8 @@ class ShowExpensesEstimateDetails(auth_mixins.LoginRequiredMixin, GroupRequiredM
         """Insert the single object into the context dict."""
         context = {}
         if self.object:
-            if self.request.user != self.object.created_by and self.request.user.groups.name != str(
-                    GroupEnum.supervisor.value):
+            if self.request.user != self.object.created_by \
+                    and self.request.user.groups.name != str(GroupEnum.supervisor.value):
                 raise PermissionDenied
             context["object"] = self.object
             context_object_name = self.get_context_object_name(self.object)

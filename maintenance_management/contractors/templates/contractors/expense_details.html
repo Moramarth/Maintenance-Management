@@ -3,15 +3,23 @@
     Expenses
 {% endblock %}
 {% block content %}
-    <p>{{ object.title }}</p>
-    <p>{{ object.additional_information }}</p>
-    <p>{{ object.created_by.appuserprofile.first_name }}</p>
-    {% if object.attached_file %}
-        <a href="{{ object.attached_file.url }}">View Offer</a>
-    {% endif %}
-
     <div>
-        <a class="btn btn-warning" href="{% url 'edit expense' object.pk %}">Edit</a>
-        <a class="btn btn-danger" href="{% url 'delete expense' object.pk %}">Delete</a>
+        <h5>For assignment: {{ object.assignment }}</h5>
+        <a class="btn btn-outline-primary" href="{% url 'assignment details' object.assignment.pk %}">See Details</a>
     </div>
+    <div class="p-5 bg-body-tertiary border rounded-3">
+        <h5>{{ object.title }}</h5>
+        <p>{{ object.additional_information }}</p>
+    </div>
+    <p>Created by : {{ object.created_by.appuserprofile.first_name }}</p>
+    {% if object.attached_file %}
+        <a href="{{ object.attached_file.url }}">Attached File</a>
+    {% endif %}
+    {% if request.user == object.created_by %}
+        <div>
+            <a class="btn btn-warning" href="{% url 'edit expense' object.pk %}">Edit</a>
+            <a class="btn btn-danger" href="{% url 'delete expense' object.pk %}">Delete</a>
+        </div>
+    {% endif %}
+    <a class="btn btn-outline-primary" href="{% url 'show all expenses' %}">Back to Offers</a>
 {% endblock %}

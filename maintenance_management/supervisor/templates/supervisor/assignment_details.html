@@ -3,6 +3,7 @@
     Assignments
 {% endblock %}
 {% block content %}
+
     {% if viewer_group.name == "Supervisor" %}
         <a class="btn btn-outline-warning" href="{% url 'edit assignment' object.pk %}">Edit</a>
         <a class="btn btn-outline-danger" href="{% url 'delete assignment' object.pk %}">Delete</a>
@@ -14,22 +15,35 @@
         <a class="btn btn-outline-danger" href="{% url 'reject assignment' object.pk %}">Reject</a>
         <a class="btn btn-outline-primary" href="{% url 'show my assignments' %}">Back to My Assignments</a>
     {% endif %}
-
-    <p>{{ object.service_report }}</p>
-    <p>{{ object.assigned_by }}</p>
-    <p>{{ object.user }}</p>
-    <p>{{ object.assignment_status }}</p>
-    <p>{{ object.date_assigned }}</p>
-    <p>{{ object.last_updated }}</p>
-
-
-
+    <h4> Assignment Details:</h4>
+    <p>
+        For: {{ object.service_report }}
+        <a class="btn btn-outline-primary" href="{% url 'report details' object.service_report.pk %}">See Details</a>
+    </p>
+    <p>From: {{ object.assigned_by.appuserprofile.full_name }}</p>
+    <p>Assigned to: {{ object.user }}</p>
+    <p>Status: {{ object.assignment_status }}</p>
+    <p>Created: {{ object.date_assigned }}</p>
+    <p>Last Updated: {{ object.last_updated }}</p>
+    {% if object.meeting_required %}
+        <a class="btn btn-outline-primary" href="{% url 'meeting details' object.meeting_set.first.pk %}">
+            Show Meeting
+        </a>
+    {% endif %}
+    {% if object.expense_estimate_available %}
+        <a class="btn btn-outline-primary" href="{% url 'expense details' object.expensesestimate_set.first.pk %}">
+            Show Offer
+        </a>
+    {% endif %}
     {% if request.user == object.user and viewer_group.name == "Contractors" %}
-
-        {% if assignment.assignment_status == "Accepted" %}
+        {% if assignment.assignment_status == "Accepted" and object.expense_estimate_available %}
+            <a class="btn btn-outline-primary disabled" href="{% url 'create meeting' object.pk %}">Create a Meeting</a>
+            <a class="btn btn-outline-primary disabled" href="{% url 'create expense' object.pk %}">Create an Offer</a>
+        {% elif assignment.assignment_status == "Accepted" %}
             <a class="btn btn-outline-primary" href="{% url 'create meeting' object.pk %}">Create a Meeting</a>
+            <a class="btn btn-outline-primary" href="{% url 'create expense' object.pk %}">Create an Offer</a>
         {% else %}
-            <h6>You can create a Meeting once you accept the assignment</h6>
+            <h6>You can create a Meeting or and Offer once you accept the assignment</h6>
         {% endif %}
     {% endif %}
 

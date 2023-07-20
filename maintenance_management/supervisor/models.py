@@ -1,13 +1,22 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models import Q
 from django.urls import reverse
 
+from maintenance_management.accounts.enums import GroupEnum
 from maintenance_management.clients.models import ServiceReport
 
 UserModel = get_user_model()
 
 
 class Assignment(models.Model):
+    """
+    user field refers to Engineer or Contractor that was given the assignment.
+
+    assigned_by field refers to the creator of the assignment
+    and the person you can contact for additional information
+    """
+
     class AssignmentStatus(models.TextChoices):
         PENDING = "Pending"
         ACCEPTED = "Accepted"
@@ -19,11 +28,16 @@ class Assignment(models.Model):
         blank=False,
         null=False,
     )
-    # Engineer or Contractor that was given the assignment
+
     user = models.ForeignKey(
         UserModel,
         on_delete=models.SET_NULL,
         null=True,
+        limit_choices_to=Q(
+            groups__name=str(GroupEnum.engineering.value)
+        ) | Q(
+            groups__name=str(GroupEnum.contractors.value)
+        )
     )
     meeting_required = models.BooleanField(blank=True)
     expense_estimate_available = models.BooleanField(blank=True)
