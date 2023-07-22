@@ -49,19 +49,13 @@ class ShowMeetingDetails(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, vie
     model = Meeting
 
     def get_context_data(self, **kwargs):
-        """Insert the single object into the context dict."""
-        context = {}
+        context = super().get_context_data(**kwargs)
         if self.object:
             if self.request.user != self.object.created_by \
                     and self.request.user != self.object.assignment.assigned_by:
                 raise PermissionDenied
-            context["object"] = self.object
-            context_object_name = self.get_context_object_name(self.object)
-            if context_object_name:
-                context[context_object_name] = self.object
 
-        context.update(kwargs)
-        return super().get_context_data(**context)
+        return context
 
 
 class EditMeeting(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.UpdateView):
@@ -71,12 +65,28 @@ class EditMeeting(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.Upda
     fields = ["description", "meeting_date"]
     success_url = reverse_lazy('show all meetings')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object:
+            if self.request.user != self.object.created_by:
+                raise PermissionDenied
+
+        return context
+
 
 class DeleteMeeting(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.DeleteView):
     group_required = [GroupEnum.contractors]
     template_name = 'contractors/delete_meeting.html'
     model = Meeting
     success_url = reverse_lazy('show all meetings')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object:
+            if self.request.user != self.object.created_by:
+                raise PermissionDenied
+
+        return context
 
 
 class ShowAllExpensesEstimates(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.ListView):
@@ -114,19 +124,13 @@ class ShowExpensesEstimateDetails(auth_mixins.LoginRequiredMixin, GroupRequiredM
     model = ExpensesEstimate
 
     def get_context_data(self, **kwargs):
-        """Insert the single object into the context dict."""
-        context = {}
+        context = super().get_context_data(**kwargs)
         if self.object:
             if self.request.user != self.object.created_by \
                     and self.request.user.groups.name != str(GroupEnum.supervisor.value):
                 raise PermissionDenied
-            context["object"] = self.object
-            context_object_name = self.get_context_object_name(self.object)
-            if context_object_name:
-                context[context_object_name] = self.object
 
-        context.update(kwargs)
-        return super().get_context_data(**context)
+        return context
 
 
 class EditExpensesEstimate(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.UpdateView):
@@ -136,9 +140,25 @@ class EditExpensesEstimate(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, v
     fields = ["title", "additional_information", "attached_file"]
     success_url = reverse_lazy('show all expenses')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object:
+            if self.request.user != self.object.created_by:
+                raise PermissionDenied
+
+        return context
+
 
 class DeleteExpensesEstimate(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.DeleteView):
     group_required = [GroupEnum.contractors]
     template_name = 'contractors/delete_expenses.html'
     model = ExpensesEstimate
     success_url = reverse_lazy('show all expenses')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object:
+            if self.request.user != self.object.created_by:
+                raise PermissionDenied
+
+        return context

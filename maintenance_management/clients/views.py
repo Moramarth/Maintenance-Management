@@ -1,13 +1,16 @@
-from django.shortcuts import render
+from django.contrib.auth import mixins as auth_mixins
+from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views import generic as views
 
+from maintenance_management.accounts.enums import GroupEnum
+from maintenance_management.accounts.mixins import GroupRequiredMixin
 from maintenance_management.clients.models import ServiceReport, Review
 
 
-# Create your views here.
-
-class CreateServiceReport(views.CreateView):
+class CreateServiceReport(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.CreateView):
+    group_required = [GroupEnum.clients]
     template_name = 'clients/create_service_report.html'
     model = ServiceReport
     fields = ["title", "description", "image", "report_type"]
@@ -21,28 +24,71 @@ class CreateServiceReport(views.CreateView):
         return super(CreateServiceReport, self).form_valid(form)
 
 
-class EditServiceReport(views.UpdateView):
+class EditServiceReport(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.UpdateView):
+    group_required = [GroupEnum.clients]
     template_name = 'clients/create_service_report.html'
     model = ServiceReport
     fields = ["title", "description", "image"]
-    success_url = reverse_lazy('show all reports')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object:
+            if self.request.user != self.object.user:
+                raise PermissionDenied
+
+        return context
 
 
-class DeleteServiceReport(views.DeleteView):
+class DeleteServiceReport(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.DeleteView):
+    group_required = [GroupEnum.clients]
     template_name = 'clients/service_report_delete.html'
     model = ServiceReport
     success_url = reverse_lazy('show all reports')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object:
+            if self.request.user != self.object.user:
+                raise PermissionDenied
 
-class ShowAllReports(views.ListView):
-    """ TODO: search, filters, pagination, dynamic queries for different roles"""
+        return context
+
+
+class ShowAllReports(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.ListView):
+    """ TODO: search, filters, pagination"""
+    group_required = [GroupEnum.clients, GroupEnum.engineering, GroupEnum.supervisor]
     template_name = 'clients/service_report_list.html'
     model = ServiceReport
 
+    def get_queryset(self, **kwargs):
+        queryset = super().get_queryset()
+        if self.request.user.groups.name == str(GroupEnum.supervisor.value):
+            return queryset
+        elif self.request.user.groups.name == str(GroupEnum.engineering.value):
+            return queryset.filter(
+                Q(assigned_to=self.request.user)
+                | Q(report_type=self.request.user.appuserprofile.expertise)
+                | Q(report_type=ServiceReport.ReportType.OTHER)
+            )
+        return queryset.filter(
+            Q(user=self.request.user)
+            | Q(user__appuserprofile__company=self.request.user.appuserprofile.company)
+        )
 
-class ShowReportDetails(views.DetailView):
+
+class ShowReportDetails(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.DetailView):
+    group_required = [GroupEnum.clients, GroupEnum.contractors, GroupEnum.engineering, GroupEnum.supervisor]
     template_name = 'clients/service_report_details.html'
     model = ServiceReport
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object:
+            if self.request.user != self.object.user and self.request.user != self.object.assigned_to \
+                    and self.request.user.groups.name != str(GroupEnum.supervisor.value):
+                raise PermissionDenied
+
+        return context
 
 
 class ShowAllReviews(views.ListView):
@@ -50,7 +96,8 @@ class ShowAllReviews(views.ListView):
     model = Review
 
 
-class CreateReview(views.CreateView):
+class CreateReview(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.CreateView):
+    group_required = [GroupEnum.clients]
     template_name = 'clients/create_review.html'
     model = Review
     fields = ["service_report", "rating", "comment"]
@@ -68,14 +115,32 @@ class ShowReviewDetails(views.DetailView):
     model = Review
 
 
-class EditReview(views.UpdateView):
+class EditReview(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.UpdateView):
+    group_required = [GroupEnum.clients]
     template_name = 'clients/create_review.html'
     model = Review
     fields = ["service_report", "rating", "comment"]
     success_url = reverse_lazy('show all reviews')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object:
+            if self.request.user != self.object.user:
+                raise PermissionDenied
 
-class DeleteReview(views.DeleteView):
+        return context
+
+
+class DeleteReview(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.DeleteView):
+    group_required = [GroupEnum.clients]
     template_name = 'clients/delete_review.html'
     model = Review
     success_url = reverse_lazy('show all reviews')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object:
+            if self.request.user != self.object.user:
+                raise PermissionDenied
+
+        return context

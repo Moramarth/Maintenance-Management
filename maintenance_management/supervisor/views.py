@@ -80,19 +80,13 @@ class ShowAssignmentDetails(LoginRequiredMixin, GroupRequiredMixin, views.Detail
     model = Assignment
 
     def get_context_data(self, **kwargs):
-        """Insert the single object into the context dict."""
-        context = {}
+        context = super().get_context_data(**kwargs)
         if self.object:
             if self.request.user != self.object.user and self.request.user != self.object.assigned_by \
                     and self.request.user.groups.name != str(GroupEnum.supervisor.value):
                 raise PermissionDenied
-            context["object"] = self.object
-            context_object_name = self.get_context_object_name(self.object)
-            if context_object_name:
-                context[context_object_name] = self.object
 
-        context.update(kwargs)
-        return super().get_context_data(**context)
+        return context
 
 
 class EditAssignment(LoginRequiredMixin, GroupRequiredMixin, views.UpdateView):
@@ -102,19 +96,13 @@ class EditAssignment(LoginRequiredMixin, GroupRequiredMixin, views.UpdateView):
     fields = ["user"]
 
     def get_context_data(self, **kwargs):
-        """Insert the single object into the context dict."""
-        context = {}
+        context = super().get_context_data(**kwargs)
         if self.object:
             if self.request.user != self.object.assigned_by \
                     and self.request.user.groups.name != str(GroupEnum.supervisor.value):
                 raise PermissionDenied
-            context["object"] = self.object
-            context_object_name = self.get_context_object_name(self.object)
-            if context_object_name:
-                context[context_object_name] = self.object
 
-        context.update(kwargs)
-        return super().get_context_data(**context)
+        return context
 
     def form_valid(self, form):
         assignment = form.save(commit=False)

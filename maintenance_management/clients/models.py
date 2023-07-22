@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 
 from maintenance_management.accounts.validators import validate_file_size
 from maintenance_management.common.models import Company
@@ -72,6 +73,9 @@ class ServiceReport(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('report details', args=self.pk)
 
 
 class Review(models.Model):

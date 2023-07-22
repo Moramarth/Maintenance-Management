@@ -1,10 +1,14 @@
 from django.contrib.auth import views as auth_views, login
+from django.contrib.auth import mixins as auth_mixins
 from django.contrib.auth.models import Group
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
 
+from maintenance_management.accounts.enums import GroupEnum
 from maintenance_management.accounts.forms import RegisterInvitationForm, UserRegistrationForm, EditAppUserProfileForm
+from maintenance_management.accounts.mixins import GroupRequiredMixin
 from maintenance_management.accounts.models import RegisterInvitation, AppUserProfile
 
 
@@ -22,13 +26,20 @@ def register_user_view(request, unique_identifier):
     return render(request, 'accounts/dynamic_register_invite.html', {"form": form})
 
 
-class RegistrationInviteView(views.CreateView):
+class RegistrationInviteView(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.CreateView):
+    group_required = [GroupEnum.clients, GroupEnum.contractors, GroupEnum.supervisor]
     template_name = 'accounts/dynamic_register_invite.html'
     form_class = RegisterInvitationForm
     success_url = reverse_lazy('home page')
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({"request": self.request})
+        return kwargs
 
-class AppUserProfileDetails(views.DetailView):
+
+class AppUserProfileDetails(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.DetailView):
+    group_required = [GroupEnum.clients, GroupEnum.contractors, GroupEnum.engineering, GroupEnum.supervisor]
     template_name = 'accounts/profile_details.html'
     model = AppUserProfile
 
@@ -41,13 +52,22 @@ class LogoutUserView(auth_views.LogoutView):
     pass
 
 
-class EditAppUserProfile(views.UpdateView):
+class EditAppUserProfile(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.UpdateView):
+    group_required = [GroupEnum.clients, GroupEnum.contractors, GroupEnum.engineering, GroupEnum.supervisor]
     template_name = "accounts/edit_profile_page.html"
     model = AppUserProfile
     form_class = EditAppUserProfileForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object:
+            if self.request.user != self.object.user:
+                raise PermissionDenied
 
-class ChangePassword(auth_views.PasswordChangeView):
+        return context
+
+
+class ChangePassword(auth_mixins.LoginRequiredMixin, auth_views.PasswordChangeView):
     template_name = 'accounts/password/change_password.html'
     success_url = reverse_lazy('change password successful')
 
@@ -56,7 +76,7 @@ class ChangePasswordDone(auth_views.PasswordChangeDoneView):
     template_name = 'accounts/password/change_password_successful.html'
 
 
-class PasswordReset(auth_views.PasswordResetView):
+class PasswordReset(auth_mixins.LoginRequiredMixin, auth_views.PasswordResetView):
     html_email_template_name = 'accounts/password/reset_password_email.html'
     success_url = reverse_lazy('reset password successful')
 

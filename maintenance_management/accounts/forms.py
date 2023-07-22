@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth import forms as auth_forms, get_user_model
+from django.contrib.auth.models import Group
 
 from maintenance_management.accounts.models import RegisterInvitation, AppUserProfile
+from maintenance_management.common.models import Company
 
 UserModel = get_user_model()
 
@@ -12,8 +14,13 @@ class RegisterInvitationForm(forms.ModelForm):
         fields = "__all__"
 
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop("request", None)
         super().__init__(*args, **kwargs)
+        group = Group.objects.all().filter(name=self.request.user.groups.name)
+        company = Company.objects.all().filter(pk=self.request.user.appuserprofile.company.pk)
         self.fields["unique_identifier"].widget.attrs["readonly"] = "readonly"
+        self.fields["groups"].queryset = group
+        self.fields["company"].queryset = company
 
 
 class UserRegistrationForm(auth_forms.BaseUserCreationForm):
