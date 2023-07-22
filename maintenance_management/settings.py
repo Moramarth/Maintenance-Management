@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     'maintenance_management.supervisor',
     'maintenance_management.accounts',
     'maintenance_management.estate',
+
+    # Third-party apps:
+    'django_filters'
 ]
 
 MIDDLEWARE = [

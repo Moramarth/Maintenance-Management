@@ -11,7 +11,7 @@
         <h5>{{ object.title }}</h5>
         <p>{{ object.additional_information }}</p>
     </div>
-    <p>Created by : {{ object.created_by.appuserprofile.first_name }}</p>
+    <p>Created by : {{ object.created_by.appuserprofile.full_name }}</p>
     {% if object.attached_file %}
         <a href="{{ object.attached_file.url }}">Attached File</a>
     {% endif %}
