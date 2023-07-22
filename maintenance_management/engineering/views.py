@@ -38,16 +38,6 @@ def assign_report_to_contractor(request, pk):
     return render(request, 'supervisor/assign_form.html', context)
 
 
-@login_required()
-@group_required(GroupEnum.engineering, GroupEnum.contractors)
-def show_my_assignments(request):
-    assignments = Assignment.objects.all().filter(user=request.user)
-    context = {
-        "assignments": assignments
-    }
-    return render(request, 'engineering/show_my_assignments.html', context)
-
-
 @login_required
 @group_required(GroupEnum.engineering, GroupEnum.contractors)
 def accept_assignment(request, pk):

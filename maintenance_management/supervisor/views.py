@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
@@ -69,9 +70,17 @@ def auto_assign_reports(request):
 
 
 class ShowAllAssignments(LoginRequiredMixin, GroupRequiredMixin, views.ListView):
-    group_required = [GroupEnum.supervisor]
+    group_required = [GroupEnum.supervisor, GroupEnum.engineering, GroupEnum.contractors]
     template_name = 'supervisor/show_all_assignments.html'
     model = Assignment
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.groups.name == str(GroupEnum.supervisor.value):
+            return queryset
+        return queryset.filter(
+            Q(assigned_by=self.request.user)
+            | Q(user=self.request.user))
 
 
 class ShowAssignmentDetails(LoginRequiredMixin, GroupRequiredMixin, views.DetailView):

@@ -7,23 +7,25 @@
 
     {% if viewer_group.name == 'Supervisor' %}
         <a class="btn btn-success" href="{% url 'assign report' object.pk %}">Assign Report</a>
-        <a class="btn btn-success" href="{% url 'show all reports' %}">View Service Reports</a>
     {% elif viewer_group.name == 'Engineering' %}
         <a class="btn btn-success" href="{% url 'self assign' object.pk %}">Assign Report to Me</a>
         <a class="btn btn-success" href="{% url 'assign to contractor' object.pk %}">Assign Report to Contractor</a>
-        <a class="btn btn-success" href="{% url 'show all reports' %}">View Service Reports</a>
     {% endif %}
-    <p>{{ object.title }}</p>
-    <p>{{ object.description }}</p>
-    <p>{{ object.user.appuserprofile.first_name }}</p>
-    <p>{{ object.company.name }}</p>
-    <p>{{ object.report_status }}</p>
+    <a class="btn btn-success" href="{% url 'show all reports' %}">View Service Reports</a>
+    <h5>Subject: {{ object.title }}</h5>
+    <p>Description: {{ object.description }}</p>
+    <p>From: {{ object.user.appuserprofile.full_name }} Employee at: {{ object.company.name }}</p>
+    <p>Report Status: {{ object.report_status }}</p>
     {% if object.assigned_to %}
-        <p>
+        <p> Assigned to:
             <a href="{% url 'profile details' object.assigned_to.pk %}">
-                {{ object.assigned_to.appuserprofile.first_name }}
+                {{ object.assigned_to.appuserprofile.full_name }}
+                Employee at: {{ object.assigned_to.appuserprofile.company.name }}
             </a>
         </p>
+        <a class="btn btn-outline-success" href="{% url 'assignment details' object.assignment_set.first.pk %} ">
+            Related Assignment
+        </a>
     {% endif %}
     {% if object.report_status == "Pending" %}
         <div>
@@ -33,5 +35,8 @@
     {% else %}
         <a class="btn btn-warning disabled" href="{% url 'edit report' object.pk %}">Edit Report</a>
         <a class="btn btn-danger disabled" href="{% url 'delete report' object.pk %}">Delete Report</a>
+    {% endif %}
+    {% if object.report_status == "Done" and request.user == object.user %}
+        <a class="btn btn-success" href="{% url 'create review' object.pk %}"> Create Review</a>
     {% endif %}
 {% endblock %}

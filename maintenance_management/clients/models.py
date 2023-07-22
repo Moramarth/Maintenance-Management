@@ -75,7 +75,7 @@ class ServiceReport(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('report details', args=self.pk)
+        return reverse('report details', args=[self.pk])
 
 
 class Review(models.Model):

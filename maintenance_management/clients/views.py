@@ -1,6 +1,7 @@
 from django.contrib.auth import mixins as auth_mixins
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic as views
 
@@ -43,7 +44,6 @@ class DeleteServiceReport(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, vi
     group_required = [GroupEnum.clients]
     template_name = 'clients/service_report_delete.html'
     model = ServiceReport
-    success_url = reverse_lazy('show all reports')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -84,7 +84,11 @@ class ShowReportDetails(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, view
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.object:
-            if self.request.user != self.object.user and self.request.user != self.object.assigned_to \
+            if self.request.user.groups.name == str(GroupEnum.engineering.value) \
+                    and self.object.report_type == ServiceReport.ReportType.OTHER:
+                pass
+            elif self.request.user != self.object.user \
+                    and self.request.user != self.object.assigned_to \
                     and self.request.user.groups.name != str(GroupEnum.supervisor.value):
                 raise PermissionDenied
 
@@ -100,12 +104,14 @@ class CreateReview(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.Cre
     group_required = [GroupEnum.clients]
     template_name = 'clients/create_review.html'
     model = Review
-    fields = ["service_report", "rating", "comment"]
+    fields = ["rating", "comment"]
     success_url = reverse_lazy('show all reviews')
 
     def form_valid(self, form):
-        report = form.save(commit=False)
-        report.user = self.request.user
+        review = form.save(commit=False)
+        service_report = get_object_or_404(ServiceReport, pk=self.kwargs['pk'])
+        review.user = self.request.user
+        review.service_report = service_report
         form.save()
         return super(CreateReview, self).form_valid(form)
 

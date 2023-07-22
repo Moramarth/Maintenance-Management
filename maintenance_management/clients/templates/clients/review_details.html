@@ -1,14 +1,36 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block page_title %}
     Reviews
 {% endblock %}
 {% block content %}
-    <p> {{ object.service_report }}</p>
-    <p> {{ object.user }}</p>
-    <p> {{ object.rating }}</p>
-    <p> {{ object.comment }}</p>
-    <p> {{ object.user.appuserprofile.company }}</p>
-    {% if object.user.appuserprofile.company.logo %}
-        <img src="{{ object.user.appuserprofile.company.logo.url }}" alt="">
-    {% endif %}
+    <div class="p-5 bg-body-tertiary border rounded-3">
+        {% if object.user.appuserprofile.profile_picture %}
+            <img class="img-fluid rounded-start"
+                 src="{{ object.user.appuserprofile.profile_picture.url }}"
+                 alt="">
+        {% else %}
+            <img class="img-fluid rounded-start" src="{% static '/images/default_profile_picture.png' %}" alt="">
+        {% endif %}
+        {% if object.service_report %}
+            <p> For: {{ object.service_report }}</p>
+        {% endif %}
+        {% if object.user %}
+            <p> From: {{ object.user.appuserprofile.full_name }}</p>
+        {% else %}
+            <p>Ex tenant</p>
+        {% endif %}
+        <p> Rating: {{ object.rating }}</p>
+        <p> Comment: {{ object.comment }}</p>
+        {% if object.user.appuserprofile.company %}
+            <p> {{ object.user.appuserprofile.company.name }}</p>
+        {% else %}
+            <p>Previous Partner</p>
+        {% endif %}
+        {% if object.user.appuserprofile.company.logo %}
+            <img class="img-fluid rounded-start" src="{{ object.user.appuserprofile.company.logo.url }}" alt="">
+        {% else %}
+            <img class="img-fluid rounded-start" src="{% static '/images/default_company_logo.jpg' %}" alt="">
+        {% endif %}
+    </div>
 {% endblock %}
