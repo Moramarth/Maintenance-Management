@@ -11,8 +11,10 @@ from maintenance_management.accounts.decorators import group_required
 from maintenance_management.accounts.enums import GroupEnum
 from maintenance_management.accounts.mixins import GroupRequiredMixin
 from maintenance_management.clients.models import ServiceReport
+from maintenance_management.common.forms import SearchByNameForm, PaginateByForm
 from maintenance_management.estate.models import Building
-from maintenance_management.supervisor.filters import AssignmentFilter, initial_query_set_assignments
+from maintenance_management.supervisor.filters import AssignmentFilter, initial_query_set_assignments_filter, \
+    first_and_last_name_filter_for_assignment
 from maintenance_management.supervisor.forms import AssignForm
 from maintenance_management.supervisor.helper_functions import create_assignment_object, report_is_assigned
 from maintenance_management.supervisor.models import Assignment
@@ -71,52 +73,52 @@ def auto_assign_reports(request):
 
 
 class ShowAllAssignments(LoginRequiredMixin, GroupRequiredMixin, views.ListView):
-    """ TODO: search, pagination"""
+    """
+    Visualises assignment information based on Roles
+
+    Filters for the user are available
+    """
     group_required = [GroupEnum.supervisor, GroupEnum.engineering, GroupEnum.contractors]
     template_name = 'supervisor/show_all_assignments.html'
     model = Assignment
     ordering = ["-last_updated"]
     filter_set = None
 
-    paginate_by = 5
-
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = initial_query_set_assignments(self.request, queryset)
+        queryset = initial_query_set_assignments_filter(self.request, queryset)
         building = self.request.GET.get("building", "")
         report_type = self.request.GET.get("report_type", "")
+        name = self.request.GET.get("name", "")
         if building:
-            queryset = queryset.filter(user__appuserprofile__company__additionaladdressinformation__building=building)
+            queryset = queryset.filter(
+                user__appuserprofile__company__additionaladdressinformation__building=building
+            )
         if report_type:
             queryset = queryset.filter(service_report__report_type=report_type)
+        if name:
+            queryset = first_and_last_name_filter_for_assignment(name, queryset)
         self.filter_set = AssignmentFilter(self.request.GET, queryset=queryset)
 
         return self.filter_set.qs
 
     def get_paginate_by(self, queryset):
-        paginator = self.request.GET.get("paginator", "")
-        if paginator:
-            self.paginate_by = paginator
-        return paginator
+        return self.request.GET.get("paginator", 5)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # TODO: check context processor options
         buildings = Building.objects.all()
         reports = ServiceReport.objects.all()
         context.update(
             {
-                "form": self.filter_set.form,
+                "extra_filter_fields_form": self.filter_set.form,
+                "search_by_name_form": SearchByNameForm(self.request.GET),
+                "paginator_form": PaginateByForm(self.request.GET),
                 "buildings": buildings,
-                "building": self.request.GET.get("building", ""),
                 "reports": reports,
-                "report": self.request.GET.get("report_type", ""),
-                "meeting_required": self.request.GET.get("meeting_required", ""),
-                "assignment_status": self.request.GET.get("assignment_status", ""),
-                "expense_estimate_available": self.request.GET.get("expense_estimate_available", ""),
-                "paginator": self.request.GET.get("paginator", ""),
             }
         )
-
         return context
 
 

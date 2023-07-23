@@ -1,0 +1,11 @@
+{# Requires a queryset for Building class passed in context as **buildings** #}
+
+<label for="building">
+    Filter by building
+    <select class="form-select" name="building">
+        <option selected value="">Select building</option>
+        {% for building in buildings %}
+            <option value="{{ building.pk }}"> {{ building }}</option>
+        {% endfor %}
+    </select>
+</label>

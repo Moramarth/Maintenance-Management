@@ -1,0 +1,14 @@
+{% load custom_tags %}
+<div>
+    {% if page_obj.has_previous %}
+        <a href="?{% pagination_parameters page=page_obj.previous_page_number %}">previous</a>
+    {% else %}
+        previous
+    {% endif %}
+    {{ page_obj }}
+    {% if page_obj.has_next %}
+        <a href="?{% pagination_parameters page=page_obj.next_page_number %}">next</a>
+    {% else %}
+        next
+    {% endif %}
+</div>

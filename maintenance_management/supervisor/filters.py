@@ -20,9 +20,19 @@ class AssignmentFilter(django_filters.FilterSet):
         self.filters["expense_estimate_available"].label = "Offer"
 
 
-def initial_query_set_assignments(request, queryset):
+def initial_query_set_assignments_filter(request, queryset):
+    """ Provides restricted queryset based on business logic authorization"""
     if request.user.groups.name == str(GroupEnum.supervisor.value):
         return queryset
     return queryset.filter(
         Q(assigned_by=request.user)
         | Q(user=request.user))
+
+
+def first_and_last_name_filter_for_assignment(name, queryset):
+    return queryset.filter(
+        Q(user__appuserprofile__first_name__icontains=name)
+        | Q(user__appuserprofile__last_name__icontains=name)
+        | Q(assigned_by__appuserprofile__first_name__icontains=name)
+        | Q(assigned_by__appuserprofile__last_name__icontains=name)
+    )

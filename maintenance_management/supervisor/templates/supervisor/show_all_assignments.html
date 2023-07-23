@@ -6,50 +6,27 @@
 {% block content %}
     <h1>Assignments</h1>
     <div class="p-5 bg-body-tertiary border rounded-3">
-        <div class="container">
-            <a class="btn btn-success" href="{% url 'show all assignments' %}">Clear Filters</a>
 
-        </div>
-        <div class="container">
-            <form action="" method="get">
-                <label for="paginator">
-                    Choose how many items to see on list
-                    <input type="number" name="paginator" placeholder="{{ paginator }}">
-                </label>
-                <button>Submit</button>
-            </form>
-        </div>
         <form action="" method="get">
             <div class="container">
-                <label for="building">
-                    Filter by building
-                    <select class="form-select" name="building">
-                        <option selected value="">Select building</option>
-                        {% for building in buildings %}
-                            <option value="{{ building.pk }}"> {{ building }}</option>
-                        {% endfor %}
-                    </select>
-                </label>
+                {{ paginator_form }}
+            </div>
+            <div class="container">
+                {{ search_by_name_form }}
+            </div>
+            <div class="container">
+                {% include 'estate/partials/building_selector.html' %}
 
-                <label for="report_type">
-                    or report type
-
-                    <select class="form-select" name="report_type">
-                        <option selected value="">Report Type</option>
-                        {% for report in reports %}
-                            <option value="{{ report.report_type }}"> {{ report.report_type }}</option>
-                        {% endfor %}
-                    </select>
-
-                </label>
+                {% include 'clients/partials/report_type_selector.html' %}
             </div>
 
             <div class="container">
                 Extra available fields:
-                <p>{{ form }}</p>
+                <p>{{ extra_filter_fields_form }}</p>
             </div>
             <div class="container">
                 <button class="btn btn-info">Search</button>
+                <a class="btn btn-info" href="{% url 'show all assignments' %}">Clear Filters</a>
             </div>
         </form>
     </div>
@@ -73,7 +50,8 @@
                 <tr>
                     <td>{{ object.service_report | truncatechars:25 }}</td>
                     {% if request.user == object.user %}
-                        <td>You</td>{% else %}
+                        <td>You</td>
+                    {% else %}
                         <td>{{ object.user.appuserprofile.full_name }}</td>
                     {% endif %}
                     {% if request.user == object.assigned_by %}
@@ -103,20 +81,7 @@
         </table>
     </div>
 
-
-    {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}&paginator={{ paginator }}&building={{ building }}&report_type={{ report }}&assignment_status={{ assignment_status }}&meeting_required={{ meeting_required }}&expense_estimate_available={{ expense_estimate_available }}">previous</a>
-    {% else %}
-        previous
+    {% if is_paginated %}
+        {% include 'partials/pagination.html' %}
     {% endif %}
-    {{ page_obj.number }}
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}&paginator={{ paginator }}&building={{ building }}&report_type={{ report }}&assignment_status={{ assignment_status }}&meeting_required={{ meeting_required }}&expense_estimate_available={{ expense_estimate_available }}">
-            next
-        </a>
-    {% else %}
-        next
-    {% endif %}
-    <div>{{ page_obj }}</div>
-
 {% endblock %}

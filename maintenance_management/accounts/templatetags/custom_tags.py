@@ -26,3 +26,21 @@ def address_display_for_profile(obj):
 @register.simple_tag()
 def address_display_for_company(obj):
     return obj.additionaladdressinformation_set.first()
+
+
+@register.simple_tag(takes_context=True)
+def pagination_parameters(context, **kwargs):
+    """
+     Preserves active filter options with pagination and removes any empty values
+
+     Returns Encoded URL parameters
+     """
+
+    data = context["request"].GET.copy()
+    for key, value in kwargs.items():
+        data[key] = value
+
+    for key in [key for key, value in data.items() if not value or value == "unknown"]:
+        del data[key]
+
+    return data.urlencode()

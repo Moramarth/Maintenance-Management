@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Service Reports
+{% endblock %}
+{% block content %}
+    <h1>Service Reports</h1>
+    <div class="p-5 bg-body-tertiary border rounded-3">
+        {% if viewer_group.name == "Supervisor" %}
+            <a class="btn btn-outline-danger" href="{% url 'auto assign' %}">Auto assign reports</a>
+        {% endif %}
+        <form action="" method="get">
+            <div class="container">
+                {{ paginator_form }}
+            </div>
+            <div class="container">
+                {{ search_by_name_form }}
+            </div>
+            <div class="container">
+                {% include 'estate/partials/building_selector.html' %}
+            </div>
+            <div class="container">
+                Extra available fields:
+                <p>{{ service_report_filter_form }}</p>
+            </div>
+            <button class="btn btn-info">Apply</button>
+            <a class="btn btn-info" href="{% url 'show all reports' %}">Clear</a>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr class="table table-light">
+                <th>Title</th>
+                <th>Created by</th>
+                <th>Company</th>
+                <th>Report Status</th>
+                <th>Report Type</th>
+                <th>Submit Date</th>
+                <th>Assigned to</th>
+                <th>Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <td>{{ object.title | truncatechars:25 }}</td>
+                    {% if request.user == object.user %}
+                        <td>You</td>
+                    {% else %}
+                        <td>{{ object.user.appuserprofile.full_name }}</td>
+                    {% endif %}
+                    <td>{{ object.company.name }}</td>
+                    <td>{{ object.report_status }}</td>
+                    <td>{{ object.report_type }}</td>
+                    <td>{{ object.submit_date }}</td>
+                    {% if not object.assigned_to %}
+                        <td>None</td>
+                    {% elif request.user == object.assigned_to %}
+                        <td>You</td>
+                    {% else %}
+                        <td>{{ object.assigned_to.appuserprofile.full_name }}</td>
+                    {% endif %}
+
+                    <td><a class="btn btn-outline-primary" href="{% url 'report details' object.pk %}">See Details</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if is_paginated %}
+        {% include 'partials/pagination.html' %}
+    {% endif %}
+{% endblock %}

@@ -5,6 +5,13 @@
 {% endblock %}
 {% block content %}
     <div class="container">
+        <form action="" method="get">
+            {{ paginator_form }}
+            {{ rating_filter_form }}
+            <button class="btn btn-info">Apply</button>
+            <a class="btn btn-info" href="{% url 'show all reviews' %}">Clear</a>
+        </form>
+
         {% for object in object_list %}
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row g-0">
@@ -14,7 +21,8 @@
                                  class="img-fluid rounded-start"
                                  alt="">
                         {% else %}
-                            <img src="{% static '/images/default_profile_picture.png' %}" class="img-fluid rounded-start"
+                            <img src="{% static '/images/default_profile_picture.png' %}"
+                                 class="img-fluid rounded-start"
                                  alt="">
                         {% endif %}
                     </div>
@@ -31,4 +39,7 @@
             </div>
         {% endfor %}
     </div>
+    {% if is_paginated %}
+        {% include 'partials/pagination.html' %}
+    {% endif %}
 {% endblock %}

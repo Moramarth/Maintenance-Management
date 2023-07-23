@@ -1,13 +1,17 @@
 from django.contrib.auth import mixins as auth_mixins
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic as views
 
 from maintenance_management.accounts.enums import GroupEnum
 from maintenance_management.accounts.mixins import GroupRequiredMixin
+from maintenance_management.clients.filters import initial_query_set_service_report_filter, ServiceReportFilter, \
+    first_and_last_name_filter_for_service_report
+from maintenance_management.clients.forms import RatingSelectionFilterForm
 from maintenance_management.clients.models import ServiceReport, Review
+from maintenance_management.common.forms import PaginateByForm, SearchByNameForm
+from maintenance_management.estate.models import Building
 
 
 class CreateServiceReport(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.CreateView):
@@ -55,25 +59,46 @@ class DeleteServiceReport(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, vi
 
 
 class ShowAllReports(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.ListView):
-    """ TODO: search, filters, pagination"""
+    """
+    Visualises service report information based on Roles
+
+    Filters for the user are available
+    """
     group_required = [GroupEnum.clients, GroupEnum.engineering, GroupEnum.supervisor]
-    template_name = 'clients/service_report_list.html'
+    template_name = 'clients/show_all_service_reports.html'
     model = ServiceReport
+    ordering = ["-last_updated"]
+    filter_set = None
 
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset()
-        if self.request.user.groups.name == str(GroupEnum.supervisor.value):
-            return queryset
-        elif self.request.user.groups.name == str(GroupEnum.engineering.value):
-            return queryset.filter(
-                Q(assigned_to=self.request.user)
-                | Q(report_type=self.request.user.appuserprofile.expertise)
-                | Q(report_type=ServiceReport.ReportType.OTHER)
+        queryset = initial_query_set_service_report_filter(self.request, queryset)
+        building = self.request.GET.get("building", "")
+        name = self.request.GET.get("name", "")
+        if building:
+            queryset = queryset.filter(
+                company__additionaladdressinformation__building=building
             )
-        return queryset.filter(
-            Q(user=self.request.user)
-            | Q(user__appuserprofile__company=self.request.user.appuserprofile.company)
+        if name:
+            queryset = first_and_last_name_filter_for_service_report(name, queryset)
+        self.filter_set = ServiceReportFilter(self.request.GET, queryset)
+        return self.filter_set.qs
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get("paginator", 5)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        buildings = Building.objects.all()
+        context.update(
+            {
+                "paginator_form": PaginateByForm(self.request.GET),
+                "service_report_filter_form": self.filter_set.form,
+                "search_by_name_form": SearchByNameForm(self.request.GET),
+                "buildings": buildings,
+            }
         )
+        return context
 
 
 class ShowReportDetails(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.DetailView):
@@ -97,7 +122,28 @@ class ShowReportDetails(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, view
 
 class ShowAllReviews(views.ListView):
     template_name = 'clients/show_all_reviews.html'
+    ordering = ["-submitted"]
     model = Review
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        rating_filter = self.request.GET.get("rating_filter", "0")
+        if rating_filter != "0":
+            queryset = queryset.filter(rating=rating_filter)
+        return queryset
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get("paginator", 5)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "paginator_form": PaginateByForm(self.request.GET),
+                "rating_filter_form": RatingSelectionFilterForm(self.request.GET),
+            }
+        )
+        return context
 
 
 class CreateReview(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.CreateView):
