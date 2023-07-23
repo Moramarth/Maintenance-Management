@@ -1,0 +1,7 @@
+.header {
+    width: 100%;
+    border-bottom: 0.1rem solid rgba(0,0,0,0.4);
+}
+.header + * {
+    padding-top: 7.0rem;
+}

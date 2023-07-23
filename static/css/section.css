@@ -1,0 +1,79 @@
+.section {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.section .section__head {
+    text-align: center;
+    width: 100%;
+    position: relative;
+    padding-bottom: 2.0rem;
+}
+
+.section .section__head h1 {
+    position: relative;
+    font-size: 3.0rem;
+}
+
+.section .section__head h2 {
+    font-size: 2.5rem;
+    color: rgba(0,0,0,0.8);
+}
+
+.section .section__head:after {
+    content: ' ';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 10.0rem;
+    height: 0.4rem;
+    background-color: var(--c-primary);
+    margin-left: -5.0rem;
+}
+
+.section .section__head:not(:last-child) {
+    margin-bottom: 4.0rem;
+}
+
+.section .section__body-group:not(:last-child) {
+    margin-bottom: 3.0rem;
+}
+
+.section .section__body-group {
+    width: 100%;
+    padding: 2.0rem;
+    background-color: rgba(255,255,255,0.4);
+    border-radius: 1.0rem;
+    border: 0.1rem solid #333;
+}
+.section .section__body-group > h4 {
+    background-color: black;
+    color: white;
+    padding: 1.0rem 2.0rem;
+    margin-bottom: 2.0rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.section .section__body-group > .row {
+    position: relative;
+}
+
+.section .section__body-group > .row > a {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 20;
+    font-size: 0;
+    line-height: 0;
+    text-decoration: none;
+    width: auto;
+}
+
+.section .section__body-group > .row > a:hover ~ .col .card--box {
+    box-shadow: 0 0 2.0rem black;
+}

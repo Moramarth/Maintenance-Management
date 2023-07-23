@@ -1,0 +1,98 @@
+/*
+- Forms
+*/
+
+.form-main {
+    width: 100%;
+}
+
+.form-main input:not([type="radio"]):not([type="checkbox"]):not([type="file"]),
+.form-main textarea,
+.form-main select {
+    width: 100%;
+    padding-left: 2.0rem;
+    padding-right: 2.0rem;
+    height: 4.0rem;
+    font-size: 1.6rem;
+    line-height: 1.1rem;
+    border-radius: 0.6rem;
+    border: 0.1rem solid var(--c-primary);
+    background: white;
+    color: #333;
+    transition: color 0.4s, border 0.4s, background 0.4s;
+}
+
+.form-main input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):focus,
+.form-main textarea:focus,
+.form-main select:focus {
+    border-color: black;
+    color: black;
+
+}
+
+.form-main textarea {
+    padding-top: 1.0rem;
+    padding-bottom: 1.0rem;
+    resize: none;
+    height: 30.0rem;
+}
+
+.form-main label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
+    line-height: 1.33;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.form-main button {
+    padding: 1.0rem 2.0rem;
+    font-size: 1.4rem;
+    line-height: 1.0rem;
+    height: 4.0rem;
+    border-radius: 1.0rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-main .form__foot {
+    margin-top: 2.0rem;
+}
+
+/*
+    - Form -- Login
+*/
+
+.form-main--login {
+    max-width: 40.0rem;
+    padding: 3.0rem;
+    box-shadow: 1.0rem 1.0rem rgba(0,0,0,0.5);
+    margin: auto;
+    border: 0.1rem solid #333;
+    border-radius: 1.0rem;
+    background-color: #F1F6F9;
+}
+
+.form-main--login .form__foot {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.form-main--login .form__foot a {
+    text-decoration: none;
+    color: var(--c-primary);
+    font-size: 1.4rem;
+    line-height: 1.10;
+}
+
+.form-main--login .form__foot a:hover {
+    text-decoration: underline;
+}
+
+.form-main--login .form__foot button {
+    margin-right: auto;
+}

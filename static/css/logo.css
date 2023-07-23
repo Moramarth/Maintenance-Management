@@ -1,0 +1,22 @@
+.logo {
+    font-size: 0;
+    line-height: 0;
+    display: flex;
+    align-items: center;
+    gap: 1.0rem;
+    text-decoration: none;
+    color: #000;
+}
+
+.logo img {
+    width: 6.0rem;
+    height: 6.0rem;
+    object-fit: contain;
+    object-position: center center;
+}
+
+.logo span {
+    font-size: 1.4rem;
+    line-height: 1.10;
+    font-weight: 700;
+}

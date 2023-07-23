@@ -1,0 +1,21 @@
+:root {
+    --c-primary: #0d6efd;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    line-height: 1.33;
+}
+
+header,
+footer {
+    display: block;
+}
+
+a {
+    transition: color 0.4s, background 0.4s, box-shadow 0.4s, opacity 0.4s;
+}

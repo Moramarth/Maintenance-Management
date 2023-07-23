@@ -1,0 +1,90 @@
+/*
+    - Navigation
+*/
+
+.navbar-nav {
+    gap: 1.0rem;
+}
+
+.nav-link {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    padding: 0.8rem 0 !important;
+}
+
+
+.nav-link:before {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0.4rem;
+    background-color: var(--c-primary);
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: opacity 0.4s, transform 0.4s;
+    z-index: -1;
+}
+.nav-link:hover:before {
+    transform: translateX(0%);
+    opacity: 1;
+}
+
+.dropdown-menu {
+    background-color: #f8f9fa;
+    font-size: 1.4rem;
+}
+
+.dropdown-menu .nav-link {
+    display: block;
+    padding: 0.8rem 1.2rem !important;
+    white-space: nowrap;
+}
+
+.dropdown-menu .nav-link:before {
+    top: 0;
+    height: auto;
+}
+
+.dropdown-menu .nav-link:hover {
+    color: #fff !important;
+}
+
+/*
+    - Card
+*/
+
+.card--box {
+    overflow: hidden;
+    position: relative;
+    min-height: 100%;
+    border-radius: 1.0rem;
+    box-shadow: 0 0 1.0rem black;
+    border-color: black;
+    transition: box-shadow 0.4s;
+}
+
+.card--box img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.card--box .card-body {
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+    min-height: 10.0rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    margin-top: 46%;
+}
