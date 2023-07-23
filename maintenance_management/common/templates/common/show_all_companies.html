@@ -1,18 +1,34 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block page_title %}
-    Tenants
+    Partners
 {% endblock %}
 {% block content %}
+    <h1>Our Partners</h1>
+    <form action="">
+        <div class="container">
+            {{ paginator_form }}
+        </div>
+        <div class="container">
+            {{ search_by_name_form }}
+        </div>
+        <div class="container">
+            {% include 'estate/partials/building_selector.html' %}
+        </div>
+
+        <button class="btn btn-info">Apply</button>
+        <a class="btn btn-info" href="{% url 'show all companies' %}">Clear</a>
+    </form>
     <div class="container">
         <div class="row row-cols-3 row-cols-md-3 g-4">
-            {% for company in companies %}
+            {% for company in object_list %}
                 <div class="col">
                     <div class="card">
                         {% if company.company_logo %}
                             <img src="{{ company.logo.url }}" class="card-img-top" alt="...">
                         {% else %}
-                            <img src="{% static '/images/default_company_logo.jpg' %}" class="card-img-top" alt="No picture">
+                            <img src="{% static '/images/default_company_logo.jpg' %}" class="card-img-top"
+                                 alt="No picture">
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ company.name }}</h5>
@@ -27,4 +43,7 @@
             {% endfor %}
         </div>
     </div>
+    {% if is_paginated %}
+        {% include 'partials/pagination.html' %}
+    {% endif %}
 {% endblock %}

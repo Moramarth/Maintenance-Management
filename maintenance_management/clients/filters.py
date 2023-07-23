@@ -6,7 +6,11 @@ from maintenance_management.clients.models import ServiceReport
 
 
 class ServiceReportFilter(django_filters.FilterSet):
-    title = django_filters.CharFilter(lookup_expr='icontains')
+    title = django_filters.CharFilter(
+        field_name="title",
+        lookup_expr='icontains',
+        label="Search in title",
+    )
 
     class Meta:
         model = ServiceReport
@@ -15,10 +19,6 @@ class ServiceReportFilter(django_filters.FilterSet):
             "report_status": ["exact"],
             "company": ["exact"],
         }
-
-    def __init__(self, *args, **kwargs):
-        super(ServiceReportFilter, self).__init__(*args, **kwargs)
-        self.filters["title"].label = "Search in title"
 
 
 def initial_query_set_service_report_filter(request, queryset):

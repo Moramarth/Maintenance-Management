@@ -1,0 +1,11 @@
+{# Requires a queryset for Company class passed in context as **companies** #}
+
+<label for="company">
+    Filter by company
+    <select class="form-select" name="company">
+        <option selected value="">Select company</option>
+        {% for company in companies %}
+            <option value="{{ company.pk }}"> {{ company }}</option>
+        {% endfor %}
+    </select>
+</label>

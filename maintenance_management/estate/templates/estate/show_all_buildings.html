@@ -4,6 +4,12 @@
     Buildings
 {% endblock %}
 {% block content %}
+    <h1>Our Buildings</h1>
+    <form action="" method="get">
+        {{ building_filter_form }}
+        <button class="btn btn-info">Apply</button>
+        <a class="btn btn-info" href="{% url 'show all buildings' %}">Clear</a>
+    </form>
     <div class="container">
         <div class="row row-cols-3 row-cols-md-3 g-4">
             {% for building in object_list %}
@@ -12,7 +18,8 @@
                         {% if building.picture %}
                             <img src="{{ building.picture.url }}" class="card-img-top" alt="...">
                         {% else %}
-                            <img src="{% static '/images/default_building_picture.png' %}" class="card-img-top" alt="No picture">
+                            <img src="{% static '/images/default_building_picture.png' %}" class="card-img-top"
+                                 alt="No picture">
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ building.name }}</h5>
@@ -24,4 +31,7 @@
             {% endfor %}
         </div>
     </div>
+    {% if is_paginated %}
+        {% include 'partials/pagination.html' %}
+    {% endif %}
 {% endblock %}

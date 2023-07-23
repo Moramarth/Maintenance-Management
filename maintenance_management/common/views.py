@@ -6,11 +6,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic as views
 
+from maintenance_management.common.forms import PaginateByForm, SearchByNameForm
 from maintenance_management.common.helper_function import get_queries_as_list, verify_constants
 from maintenance_management.common.models import Company
-
-# Create your views here.
-
+from maintenance_management.estate.models import Building
 
 TENANTS_DISPLAYED_ON_HOME_PAGE = 3
 BUILDINGS_DISPLAYED_ON_HOME_PAGE = 3
@@ -55,7 +54,36 @@ class CompanyDetails(views.DetailView):
     model = Company
 
 
-def show_all_companies(request):
-    companies = Company.objects.all()
-    context = {"companies": companies}
-    return render(request, 'common/show_all_companies.html', context)
+class ShowAllCompanies(views.ListView):
+    template_name = 'common/show_all_companies.html'
+    model = Company
+    ordering = ["name"]
+
+    _DEFAULT_PAGINATE_BY = 6
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        building = self.request.GET.get("building", "")
+        name = self.request.GET.get("name", "")
+        if building:
+            queryset = queryset.filter(
+                additionaladdressinformation__building=building
+            )
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        return queryset
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get("paginator", ShowAllCompanies._DEFAULT_PAGINATE_BY)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        buildings = Building.objects.all()
+        context.update(
+            {
+                "paginator_form": PaginateByForm(self.request.GET),
+                "search_by_name_form": SearchByNameForm(self.request.GET),
+                "buildings": buildings,
+            }
+        )
+        return context

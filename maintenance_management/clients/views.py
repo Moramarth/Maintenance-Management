@@ -70,6 +70,8 @@ class ShowAllReports(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.L
     ordering = ["-last_updated"]
     filter_set = None
 
+    _DEFAULT_PAGINATE_BY = 5
+
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset()
         queryset = initial_query_set_service_report_filter(self.request, queryset)
@@ -85,7 +87,7 @@ class ShowAllReports(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.L
         return self.filter_set.qs
 
     def get_paginate_by(self, queryset):
-        return self.request.GET.get("paginator", 5)
+        return self.request.GET.get("paginator", ShowAllReports._DEFAULT_PAGINATE_BY)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -125,6 +127,8 @@ class ShowAllReviews(views.ListView):
     ordering = ["-submitted"]
     model = Review
 
+    _DEFAULT_PAGINATE_BY = 6
+
     def get_queryset(self):
         queryset = super().get_queryset()
         rating_filter = self.request.GET.get("rating_filter", "0")
@@ -133,7 +137,7 @@ class ShowAllReviews(views.ListView):
         return queryset
 
     def get_paginate_by(self, queryset):
-        return self.request.GET.get("paginator", 5)
+        return self.request.GET.get("paginator", ShowAllReviews._DEFAULT_PAGINATE_BY)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

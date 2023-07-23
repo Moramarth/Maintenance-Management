@@ -84,6 +84,8 @@ class ShowAllAssignments(LoginRequiredMixin, GroupRequiredMixin, views.ListView)
     ordering = ["-last_updated"]
     filter_set = None
 
+    _DEFAULT_PAGINATE_BY = 5
+
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = initial_query_set_assignments_filter(self.request, queryset)
@@ -103,7 +105,7 @@ class ShowAllAssignments(LoginRequiredMixin, GroupRequiredMixin, views.ListView)
         return self.filter_set.qs
 
     def get_paginate_by(self, queryset):
-        return self.request.GET.get("paginator", 5)
+        return self.request.GET.get("paginator", ShowAllAssignments._DEFAULT_PAGINATE_BY)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

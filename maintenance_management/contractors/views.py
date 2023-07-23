@@ -1,30 +1,53 @@
 from django.contrib.auth import mixins as auth_mixins
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic as views
 
 from maintenance_management.accounts.enums import GroupEnum
 from maintenance_management.accounts.mixins import GroupRequiredMixin
+from maintenance_management.common.forms import PaginateByForm, SearchByNameForm
+from maintenance_management.common.models import Company
+from maintenance_management.contractors.filters import initial_query_set_meeting_filter, \
+    initial_query_set_expenses_estimate_filter, first_and_last_name_filter_for_expenses_estimate_and_meeting
 from maintenance_management.contractors.models import Meeting, ExpensesEstimate
+from maintenance_management.estate.models import Building
 from maintenance_management.supervisor.models import Assignment
 
 
 class ShowAllMeetings(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.ListView):
-    """ TODO: search, filters, pagination"""
     group_required = [GroupEnum.contractors, GroupEnum.engineering, GroupEnum.supervisor]
-    template_name = 'contractors/meetings_list.html'
+    template_name = 'contractors/show_all_meetings.html'
     model = Meeting
+
+    _DEFAULT_PAGINATE_BY = 5
 
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset()
-        if self.request.user.groups.name == str(GroupEnum.supervisor.value):
-            return queryset
-        return queryset.filter(
-            Q(created_by=self.request.user)
-            | Q(assignment__assigned_by=self.request.user)
-        )
+        queryset = initial_query_set_meeting_filter(self.request, queryset)
+        building = self.request.GET.get("building", "")
+        name = self.request.GET.get("name", "")
+        if building:
+            queryset = queryset.filter(
+                assignment__service_report__user__appuserprofile__company__additionaladdressinformation__building=
+                building)
+        if name:
+            queryset = first_and_last_name_filter_for_expenses_estimate_and_meeting(name, queryset)
+        return queryset
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get("paginator", ShowAllMeetings._DEFAULT_PAGINATE_BY)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        buildings = Building.objects.all()
+
+        context.update({
+            "buildings": buildings,
+            "search_by_name_form": SearchByNameForm(self.request.GET),
+            "paginator_form": PaginateByForm(self.request.GET),
+        })
+        return context
 
 
 class CreateMeeting(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.CreateView):
@@ -90,16 +113,37 @@ class DeleteMeeting(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.De
 
 
 class ShowAllExpensesEstimates(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.ListView):
-    """ TODO: search, filters, pagination """
     group_required = [GroupEnum.contractors, GroupEnum.supervisor]
-    template_name = 'contractors/expenses_list.html'
+    template_name = 'contractors/show_all_expenses.html'
     model = ExpensesEstimate
+    ordering = ["title"]
+
+    _DEFAULT_PAGINATE_BY = 5
 
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset()
-        if self.request.user.groups.name == str(GroupEnum.supervisor.value):
-            return queryset
-        return queryset.filter(created_by=self.request.user)
+        queryset = initial_query_set_expenses_estimate_filter(self.request, queryset)
+        company = self.request.GET.get("company", "")
+        name = self.request.GET.get("name", "")
+        if name:
+            queryset = first_and_last_name_filter_for_expenses_estimate_and_meeting(name, queryset)
+        if company:
+            queryset = queryset.filter(created_by__appuserprofile__company=company)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        companies = Company.objects.all()
+        context.update({
+            "companies": companies,
+            "search_by_name_form": SearchByNameForm(self.request.GET),
+            "paginator_form": PaginateByForm(self.request.GET),
+        })
+        return context
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get("paginator", ShowAllExpensesEstimates._DEFAULT_PAGINATE_BY)
 
 
 class CreateExpensesEstimate(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.CreateView):

@@ -1,6 +1,5 @@
 TODO:
     - More work on admin site
-    - Proper template data render and paths around the site
     - Add styles to all pages
     - Populate DB for further testing and improving functionality
     - Cache and middleware where necessary

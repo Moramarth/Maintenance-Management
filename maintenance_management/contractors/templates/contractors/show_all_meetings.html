@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    Meetings
+{% endblock %}
+{% block content %}
+    <div class="p-5 bg-body-tertiary border rounded-3">
+        <form action="" method="get">
+            <div class="container">
+                {{ paginator_form }}
+            </div>
+            <div class="container">
+                {{ search_by_name_form }}
+            </div>
+            <div class="container">
+                {% include 'estate/partials/building_selector.html' %}
+            </div>
+            <button class="btn btn-info">Apply</button>
+            <a class="btn btn-info" href="{% url 'show all meetings' %}">Clear</a>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr class="table table-light">
+                <th>Created by</th>
+                <th>For Assignment</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <td>{{ object.created_by.appuserprofile.full_name }}</td>
+                    <td>{{ object.assignment.service_report.title }}</td>
+                    <td>{{ object.description | truncatechars:50 }}</td>
+                    <td>{{ object.meeting_date }}</td>
+                    <td><a class="btn btn-outline-primary" href="{% url 'meeting details' object.pk %}">See Details</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if is_paginated %}
+        {% include 'partials/pagination.html' %}
+    {% endif %}
+{% endblock %}
