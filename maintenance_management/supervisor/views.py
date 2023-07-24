@@ -68,10 +68,13 @@ def auto_assign_reports(request):
                     reports_assigned_count += 1
     except Exception as errors:
         pass
-    no_errors_message = f"{reports_assigned_count} reports were automatically assigned!"
-    context = {"errors": no_errors_message}
+    if reports_assigned_count == 1:
+        no_errors_message = f"{reports_assigned_count} report was automatically assigned!"
+    else:
+        no_errors_message = f"{reports_assigned_count} reports were automatically assigned!"
+    context = {"status_message": no_errors_message}
     if errors:
-        context[errors] = errors
+        context["status_message"] = errors
     return render(request, "supervisor/auto_assign_status.html", context)
 
 

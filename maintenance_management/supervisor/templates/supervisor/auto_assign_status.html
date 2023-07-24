@@ -3,6 +3,12 @@
     Supervisor
 {% endblock %}
 {% block content %}
-    <p>{{ errors }}</p>
-    <a class="btn btn-primary" href="{% url 'show all reports' %}">Back to reports</a>
+    <section class="section">
+        <div class="section__body">
+            <div class="section__body-group">
+                <h2>{{ status_message }}</h2>
+                <a href="{% url 'show all reports' %}">Back to reports</a>
+            </div>
+        </div>
+    </section>
 {% endblock %}

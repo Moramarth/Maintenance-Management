@@ -13,10 +13,11 @@
     height: 6.0rem;
     object-fit: contain;
     object-position: center center;
+
 }
 
 .logo span {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     line-height: 1.10;
     font-weight: 700;
 }
