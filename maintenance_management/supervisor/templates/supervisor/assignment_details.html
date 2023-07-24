@@ -11,6 +11,9 @@
     {% endif %}
 
     {% if viewer_group.name == "Engineering" or viewer_group.name == "Contractors" %}
+        {% if request.user == object.assigned_by %}
+            <a class="btn btn-outline-warning" href="{% url 'edit assignment' object.pk %}">Edit</a>
+        {% endif %}
         <a class="btn btn-outline-success" href="{% url 'accept assignment' object.pk %}">Accept</a>
         <a class="btn btn-outline-danger" href="{% url 'reject assignment' object.pk %}">Reject</a>
         <a class="btn btn-outline-primary" href="{% url 'show all assignments' %}">Back to My Assignments</a>
@@ -43,7 +46,7 @@
             <a class="btn btn-outline-primary" href="{% url 'create meeting' object.pk %}">Create a Meeting</a>
             <a class="btn btn-outline-primary" href="{% url 'create expense' object.pk %}">Create an Offer</a>
         {% else %}
-            <h6>You can create a Meeting or and Offer once you accept the assignment</h6>
+            <h6>You can create a Meeting or an Offer once you accept the assignment</h6>
         {% endif %}
     {% endif %}
 

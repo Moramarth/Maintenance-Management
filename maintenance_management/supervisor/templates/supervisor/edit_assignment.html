@@ -3,14 +3,17 @@
     Assignments
 {% endblock %}
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {% if viewer_group.name == "Supervisor" %}
-            <p>
-                <h6> Choose an engineer or contractor from the list:</h6>
+    <div class="form-main form-main--login">
+        <form method="post">
+            <div class="form__fields">
+                {% csrf_token %}
+                <h2> Choose an engineer or a contractor from the list:</h2>
                 {{ form.user }}
-            </p>
-        {% endif %}
-        <button class="btn btn-warning">Edit</button>
-    </form>
+            </div>
+            <div class="form__foot">
+                <button class="btn btn-warning">Edit</button>
+                <a href="{% url 'assignment details' object.pk %}">Cancel</a>
+            </div>
+        </form>
+    </div>
 {% endblock %}

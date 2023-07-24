@@ -3,15 +3,22 @@
     Registration
 {% endblock %}
 {% block content %}
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-primary">
-            {% if request.user.is_authenticated %}
-                Send Invite
-            {% else %}
-                Register
-            {% endif %}
-        </button>
-    </form>
+    <div class="form-main form-main--login">
+        <form action="" method="post">
+            <div class="form__fields">
+                {% csrf_token %}
+                {{ form.as_p }}
+            </div>
+            <div class="form__foot">
+                <button class="btn btn-primary">
+                    {% if user_is_authenticated %}
+                        Send Invite
+                    {% else %}
+                        Register
+                    {% endif %}
+                    <a href="{% url 'home page' %}">Cancel</a>
+                </button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

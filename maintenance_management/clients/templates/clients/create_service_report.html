@@ -3,13 +3,21 @@
     Service Reports
 {% endblock %}
 {% block content %}
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {% if not object %}
-            <button class="btn btn-primary">Create</button>
-        {% else %}
-            <button class="btn btn-warning">Edit</button>
-        {% endif %}
-    </form>
+    <div class="form-main form-main--login">
+        <form action="" method="post">
+            <div class="form__fields">
+                {% csrf_token %}
+                {{ form.as_p }}
+            </div>
+            <div class="form__foot">
+                {% if object %}
+                    <button class="btn btn-warning">Edit</button>
+                    <a href="{% url 'report details' object.pk %}">Cancel</a>
+                {% else %}
+                    <button class="btn btn-primary">Create</button>
+                    <a href="{% url 'show all reports' %}">Cancel</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
 {% endblock %}

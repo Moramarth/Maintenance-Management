@@ -46,7 +46,7 @@ class EditServiceReport(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, view
 
 class DeleteServiceReport(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.DeleteView):
     group_required = [GroupEnum.clients]
-    template_name = 'clients/service_report_delete.html'
+    template_name = 'clients/delete_service_report.html'
     model = ServiceReport
 
     def get_context_data(self, **kwargs):
@@ -112,7 +112,10 @@ class ShowReportDetails(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, view
         context = super().get_context_data(**kwargs)
         if self.object:
             if self.request.user.groups.name == str(GroupEnum.engineering.value) \
-                    and self.object.report_type == ServiceReport.ReportType.OTHER:
+                    and (self.object.report_type == ServiceReport.ReportType.OTHER
+                         or self.object.report_type == self.request.user.appuserprofile.expertise):
+                pass
+            elif self.request.user.appuserprofile.company == self.object.user.appuserprofile.company:
                 pass
             elif self.request.user != self.object.user \
                     and self.request.user != self.object.assigned_to \
@@ -157,6 +160,14 @@ class CreateReview(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.Cre
     fields = ["rating", "comment"]
     success_url = reverse_lazy('show all reviews')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        service_report = get_object_or_404(ServiceReport, pk=self.kwargs['pk'])
+        context.update({
+            "service_report": service_report
+        })
+        return context
+
     def form_valid(self, form):
         review = form.save(commit=False)
         service_report = get_object_or_404(ServiceReport, pk=self.kwargs['pk'])
@@ -175,7 +186,7 @@ class EditReview(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.Updat
     group_required = [GroupEnum.clients]
     template_name = 'clients/create_review.html'
     model = Review
-    fields = ["service_report", "rating", "comment"]
+    fields = ["rating", "comment"]
     success_url = reverse_lazy('show all reviews')
 
     def get_context_data(self, **kwargs):

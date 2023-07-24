@@ -3,12 +3,19 @@
     Reviews
 {% endblock %}
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        <p>Are you sure you want to delete your Review?</p>
-        <p> {{ object.service_report }} Rated: {{ object.rating }} Your
-            comment: {{ object.comment | truncatechars:30 }}</p>
-        <button class="btn btn-danger">YES</button>
-    </form>
-    <a class="btn btn-success" href="{% url 'show all reviews' %}">NO</a>
+    <div class="form-main form-main--login">
+        <form method="post">
+            <div class="form__fields">
+                {% csrf_token %}
+                <h2>Are you sure you want to delete your Review?</h2>
+                <p> {{ object.service_report.title }}</p>
+                <p>Rated: {{ object.rating }}</p>
+                <p>Your comment: {{ object.comment | truncatechars:30 }}</p>
+            </div>
+            <div class="form__foot">
+                <button class="btn btn-danger">Confirm</button>
+                <a href="{% url 'show all reviews' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
 {% endblock %}

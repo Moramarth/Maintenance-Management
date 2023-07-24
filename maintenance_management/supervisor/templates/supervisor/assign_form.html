@@ -3,12 +3,19 @@
     Assign Report
 {% endblock %}
 {% block content %}
-    {{ report.title }}
-    {{ report.company }}
-    {{ report.report_type }}
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-success">Assign Report</button>
-    </form>
+    <div class="form-main form-main--login">
+        <form action="" method="post">
+            <p>Report: {{ report.title }}</p>
+            <p>From: {{ report.company.name }}</p>
+            <p>Report Type: {{ report.report_type }}</p>
+            <div class="form__fields">
+                {% csrf_token %}
+                {{ form.as_p }}
+            </div>
+            <div class="form__foot">
+                <button class="btn btn-success">Assign Report</button>
+                <a href="{% url 'report details' report.pk %}">Cancel</a>
+            </div>
+        </form>
+    </div>
 {% endblock %}

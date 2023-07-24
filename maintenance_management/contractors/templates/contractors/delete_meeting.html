@@ -3,12 +3,19 @@
     Delete Meeting
 {% endblock %}
 {% block content %}
-    <h2>Are you sure you want to delete your scheduled meeting?</h2>
-    <p> {{ object.meeting_date }}</p>
 
-    <form action="" method="post">
-        {% csrf_token %}
-        <button class="btn btn-danger">YES</button>
-    </form>
-    <a class="btn btn-success" href="{% url 'show all meetings' %}" >NO</a>
+    <div class="form-main form-main--login">
+        <form action="" method="post">
+            <div class="form__fields">
+                <h2>Are you sure you want to delete your scheduled meeting?</h2>
+                <p> {{ object.meeting_date }}</p>
+                {% csrf_token %}
+            </div>
+            <div class="form__foot">
+                <button class="btn btn-danger">Confirm</button>
+                <a href="{% url 'show all meetings' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+
 {% endblock %}

@@ -15,7 +15,7 @@ from maintenance_management.common.forms import SearchByNameForm, PaginateByForm
 from maintenance_management.estate.models import Building
 from maintenance_management.supervisor.filters import AssignmentFilter, initial_query_set_assignments_filter, \
     first_and_last_name_filter_for_assignment
-from maintenance_management.supervisor.forms import AssignForm
+from maintenance_management.supervisor.forms import AssignForm, AssignmentEditByEngineerForm
 from maintenance_management.supervisor.helper_functions import create_assignment_object, report_is_assigned
 from maintenance_management.supervisor.models import Assignment
 
@@ -23,11 +23,14 @@ UserModel = get_user_model()
 
 
 @login_required
-@group_required(GroupEnum.supervisor)
+@group_required(GroupEnum.supervisor, GroupEnum.engineering)
 def assign_report_to_engineer_or_contractor(request, pk):
     """ Manual assignment of service reports to be handled by engineers or contractors"""
     report = get_object_or_404(ServiceReport, pk=pk)
-    form = AssignForm(request.POST or None)
+    if request.user.groups.name == str(GroupEnum.supervisor.value):
+        form = AssignForm(request.POST or None)
+    else:
+        form = AssignmentEditByEngineerForm(request.POST or None)
     if form.is_valid():
         user = UserModel.objects.get(pk=form.cleaned_data["assign_to"])
         create_assignment_object(request.user, report, user)
@@ -140,7 +143,7 @@ class ShowAssignmentDetails(LoginRequiredMixin, GroupRequiredMixin, views.Detail
 
 
 class EditAssignment(LoginRequiredMixin, GroupRequiredMixin, views.UpdateView):
-    group_required = [GroupEnum.supervisor, GroupEnum.contractors]
+    group_required = [GroupEnum.supervisor, GroupEnum.engineering]
     template_name = 'supervisor/edit_assignment.html'
     model = Assignment
     fields = ["user"]
@@ -153,6 +156,12 @@ class EditAssignment(LoginRequiredMixin, GroupRequiredMixin, views.UpdateView):
                 raise PermissionDenied
 
         return context
+
+    def get_form_class(self):
+        form_class = super().get_form_class()
+        if self.request.user.groups.name == str(GroupEnum.engineering.value):
+            form_class = AssignmentEditByEngineerForm
+        return form_class
 
     def form_valid(self, form):
         assignment = form.save(commit=False)

@@ -3,9 +3,16 @@
     Edit Profile
 {% endblock %}
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-    <button class="btn btn-warning">Submit Changes</button>
-    </form>
+    <div class="form-main form-main--login">
+        <form action="" method="post" enctype="multipart/form-data">
+            <div class="form__fields">
+                {% csrf_token %}
+                {{ form.as_p }}
+            </div>
+            <div class="form__foot">
+                <button class="btn btn-warning">Edit</button>
+                <a href="{% url 'profile details' request.user.pk %}">Cancel</a>
+            </div>
+        </form>
+    </div>
 {% endblock %}

@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
 {% block page_title %}
-    Password Change
+    Delete Report
 {% endblock %}
 {% block content %}
     <div class="form-main form-main--login">
         <form action="" method="post">
             <div class="form__fields">
+                <h2>Are you sure you want to delete your service report?</h2>
+                <p>{{ object.title }} from {{ object.submit_date }}</p>
                 {% csrf_token %}
-                {{ form.as_p }}
             </div>
             <div class="form__foot">
-                <button class="btn btn-primary">Submit</button>
-                <a href="{% url 'profile details' request.user.pk %}">Cancel</a>
+                <button class="btn btn-danger">Confirm</button>
+                <a href="{% url 'show all reports' %}">Cancel</a>
             </div>
         </form>
     </div>

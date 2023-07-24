@@ -6,7 +6,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from maintenance_management.accounts.decorators import group_required
 from maintenance_management.accounts.enums import GroupEnum
 from maintenance_management.clients.models import ServiceReport
-from maintenance_management.engineering.forms import AssignToContractorForm
 from maintenance_management.supervisor.helper_functions import create_assignment_object, report_is_assigned
 from maintenance_management.supervisor.models import Assignment
 
@@ -20,22 +19,6 @@ def assign_report_to_self(request, pk):
     create_assignment_object(request.user, report, request.user)
     report_is_assigned(report, request.user)
     return redirect('report details', pk=report.pk)
-
-
-@login_required()
-@group_required(GroupEnum.engineering)
-def assign_report_to_contractor(request, pk):
-    report = get_object_or_404(ServiceReport, pk=pk)
-    form = AssignToContractorForm(request.POST or None)
-    if form.is_valid():
-        user = UserModel.objects.get(pk=form.cleaned_data["assign_to"])
-        create_assignment_object(request.user, report, user)
-        report_is_assigned(report, user)
-
-        return redirect('report details', pk=report.pk)
-
-    context = {"form": form}
-    return render(request, 'supervisor/assign_form.html', context)
 
 
 @login_required

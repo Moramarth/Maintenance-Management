@@ -47,6 +47,9 @@
                     {% if object.user.is_staff %}
                         <p>{{ owner_group.name }}</p>
                     {% endif %}
+                    {% if object.expertise != "Not suitable" %}
+                        <p>{{ object.expertise }}</p>
+                    {% endif %}
                     {% if request.user == appuserprofile.user %}
                         <a class="btn btn-warning" href="{% url 'edit profile' appuserprofile.pk %}">Edit Profile</a>
                         <a class="btn btn-danger" href="{% url 'change password' appuserprofile.pk %}">Change
