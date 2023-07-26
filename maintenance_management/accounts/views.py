@@ -2,8 +2,8 @@ from django.contrib.auth import views as auth_views, login
 from django.contrib.auth import mixins as auth_mixins
 from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404, redirect, resolve_url
+from django.urls import reverse_lazy, reverse
 from django.views import generic as views
 
 from maintenance_management.accounts.enums import GroupEnum
@@ -46,6 +46,13 @@ class AppUserProfileDetails(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, 
 
 class LoginUserView(auth_views.LoginView):
     template_name = 'accounts/login_page.html'
+
+    def get_default_redirect_url(self):
+        """Return the default redirect URL."""
+        if self.next_page:
+            return resolve_url(self.next_page)
+        else:
+            return reverse('profile details', args=[self.request.user.pk])
 
 
 class LogoutUserView(auth_views.LogoutView):

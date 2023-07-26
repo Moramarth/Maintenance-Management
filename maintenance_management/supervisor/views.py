@@ -11,8 +11,6 @@ from maintenance_management.accounts.decorators import group_required
 from maintenance_management.accounts.enums import GroupEnum
 from maintenance_management.accounts.mixins import GroupRequiredMixin
 from maintenance_management.clients.models import ServiceReport
-from maintenance_management.common.forms import SearchByNameForm, PaginateByForm
-from maintenance_management.estate.models import Building
 from maintenance_management.supervisor.filters import AssignmentFilter, initial_query_set_assignments_filter, \
     first_and_last_name_filter_for_assignment
 from maintenance_management.supervisor.forms import AssignForm, AssignmentEditByEngineerForm
@@ -82,6 +80,8 @@ class ShowAllAssignments(LoginRequiredMixin, GroupRequiredMixin, views.ListView)
     """
     Visualises assignment information based on Roles
 
+    Uses 'maintenance_management.common.context_processors.context_forms_and_common_queries' for extra context
+
     Filters for the user are available
     """
     group_required = [GroupEnum.supervisor, GroupEnum.engineering, GroupEnum.contractors]
@@ -111,19 +111,15 @@ class ShowAllAssignments(LoginRequiredMixin, GroupRequiredMixin, views.ListView)
         return self.filter_set.qs
 
     def get_paginate_by(self, queryset):
+
         return self.request.GET.get("paginator", ShowAllAssignments._DEFAULT_PAGINATE_BY)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # TODO: check context processor options
-        buildings = Building.objects.all()
         reports = ServiceReport.objects.all()
         context.update(
             {
                 "extra_filter_fields_form": self.filter_set.form,
-                "search_by_name_form": SearchByNameForm(self.request.GET),
-                "paginator_form": PaginateByForm(self.request.GET),
-                "buildings": buildings,
                 "reports": reports,
             }
         )

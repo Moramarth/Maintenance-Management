@@ -76,6 +76,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # project processors
+                'maintenance_management.common.context_processors.context_forms_and_common_queries'
             ],
         },
     },
@@ -153,7 +156,7 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 LOGIN_URL = reverse_lazy('login user')
-LOGIN_REDIRECT_URL = reverse_lazy('home page')
+# LOGIN_REDIRECT_URL = reverse_lazy('home page')
 LOGOUT_REDIRECT_URL = reverse_lazy('home page')
 
 MEDIA_URL = "/media/"

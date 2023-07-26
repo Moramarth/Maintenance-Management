@@ -1,5 +1,5 @@
 TODO:
-    - More work on admin site
+    - More work on admin site(now optional)
     - Session settings
     - Add styles to all pages
     - Populate DB for further testing and improving functionality

@@ -1,19 +1,15 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.forms import BaseUserCreationForm
 
 from maintenance_management.accounts.models import AppUserProfile, RegisterInvitation
 
 UserModel = get_user_model()
 
 
-# Register your models here.
-
 @admin.register(UserModel)
 class AppUserAdmin(UserAdmin):
     # changed UserAdmin options
-    add_form_template = "admin_site_customization/admin_user_add_form.html"
     fieldsets = [
         ("Auth Data", {
             "classes": ["wide"],
@@ -32,6 +28,7 @@ class AppUserAdmin(UserAdmin):
         ),
     )
     list_display = ["email", "is_staff", "is_active", "last_login"]
+    list_filter = ("is_staff", "is_active", "groups")
     search_fields = ["email"]
     ordering = ("email",)
     filter_horizontal = []
@@ -55,4 +52,3 @@ class AppUserProfileAdmin(admin.ModelAdmin):
 class RegisterInvitationAdmin(admin.ModelAdmin):
     list_display = ["email", "company", "groups", "unique_identifier"]
     radio_fields = {"groups": admin.VERTICAL}
-

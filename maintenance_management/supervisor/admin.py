@@ -15,3 +15,5 @@ class AssignmentsAdmin(admin.ModelAdmin):
     ]
     view_on_site = True
     list_filter = ["assignment_status"]
+    list_per_page = 10
+    list_max_show_all = 50

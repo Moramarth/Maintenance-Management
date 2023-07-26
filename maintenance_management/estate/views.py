@@ -5,6 +5,9 @@ from maintenance_management.estate.models import Building
 
 
 class ShowAllBuildings(views.ListView):
+    """
+     Uses 'maintenance_management.common.context_processors.context_forms_and_common_queries' for paginator_form
+     """
     template_name = 'estate/show_all_buildings.html'
     model = Building
     ordering = ["name"]

@@ -13,7 +13,15 @@
                 {{ search_by_name_form }}
             </div>
             <div class="container">
-                {% include 'common/partials/company_selector.html' %}
+                <label for="company">
+                    Filter by company
+                    <select class="form-select" name="company">
+                        <option selected value="">Select company</option>
+                        {% for company in companies %}
+                            <option value="{{ company.pk }}"> {{ company }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
             </div>
             <button class="btn btn-info">Apply</button>
             <a class="btn btn-info" href="{% url 'show all expenses' %}">Clear</a>

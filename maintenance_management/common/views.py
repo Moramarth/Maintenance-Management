@@ -6,10 +6,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic as views
 
-from maintenance_management.common.forms import PaginateByForm, SearchByNameForm
 from maintenance_management.common.helper_function import get_queries_as_list, verify_constants
 from maintenance_management.common.models import Company
-from maintenance_management.estate.models import Building
 
 TENANTS_DISPLAYED_ON_HOME_PAGE = 3
 BUILDINGS_DISPLAYED_ON_HOME_PAGE = 3
@@ -55,6 +53,10 @@ class CompanyDetails(views.DetailView):
 
 
 class ShowAllCompanies(views.ListView):
+    """
+    Uses 'maintenance_management.common.context_processors.context_forms_and_common_queries' for extra context
+    """
+
     template_name = 'common/show_all_companies.html'
     model = Company
     ordering = ["name"]
@@ -75,15 +77,3 @@ class ShowAllCompanies(views.ListView):
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get("paginator", ShowAllCompanies._DEFAULT_PAGINATE_BY)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        buildings = Building.objects.all()
-        context.update(
-            {
-                "paginator_form": PaginateByForm(self.request.GET),
-                "search_by_name_form": SearchByNameForm(self.request.GET),
-                "buildings": buildings,
-            }
-        )
-        return context

@@ -17,7 +17,17 @@
             <div class="container">
                 {% include 'estate/partials/building_selector.html' %}
 
-                {% include 'clients/partials/report_type_selector.html' %}
+                <label for="report_type">
+                    Filter by report type
+
+                    <select class="form-select" name="report_type">
+                        <option selected value="">Report Type</option>
+                        {% for report in reports %}
+                            <option value="{{ report.report_type }}"> {{ report.report_type }}</option>
+                        {% endfor %}
+                    </select>
+
+                </label>
             </div>
 
             <div class="container">

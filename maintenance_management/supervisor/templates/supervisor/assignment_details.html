@@ -5,18 +5,18 @@
 {% block content %}
 
     {% if viewer_group.name == "Supervisor" %}
-        <a class="btn btn-outline-warning" href="{% url 'edit assignment' object.pk %}">Edit</a>
-        <a class="btn btn-outline-danger" href="{% url 'delete assignment' object.pk %}">Delete</a>
-        <a class="btn btn-outline-primary" href="{% url 'show all assignments' %}">Back to Assignments</a>
+        <a class="btn btn-warning" href="{% url 'edit assignment' object.pk %}">Edit</a>
+        <a class="btn btn-danger" href="{% url 'delete assignment' object.pk %}">Delete</a>
+        <a class="btn btn-primary" href="{% url 'show all assignments' %}">Back to Assignments</a>
     {% endif %}
 
     {% if viewer_group.name == "Engineering" or viewer_group.name == "Contractors" %}
         {% if request.user == object.assigned_by %}
-            <a class="btn btn-outline-warning" href="{% url 'edit assignment' object.pk %}">Edit</a>
+            <a class="btn btn-warning" href="{% url 'edit assignment' object.pk %}">Edit</a>
         {% endif %}
-        <a class="btn btn-outline-success" href="{% url 'accept assignment' object.pk %}">Accept</a>
-        <a class="btn btn-outline-danger" href="{% url 'reject assignment' object.pk %}">Reject</a>
-        <a class="btn btn-outline-primary" href="{% url 'show all assignments' %}">Back to My Assignments</a>
+        <a class="btn btn-success" href="{% url 'accept assignment' object.pk %}">Accept</a>
+        <a class="btn btn-danger" href="{% url 'reject assignment' object.pk %}">Reject</a>
+        <a class="btn btn-primary" href="{% url 'show all assignments' %}">Back to My Assignments</a>
     {% endif %}
     <h4> Assignment Details:</h4>
     <p>
@@ -43,8 +43,8 @@
             <a class="btn btn-outline-primary disabled" href="{% url 'create meeting' object.pk %}">Create a Meeting</a>
             <a class="btn btn-outline-primary disabled" href="{% url 'create expense' object.pk %}">Create an Offer</a>
         {% elif assignment.assignment_status == "Accepted" %}
-            <a class="btn btn-outline-primary" href="{% url 'create meeting' object.pk %}">Create a Meeting</a>
-            <a class="btn btn-outline-primary" href="{% url 'create expense' object.pk %}">Create an Offer</a>
+            <a class="btn btn-primary" href="{% url 'create meeting' object.pk %}">Create a Meeting</a>
+            <a class="btn btn-primary" href="{% url 'create expense' object.pk %}">Create an Offer</a>
         {% else %}
             <h6>You can create a Meeting or an Offer once you accept the assignment</h6>
         {% endif %}

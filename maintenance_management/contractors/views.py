@@ -6,16 +6,18 @@ from django.views import generic as views
 
 from maintenance_management.accounts.enums import GroupEnum
 from maintenance_management.accounts.mixins import GroupRequiredMixin
-from maintenance_management.common.forms import PaginateByForm, SearchByNameForm
 from maintenance_management.common.models import Company
 from maintenance_management.contractors.filters import initial_query_set_meeting_filter, \
     initial_query_set_expenses_estimate_filter, first_and_last_name_filter_for_expenses_estimate_and_meeting
+from maintenance_management.contractors.forms import MeetingForm
 from maintenance_management.contractors.models import Meeting, ExpensesEstimate
-from maintenance_management.estate.models import Building
 from maintenance_management.supervisor.models import Assignment
 
 
 class ShowAllMeetings(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.ListView):
+    """
+    Uses 'maintenance_management.common.context_processors.context_forms_and_common_queries' for extra context
+    """
     group_required = [GroupEnum.contractors, GroupEnum.engineering, GroupEnum.supervisor]
     template_name = 'contractors/show_all_meetings.html'
     model = Meeting
@@ -38,24 +40,13 @@ class ShowAllMeetings(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.
     def get_paginate_by(self, queryset):
         return self.request.GET.get("paginator", ShowAllMeetings._DEFAULT_PAGINATE_BY)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        buildings = Building.objects.all()
-
-        context.update({
-            "buildings": buildings,
-            "search_by_name_form": SearchByNameForm(self.request.GET),
-            "paginator_form": PaginateByForm(self.request.GET),
-        })
-        return context
-
 
 class CreateMeeting(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.CreateView):
     group_required = [GroupEnum.contractors]
     template_name = 'contractors/create_meeting.html'
     model = Meeting
-    fields = ["description", "meeting_date"]
     success_url = reverse_lazy('show all meetings')
+    form_class = MeetingForm
 
     def form_valid(self, form):
         meeting = form.save(commit=False)
@@ -85,8 +76,8 @@ class EditMeeting(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.Upda
     group_required = [GroupEnum.contractors]
     template_name = 'contractors/create_meeting.html'
     model = Meeting
-    fields = ["description", "meeting_date"]
     success_url = reverse_lazy('show all meetings')
+    form_class = MeetingForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -113,6 +104,10 @@ class DeleteMeeting(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.De
 
 
 class ShowAllExpensesEstimates(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.ListView):
+    """
+    Uses 'maintenance_management.common.context_processors.context_forms_and_common_queries'
+    for paginator_form and search_by_name_form
+    """
     group_required = [GroupEnum.contractors, GroupEnum.supervisor]
     template_name = 'contractors/show_all_expenses.html'
     model = ExpensesEstimate
@@ -137,8 +132,6 @@ class ShowAllExpensesEstimates(auth_mixins.LoginRequiredMixin, GroupRequiredMixi
         companies = Company.objects.all()
         context.update({
             "companies": companies,
-            "search_by_name_form": SearchByNameForm(self.request.GET),
-            "paginator_form": PaginateByForm(self.request.GET),
         })
         return context
 

@@ -6,7 +6,9 @@
 {% block content %}
     <h1>Our Buildings</h1>
     <form action="" method="get">
+        {{ paginator_form }}
         {{ building_filter_form }}
+
         <button class="btn btn-info">Apply</button>
         <a class="btn btn-info" href="{% url 'show all buildings' %}">Clear</a>
     </form>

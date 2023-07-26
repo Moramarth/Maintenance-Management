@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block page_title %}
     403 Forbidden
 {% endblock %}
 {% block content %}
-<h1>This is a Test Forbidden msg</h1>
+
+    <img src="{% static '/images/403.jpg' %}" alt="">
+
+    <a class="btn btn-dark text-centered"  href="{% url 'home page' %}"> <h1>BACK TO HOMEPAGE</h1></a>
 {% endblock %}

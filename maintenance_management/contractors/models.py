@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from maintenance_management.accounts.validators import validate_file_size
+from maintenance_management.contractors.validators import meeting_is_in_the_future_validator
 from maintenance_management.supervisor.models import Assignment
 
 UserModel = get_user_model()
@@ -24,6 +25,7 @@ class Meeting(models.Model):
     meeting_date = models.DateTimeField(
         blank=False,
         null=False,
+        validators=[meeting_is_in_the_future_validator]
     )
 
     def __str__(self):
