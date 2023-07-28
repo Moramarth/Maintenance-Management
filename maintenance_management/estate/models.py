@@ -7,19 +7,23 @@ from maintenance_management.estate.validators import city_name_validation
 
 
 class Building(models.Model):
+    MAX_LENGTH_FOR_NAME = 50
+    MAX_LENGTH_FOR_CITY = 50
+    MAX_LENGTH_FOR_ADDRESS = 200
+
     name = models.CharField(
-        max_length=50,
+        max_length=MAX_LENGTH_FOR_NAME,
         blank=False,
         null=False,
     )
     city = models.CharField(
-        max_length=50,
+        max_length=MAX_LENGTH_FOR_CITY,
         blank=False,
         null=False,
         validators=[city_name_validation]
     )
     address = models.CharField(
-        max_length=200,
+        max_length=MAX_LENGTH_FOR_ADDRESS,
         blank=False,
         null=False,
     )
@@ -39,10 +43,12 @@ class Building(models.Model):
 
 
 class AdditionalAddressInformation(models.Model):
+    MAX_LENGTH_FOR_SECTION = 50
+
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     section = models.CharField(
-        max_length=50,
+        max_length=MAX_LENGTH_FOR_SECTION,
         blank=True,
         null=True,
     )

@@ -9,6 +9,8 @@ UserModel = get_user_model()
 
 
 class Meeting(models.Model):
+    MAX_LENGTH_FOR_DESCRIPTION = 500
+
     created_by = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE,
@@ -18,7 +20,7 @@ class Meeting(models.Model):
         on_delete=models.CASCADE,
     )
     description = models.TextField(
-        max_length=500,
+        max_length=MAX_LENGTH_FOR_DESCRIPTION,
         blank=False,
         null=False,
     )
@@ -33,17 +35,20 @@ class Meeting(models.Model):
 
 
 class ExpensesEstimate(models.Model):
+    MAX_LENGTH_FOR_TITLE = 150
+    MAX_LENGTH_FOR_ADDITIONAL_INFORMATION = 500
+
     created_by = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE,
     )
     title = models.CharField(
-        max_length=150,
+        max_length=MAX_LENGTH_FOR_TITLE,
         blank=False,
         null=False,
     )
     additional_information = models.TextField(
-        max_length=500,
+        max_length=MAX_LENGTH_FOR_ADDITIONAL_INFORMATION,
         blank=True,
         null=True,
     )

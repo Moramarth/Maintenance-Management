@@ -17,6 +17,8 @@ class Assignment(models.Model):
     and the person you can contact for additional information
     """
 
+    MAX_LENGTH_FOR_ASSIGNMENT_STATUS = 8
+
     class AssignmentStatus(models.TextChoices):
         PENDING = "Pending"
         ACCEPTED = "Accepted"
@@ -50,7 +52,7 @@ class Assignment(models.Model):
         null=True,
     )
     assignment_status = models.CharField(
-        max_length=8,
+        max_length=MAX_LENGTH_FOR_ASSIGNMENT_STATUS,
         blank=False,
         choices=AssignmentStatus.choices,
         default=AssignmentStatus.PENDING,

@@ -5,20 +5,24 @@ from maintenance_management.accounts.validators import validate_file_size
 
 
 class Company(models.Model):
+    MAX_LENGTH_FOR_NAME = 150
+    MAX_LENGTH_FOR_BUSINESS_FIELD = 250
+    MAX_LENGTH_FOR_ADDITIONAL_INFORMATION = 500
+
     name = models.CharField(
-        max_length=150,
+        max_length=MAX_LENGTH_FOR_NAME,
         blank=False,
         null=False,
     )
 
     business_field = models.CharField(
-        max_length=250,
+        max_length=MAX_LENGTH_FOR_BUSINESS_FIELD,
         blank=True,
         null=True,
     )
 
     additional_information = models.TextField(
-        max_length=500,
+        max_length=MAX_LENGTH_FOR_ADDITIONAL_INFORMATION,
         blank=True,
         null=True,
     )

@@ -9,6 +9,11 @@ UserModel = get_user_model()
 
 
 class ServiceReport(models.Model):
+    MAX_LENGTH_FOR_TITLE = 50
+    MAX_LENGTH_FOR_DESCRIPTION = 500
+    MAX_LENGTH_FOR_REPORT_STATUS = 8
+    MAX_LENGTH_FOR_REPORT_TYPE = 20
+
     class ReportStatus(models.TextChoices):
         PENDING = "Pending"
         ASSIGNED = "Assigned"
@@ -33,12 +38,12 @@ class ServiceReport(models.Model):
         on_delete=models.CASCADE
     )
     title = models.CharField(
-        max_length=50,
+        max_length=MAX_LENGTH_FOR_TITLE,
         blank=False,
         null=False,
     )
     description = models.TextField(
-        max_length=500,
+        max_length=MAX_LENGTH_FOR_DESCRIPTION,
         blank=False,
         null=False,
     )
@@ -49,7 +54,7 @@ class ServiceReport(models.Model):
         validators=[validate_file_size],
     )
     report_status = models.CharField(
-        max_length=8,
+        max_length=MAX_LENGTH_FOR_REPORT_STATUS,
         blank=False,
         choices=ReportStatus.choices,
         default=ReportStatus.PENDING,
@@ -65,7 +70,7 @@ class ServiceReport(models.Model):
     submit_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     report_type = models.CharField(
-        max_length=20,
+        max_length=MAX_LENGTH_FOR_REPORT_TYPE,
         blank=False,
         choices=ReportType.choices,
         default=ReportType.OTHER,
@@ -79,6 +84,8 @@ class ServiceReport(models.Model):
 
 
 class Review(models.Model):
+    MAX_LENGTH_FOR_COMMENT = 500
+
     class Rating(models.IntegerChoices):
         ONE = 1, "Very Bad"
         TWO = 2, "Bad"
@@ -104,7 +111,7 @@ class Review(models.Model):
         choices=Rating.choices
     )
     comment = models.TextField(
-        max_length=500,
+        max_length=MAX_LENGTH_FOR_COMMENT,
         blank=True,
         null=True,
     )

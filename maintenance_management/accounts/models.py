@@ -55,6 +55,11 @@ UserModel = get_user_model()
 
 
 class AppUserProfile(models.Model):
+    MIN_LENGTH_FOR_NAMES = 2
+    MAX_LENGTH_FOR_NAMES = 30
+    MAX_LENGTH_FOR_PHONE_NUMBER = 15
+    MAX_LENGTH_FOR_EXPERTISE = 20
+
     class FieldOfExpertise(models.TextChoices):
         NETWORKING = "Networking"
         ELECTRICAL = "Electrical"
@@ -72,19 +77,27 @@ class AppUserProfile(models.Model):
     first_name = models.CharField(
         blank=True,
         null=True,
-        max_length=30,
-        validators=[MinLengthValidator(2), only_letters_validator, first_char_validation],
+        max_length=MAX_LENGTH_FOR_NAMES,
+        validators=[
+            MinLengthValidator(MIN_LENGTH_FOR_NAMES),
+            only_letters_validator,
+            first_char_validation,
+        ],
     )
 
     last_name = models.CharField(
         blank=True,
         null=True,
-        max_length=30,
-        validators=[MinLengthValidator(2), only_letters_validator, first_char_validation],
+        max_length=MAX_LENGTH_FOR_NAMES,
+        validators=[
+            MinLengthValidator(MIN_LENGTH_FOR_NAMES),
+            only_letters_validator,
+            first_char_validation,
+        ],
     )
 
     phone_number = models.CharField(
-        max_length=15,
+        max_length=MAX_LENGTH_FOR_PHONE_NUMBER,
         blank=True,
         null=True,
         validators=[PHONE_VALIDATION]
@@ -105,7 +118,7 @@ class AppUserProfile(models.Model):
     )
 
     expertise = models.CharField(
-        max_length=20,
+        max_length=MAX_LENGTH_FOR_EXPERTISE,
         blank=True,
         choices=FieldOfExpertise.choices,
         default='Not suitable',
