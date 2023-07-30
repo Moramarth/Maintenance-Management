@@ -2,11 +2,11 @@
 This repository contains my final project for the course Python Web Framework - June 2023
 
 # Quick navigation
-- [General info](https://github.com/Moramarth/Maintenance-Management/edit/main/README.md#if-you-want-to-test)
-- [Permissions for Engineering](https://github.com/Moramarth/Maintenance-Management/edit/main/README.md#permissions-for-engineering)
-- [Permissions for Supervisor](https://github.com/Moramarth/Maintenance-Management/edit/main/README.md#permissions-for-supervisor)
-- [Setting up roles](https://github.com/Moramarth/Maintenance-Management/edit/main/README.md#setting-up-roles)
-- [Intended user creation](https://github.com/Moramarth/Maintenance-Management/edit/main/README.md#intended-user-creation)
+- [General info](#if-you-want-to-test)
+- [Permissions for Engineering](#permissions-for-engineering)
+- [Permissions for Supervisor](#permissions-for-supervisor)
+- [Setting up roles](#setting-up-roles)
+- [Intended user creation](#intended-user-creation)
 
 
 # If you want to test:
