@@ -45,7 +45,13 @@ class BuildingTests(TestCase):
 
     def test_building_create__max_length_address_exceeded__expect_raise(self):
         building = Building(**self.VALID_BUILDING_DATA)
-        building.city = "a" * Building.MAX_LENGTH_FOR_ADDRESS + "a"
+        building.address = "a" * Building.MAX_LENGTH_FOR_ADDRESS + "a"
+        with self.assertRaises(ValidationError):
+            building.full_clean()
+
+    def test_building_create__invalid_city__expect_raise(self):
+        building = Building(**self.VALID_BUILDING_DATA)
+        building.city = "City-Te$t N@me"
         with self.assertRaises(ValidationError):
             building.full_clean()
 

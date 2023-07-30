@@ -17,7 +17,7 @@ def register_user_view(request, unique_identifier):
     form = UserRegistrationForm(initial={"email": invitation.email})
     if request.method == "POST":
         data = request.POST.copy()
-        data["groups"] = [Group.objects.get(pk=invitation.groups_id)]
+        data["groups"] = Group.objects.get(pk=invitation.groups.pk)
         form = UserRegistrationForm(data)
         if form.is_valid():
             user = form.save()

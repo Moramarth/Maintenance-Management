@@ -156,8 +156,9 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 LOGIN_URL = reverse_lazy('login user')
-# LOGIN_REDIRECT_URL = reverse_lazy('home page')
 LOGOUT_REDIRECT_URL = reverse_lazy('home page')
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR / "media")
+
+SUSPEND_SIGNALS = False

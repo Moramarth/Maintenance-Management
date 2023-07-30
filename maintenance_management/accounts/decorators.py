@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, HttpResponse
 
 
 def group_required(*groups):
@@ -7,7 +7,7 @@ def group_required(*groups):
             names = [str(group.value) for group in groups]
             if request.user.groups.name in names:
                 return function(request, *args, **kwargs)
-            raise Http404
+            raise Http404("Group not suitable")
 
         return wrapper
 
