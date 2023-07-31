@@ -37,14 +37,14 @@ def register_info(request):
     return render(request, 'common/registration_info_page.html')
 
 
+def redirect_to_admin(request):
+    return HttpResponseRedirect(f"{config('DOMAIN_NAME')}admin/")
+
+
 class EditCompanyInfo(auth_mixins.LoginRequiredMixin, views.UpdateView):
     template_name = 'common/edit_company_info.html'
     model = Company
     fields = "__all__"
-
-
-def redirect_to_admin(request):
-    return HttpResponseRedirect(f"{config('DOMAIN_NAME')}admin/")
 
 
 class CompanyDetails(views.DetailView):
