@@ -32,7 +32,7 @@ class AdditionalAddressInformationTests(TestCase):
 
         self.assertIsNotNone(address.pk)
 
-    def test_address_information__with_invalid_section_length__expect_no_errors(self):
+    def test_address_information__with_invalid_section_length__expect_raises(self):
         building = Building.objects.create(**self.VALID_BUILDING_DATA)
         company = Company.objects.create(**self.VALID_COMPANY_DATA)
 

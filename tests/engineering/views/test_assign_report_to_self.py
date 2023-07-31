@@ -50,7 +50,7 @@ class AssignReportToSelfTests(TestCase):
         self.assertEqual(302, response.status_code)
         self.assertRedirects(response, f'/accounts/login/?next=/engineering/self-assign/{report.pk}/')
 
-    def test_assign_report_to_self__user_authenticated_but_wrong_group__expect_raises(self):
+    def test_assign_report_to_self__user_authenticated_but_wrong_group__expect_404(self):
         report = ServiceReport.objects.create(**self.report_data)
 
         self.client.login(
@@ -73,7 +73,7 @@ class AssignReportToSelfTests(TestCase):
         response = self.client.get(reverse('self assign', args=(report.pk,)))
 
         self.assertEqual(1, len(Assignment.objects.all()))
-        assignment = Assignment.objects.get(pk=1)
+        assignment = Assignment.objects.first()
         self.assertEqual(self.valid_group_user, assignment.user)
         self.assertEqual(self.valid_group_user, assignment.assigned_by)
         self.assertEqual(report, assignment.service_report)

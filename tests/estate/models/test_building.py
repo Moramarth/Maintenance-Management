@@ -1,10 +1,12 @@
 import os
 
 from django.core.exceptions import ValidationError
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.urls import reverse
 
 from maintenance_management.estate.models import Building
+from maintenance_management.estate.views import ShowBuildingDetails
 
 
 class BuildingTests(TestCase):
@@ -58,3 +60,15 @@ class BuildingTests(TestCase):
     def test_building_get_str_dunder__expect_no_errors(self):
         building = Building.objects.create(**self.VALID_BUILDING_DATA)
         self.assertEqual(building.name, str(building))
+        picture_path = os.path.join('media/', building.picture.name)
+        os.remove(picture_path)
+
+    def test_building_get_absolute_url_method__expect_no_errors(self):
+        building = Building.objects.create(**self.VALID_BUILDING_DATA)
+        path = building.get_absolute_url()
+        request = RequestFactory().get(path)
+        response = ShowBuildingDetails.as_view()(request, pk=building.pk)
+        self.assertEqual(200, response.status_code)
+
+        picture_path = os.path.join('media/', building.picture.name)
+        os.remove(picture_path)
