@@ -65,6 +65,8 @@
                     <td><a class="btn btn-outline-primary" href="{% url 'report details' object.pk %}">See Details</a>
                     </td>
                 </tr>
+            {% empty %}
+                <tr><td colspan="8" align="center">No Service Reports to show</td></tr>
             {% endfor %}
             </tbody>
         </table>

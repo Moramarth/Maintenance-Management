@@ -40,6 +40,10 @@
                     <td><a class="btn btn-outline-primary" href="{% url 'meeting details' object.pk %}">See Details</a>
                     </td>
                 </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="8" align="center">No Meeting to show</td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>

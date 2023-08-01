@@ -162,3 +162,5 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR / "media")
 
 SUSPEND_SIGNALS = False
+
+SESSION_COOKIE_AGE = 9 * 60 * 60

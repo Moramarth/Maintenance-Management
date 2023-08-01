@@ -1,5 +1,4 @@
 TODO:
-    - empty statement in template for loops
     - Session settings
     - Add styles to all pages
     - Populate DB for further testing and improving functionality
