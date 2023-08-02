@@ -72,14 +72,14 @@
                     <td>{{ object.assignment_status }}</td>
                     <td>{{ object.service_report.report_type }}</td>
                     {% if object.meeting_required %}
-                        <td><img src="{% static '/images/icon-yes.svg' %}" alt="True"></td>
+                        <td><img src="{% static 'images/icon-yes.svg' %}" alt="True"></td>
                     {% else %}
-                        <td><img src="{% static '/images/icon-no.svg' %}" alt="False"></td>
+                        <td><img src="{% static 'images/icon-no.svg' %}" alt="False"></td>
                     {% endif %}
                     {% if object.expense_estimate_available %}
-                        <td><img src="{% static '/images/icon-yes.svg' %}" alt="True"></td>
+                        <td><img src="{% static 'images/icon-yes.svg' %}" alt="True"></td>
                     {% else %}
-                        <td><img src="{% static '/images/icon-no.svg' %}" alt="False"></td>
+                        <td><img src="{% static 'images/icon-no.svg' %}" alt="False"></td>
                     {% endif %}
                     <td>{{ object.last_updated }}</td>
                     <td><a class="btn btn-outline-primary" href="{% url 'assignment details' object.pk %}">See

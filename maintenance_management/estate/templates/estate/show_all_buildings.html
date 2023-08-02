@@ -17,10 +17,10 @@
             {% for building in object_list %}
                 <div class="col">
                     <div class="card">
-                        {% if building.picture %}
-                            <img src="{{ building.picture.url }}" class="card-img-top" alt="...">
+                        {% if building.file %}
+                            <img src="{{ building.file.url }}" class="card-img-top" alt="...">
                         {% else %}
-                            <img src="{% static '/images/default_building_picture.png' %}" class="card-img-top"
+                            <img src="{% static 'images/default_building_picture.png' %}" class="card-img-top"
                                  alt="No picture">
                         {% endif %}
                         <div class="card-body">

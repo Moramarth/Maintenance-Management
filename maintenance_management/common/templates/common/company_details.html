@@ -37,7 +37,7 @@
                 {% if object.company_logo %}
                     <img src="{{ object.company_logo.url }}" alt="">
                 {% else %}
-                    <img src="{% static '/images/default_company_logo.jpg' %}" alt="">
+                    <img src="{% static 'images/default_company_logo.jpg' %}" alt="">
                 {% endif %}
                 <h4>{{ object.name }}</h4>
                 {% if object.additional_information %}

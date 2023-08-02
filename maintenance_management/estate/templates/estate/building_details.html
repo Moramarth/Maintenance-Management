@@ -5,10 +5,10 @@
 {% endblock %}
 {% block content %}
     <div class="p-5 bg-body-tertiary border rounded-3">
-        {% if object.picture %}
-            <img src="{{ object.picture.url }}" width="300px" height="300px" alt="Building Picture">
+        {% if object.file %}
+            <img src="{{ object.file.url }}" width="300px" height="300px" alt="Building Picture">
         {% else %}
-            <img src="{% static '/images/default_building_picture.png' %}" width="300px" height="300px"
+            <img src="{% static 'images/default_building_picture.png' %}" width="300px" height="300px"
                  alt="Building Picture">
         {% endif %}
         <h4> {{ object.name }} </h4>

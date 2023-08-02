@@ -2,7 +2,7 @@
 This repository contains my final project for the course Python Web Framework - June 2023
 
 # Quick navigation
-- [General info](#if-you-want-to-test)
+- [General info](#if-you-want-to-test:)
 - [Permissions for Engineering](#permissions-for-engineering)
 - [Permissions for Supervisor](#permissions-for-supervisor)
 - [Setting up roles](#setting-up-roles)
@@ -51,10 +51,10 @@ Clients and Contractors have no permissions in the admin site
 To manually create users error free in settings.py set SUSPEND_SINGNALS to True
 - create super user
 - create groups and add permission as shown above
-- create atleast one building object and one company object
+- create at least one building object and one company object
 - assign superuser to Supervisor group so you can navigate main site 
 - create one user and assign it to the Supervisor group to see admin site as intended
-- create atleast one user for each of the other groups to test different scenarios
+- create at least one user for each of the other groups to test different scenarios
 
 ## Intended user creation
 - User is invited by the Supervisor with Register Invitation object

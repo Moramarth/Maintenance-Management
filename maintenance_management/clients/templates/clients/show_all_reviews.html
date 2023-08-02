@@ -17,12 +17,12 @@
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        {% if object.user.appuserprofile.profile_picture %}
-                            <img src="{{ object.user.appuserprofile.profile_picture.url }}"
+                        {% if object.user.appuserprofile.file %}
+                            <img src="{{ object.user.appuserprofile.file.url }}"
                                  class="img-fluid rounded-start"
                                  alt="">
                         {% else %}
-                            <img src="{% static '/images/default_profile_picture.png' %}"
+                            <img src="{% static 'images/default_profile_picture.png' %}"
                                  class="img-fluid rounded-start"
                                  alt="">
                         {% endif %}

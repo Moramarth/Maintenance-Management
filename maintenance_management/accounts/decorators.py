@@ -1,4 +1,4 @@
-from django.http import Http404, HttpResponse
+from django.http import Http404
 
 
 def group_required(*groups):

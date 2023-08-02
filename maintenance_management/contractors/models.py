@@ -52,11 +52,12 @@ class ExpensesEstimate(models.Model):
         blank=True,
         null=True,
     )
-    attached_file = models.FileField(
+    file = models.FileField(
         upload_to="documents",
         blank=True,
         null=True,
         validators=[validate_file_size],
+        verbose_name="Attached File",
     )
     assignment = models.ForeignKey(
         Assignment,

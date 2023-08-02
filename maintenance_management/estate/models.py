@@ -27,11 +27,12 @@ class Building(models.Model):
         blank=False,
         null=False,
     )
-    picture = models.ImageField(
+    file = models.ImageField(
         upload_to="images",
         blank=True,
         null=True,
-        validators=[validate_file_size]
+        validators=[validate_file_size],
+        verbose_name="Picture",
     )
     tenants = models.ManyToManyField(Company, through="AdditionalAddressInformation")
 

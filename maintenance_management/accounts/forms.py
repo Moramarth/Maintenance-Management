@@ -45,7 +45,7 @@ class UserRegistrationForm(auth_forms.BaseUserCreationForm):
 class EditAppUserProfileForm(forms.ModelForm):
     class Meta:
         model = AppUserProfile
-        fields = ["first_name", "last_name", "phone_number", "profile_picture"]
+        fields = ["first_name", "last_name", "phone_number", "file"]
 
         widgets = {
             "first_name": forms.TextInput(attrs={"required": True, "placeholder": "John"}),

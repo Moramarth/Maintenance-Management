@@ -47,11 +47,12 @@ class ServiceReport(models.Model):
         blank=False,
         null=False,
     )
-    image = models.ImageField(
+    file = models.ImageField(
         upload_to="images",
         blank=True,
         null=True,
         validators=[validate_file_size],
+        verbose_name="Image",
     )
     report_status = models.CharField(
         max_length=MAX_LENGTH_FOR_REPORT_STATUS,

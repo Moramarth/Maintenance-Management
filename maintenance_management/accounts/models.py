@@ -110,11 +110,12 @@ class AppUserProfile(models.Model):
         null=True,
     )
 
-    profile_picture = models.ImageField(
+    file = models.ImageField(
         upload_to="images",
         blank=True,
         null=True,
-        validators=[validate_file_size]
+        validators=[validate_file_size],
+        verbose_name="Profile Picture",
     )
 
     expertise = models.CharField(

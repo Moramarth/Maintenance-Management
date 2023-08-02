@@ -143,7 +143,7 @@ class CreateExpensesEstimate(auth_mixins.LoginRequiredMixin, GroupRequiredMixin,
     group_required = [GroupEnum.contractors]
     template_name = 'contractors/create_expenses.html'
     model = ExpensesEstimate
-    fields = ["title", "additional_information", "attached_file"]
+    fields = ["title", "additional_information", "file"]
     success_url = reverse_lazy('show all expenses')
 
     def form_valid(self, form):
@@ -174,7 +174,7 @@ class EditExpensesEstimate(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, v
     group_required = [GroupEnum.contractors]
     template_name = 'contractors/create_expenses.html'
     model = ExpensesEstimate
-    fields = ["title", "additional_information", "attached_file"]
+    fields = ["title", "additional_information", "file"]
     success_url = reverse_lazy('show all expenses')
 
     def get_context_data(self, **kwargs):

@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG') == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split()
 
 # Application definition
 
@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'maintenance_management.estate',
 
     # Third-party apps:
-    'django_filters'
+    'django_filters',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -134,8 +135,36 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+USE_S3 = config('USE_S3') == "True"
 
-STATIC_URL = 'static/'
+if USE_S3:
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME')
+    AWS_DEFAULT_ACL = None
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_S3_ADDRESSING_STYLE = "virtual"
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+
+    AWS_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
+
+    STATIC_LOCATION = 'maintenance_management_static_files'
+    STATIC_URL = f'https://{AWS_DOMAIN}/{STATIC_LOCATION}/'
+
+    MEDIA_LOCATION = 'maintenance_management_media_files'
+    MEDIA_URL = f'https://{AWS_DOMAIN}/{MEDIA_LOCATION}/'
+
+    STORAGES = {
+        "default": {"BACKEND": "maintenance_management.common.custom_storage_classes.MediaStorage"},
+        "staticfiles": {"BACKEND": "maintenance_management.common.custom_storage_classes.StaticStorage"},
+    }
+
+else:
+    STATIC_URL = 'static/'
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR / "media")
+
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Default primary key field type
@@ -149,7 +178,7 @@ AUTH_USER_MODEL = 'accounts.AppUser'
 
 EMAIL_BACKEND = config("EMAIL_BACKEND")
 EMAIL_HOST = config("EMAIL_HOST")
-EMAIL_USE_TLS = config("EMAIL_USE_SSL")
+EMAIL_USE_TLS = config("EMAIL_USE_SSL") == "True"
 EMAIL_PORT = config("EMAIL_PORT")
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
@@ -158,9 +187,6 @@ DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 LOGIN_URL = reverse_lazy('login user')
 LOGOUT_REDIRECT_URL = reverse_lazy('home page')
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR / "media")
-
-SUSPEND_SIGNALS = False
+SUSPEND_SIGNALS = config('SUSPEND_SIGNALS') == "True"
 
 SESSION_COOKIE_AGE = 9 * 60 * 60

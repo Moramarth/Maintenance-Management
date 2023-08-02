@@ -1,11 +1,13 @@
 from decouple import config
 from django.contrib.auth import get_user_model
 from django.core.mail import EmailMessage
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete, pre_save
 from django.template.loader import render_to_string
 
 from maintenance_management.accounts.models import RegisterInvitation, AppUserProfile
 from maintenance_management.common.custom_decorators import custom_receiver
+from maintenance_management.common.delete_items_from_s3 import delete_file_when_delete_model_instance, \
+    delete_old_file_when_update_model_instance
 
 UserModel = get_user_model()
 
@@ -40,3 +42,13 @@ def delete_invitation_info_after_user_and_profile_creation(sender, instance, cre
     if created:
         invitation = RegisterInvitation.objects.get(email=instance.user.email)
         invitation.delete()
+
+
+@custom_receiver(post_delete, sender=AppUserProfile)
+def clear_image_when_profile_deleted(sender, instance, *args, **kwargs):
+    delete_file_when_delete_model_instance(instance)
+
+
+@custom_receiver(pre_save, sender=AppUserProfile)
+def clear_old_image_when_update_profile(sender, instance, *args, **kwargs):
+    delete_old_file_when_update_model_instance(instance)

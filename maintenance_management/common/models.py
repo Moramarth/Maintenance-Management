@@ -27,11 +27,12 @@ class Company(models.Model):
         null=True,
     )
 
-    company_logo = models.ImageField(
+    file = models.ImageField(
         blank=True,
         null=True,
         upload_to="images",
-        validators=[validate_file_size]
+        validators=[validate_file_size],
+        verbose_name="Company Logo"
     )
     created_on = models.DateTimeField(auto_now_add=True)
 

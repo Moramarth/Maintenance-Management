@@ -9,4 +9,4 @@ class BuildingFilter(django_filters.FilterSet):
 
     class Meta:
         model = Building
-        exclude = ["address", "picture", "tenants"]
+        exclude = ["address", "file", "tenants"]

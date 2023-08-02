@@ -3,16 +3,16 @@
 <div>
     {% if page_obj.has_previous %}
         <a href="?{% pagination_parameters page=page_obj.previous_page_number %}">
-            <img src="{% static '/images/page_arrow_previous_active.svg' %}" alt=""></a>
+            <img src="{% static 'images/page_arrow_previous_active.svg' %}" alt=""></a>
     {% else %}
-        <img src="{% static '/images/page_arrow_previous_inactive.svg' %}" alt="">
+        <img src="{% static 'images/page_arrow_previous_inactive.svg' %}" alt="">
     {% endif %}
     {{ page_obj }}
     {% if page_obj.has_next %}
         <a href="?{% pagination_parameters page=page_obj.next_page_number %}">
-            <img src="{% static '/images/page_arrow_next_active.svg' %}" alt="">
+            <img src="{% static 'images/page_arrow_next_active.svg' %}" alt="">
         </a>
     {% else %}
-        <img src="{% static '/images/page_arrow_next_inactive.svg' %}" alt="">
+        <img src="{% static 'images/page_arrow_next_inactive.svg' %}" alt="">
     {% endif %}
 </div>

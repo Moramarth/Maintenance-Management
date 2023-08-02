@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model, get_user
 from django.contrib.auth.models import Group
-from django.http import Http404
 from django.test import TestCase, override_settings
 from django.urls import reverse
 

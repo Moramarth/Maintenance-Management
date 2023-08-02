@@ -2,18 +2,26 @@ import os
 
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory, override_settings
 
 from maintenance_management.common.models import Company
 from maintenance_management.common.views import CompanyDetails
 
 
+@override_settings(STORAGES={
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+})
 class CompanyTests(TestCase):
     VALID_COMPANY_DATA = {
         "name": "Test Company",
         "business_field": "Test Business Field",
         "additional_information": "Test Additional Information",
-        "company_logo": SimpleUploadedFile(
+        "file": SimpleUploadedFile(
             name="test_picture.jpg",
             content=b"",
 
@@ -27,8 +35,7 @@ class CompanyTests(TestCase):
 
         self.assertEqual(1, len(Company.objects.all()))
 
-        picture_path = os.path.join('media/', company.company_logo.name)
-        os.remove(picture_path)
+        company.file.delete()
 
     def test_company_str_dunder__with_valid_data_expect_no_errors(self):
         company = Company(**self.VALID_COMPANY_DATA)
@@ -61,5 +68,4 @@ class CompanyTests(TestCase):
         response = CompanyDetails.as_view()(request, pk=company.pk)
         self.assertEqual(200, response.status_code)
 
-        picture_path = os.path.join('media/', company.company_logo.name)
-        os.remove(picture_path)
+        company.file.delete()

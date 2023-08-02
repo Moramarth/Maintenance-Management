@@ -5,12 +5,12 @@
 {% endblock %}
 {% block content %}
     <div class="p-5 bg-body-tertiary border rounded-3">
-        {% if object.user.appuserprofile.profile_picture %}
+        {% if object.user.appuserprofile.file %}
             <img class="img-fluid rounded-start"
-                 src="{{ object.user.appuserprofile.profile_picture.url }}"
+                 src="{{ object.user.appuserprofile.file.url }}"
                  alt="">
         {% else %}
-            <img class="img-fluid rounded-start" src="{% static '/images/default_profile_picture.png' %}" alt="">
+            <img class="img-fluid rounded-start" src="{% static 'images/default_profile_picture.png' %}" alt="">
         {% endif %}
         {% if object.service_report %}
             <p> For: {{ object.service_report }}</p>
@@ -30,7 +30,7 @@
         {% if object.user.appuserprofile.company.logo %}
             <img class="img-fluid rounded-start" src="{{ object.user.appuserprofile.company.logo.url }}" alt="">
         {% else %}
-            <img class="img-fluid rounded-start" src="{% static '/images/default_company_logo.jpg' %}" alt="">
+            <img class="img-fluid rounded-start" src="{% static 'images/default_company_logo.jpg' %}" alt="">
         {% endif %}
         {% if user_is_authenticated and request.user == object.user %}
             <a class="btn btn-warning" href="{% url 'edit review' object.pk %}">Edit</a>

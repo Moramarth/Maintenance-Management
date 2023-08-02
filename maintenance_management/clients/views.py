@@ -16,7 +16,7 @@ class CreateServiceReport(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, vi
     group_required = [GroupEnum.clients]
     template_name = 'clients/create_service_report.html'
     model = ServiceReport
-    fields = ["title", "description", "image", "report_type"]
+    fields = ["title", "description", "file", "report_type"]
     success_url = reverse_lazy('show all reports')
 
     def form_valid(self, form):
@@ -31,7 +31,7 @@ class EditServiceReport(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, view
     group_required = [GroupEnum.clients]
     template_name = 'clients/create_service_report.html'
     model = ServiceReport
-    fields = ["title", "description", "image"]
+    fields = ["title", "description", "file"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

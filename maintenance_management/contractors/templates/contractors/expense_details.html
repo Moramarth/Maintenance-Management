@@ -12,8 +12,8 @@
         <p>{{ object.additional_information }}</p>
     </div>
     <p>Created by : {{ object.created_by.appuserprofile.full_name }}</p>
-    {% if object.attached_file %}
-        <a href="{{ object.attached_file.url }}">Attached File</a>
+    {% if object.file %}
+        <a href="{{ object.file.url }}">Attached File</a>
     {% endif %}
     {% if request.user == object.created_by %}
         <div>

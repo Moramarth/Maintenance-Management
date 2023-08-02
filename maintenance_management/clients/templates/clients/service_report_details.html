@@ -18,6 +18,10 @@
 
     <p>Report Type: {{ object.report_type }}</p>
     <p>Report Status: {{ object.report_status }}</p>
+    {% if object.file %}
+        <p>Image: {{ object.file }}</p>
+    {% endif %}
+
     {% if object.assigned_to %}
         <p> Assigned to:
             <a href="{% url 'profile details' object.assigned_to.pk %}">
