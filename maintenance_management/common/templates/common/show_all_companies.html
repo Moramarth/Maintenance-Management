@@ -24,8 +24,8 @@
             {% for company in object_list %}
                 <div class="col">
                     <div class="card">
-                        {% if company.company_logo %}
-                            <img src="{{ company.logo.url }}" class="card-img-top" alt="...">
+                        {% if company.file %}
+                            <img src="{{ company.file.url }}" class="card-img-top" alt="...">
                         {% else %}
                             <img src="{% static 'images/default_company_logo.jpg' %}" class="card-img-top"
                                  alt="No picture">

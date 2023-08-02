@@ -3,63 +3,78 @@
     Offers
 {% endblock %}
 {% block content %}
-    <h1>Offers</h1>
-    <div class="p-5 bg-body-tertiary border rounded-3">
-        <form action="" method="get">
-            <div class="container">
-                {{ paginator_form }}
+    <section class="section">
+        <div class="container">
+            <div class="section__head">
+                <h1>Offers</h1>
             </div>
-            <div class="container">
-                {{ search_by_name_form }}
+            <div class="section__body">
+                <div class="section__body-group">
+                    <form action="" method="get" class="form-main form-main--filters">
+                        <div class="form__wrap">
+                            <div class="form__col">
+                                {{ paginator_form }}
+                            </div>
+
+                            <div class="form__col">
+                                {{ search_by_name_form }}
+                            </div>
+                            <div class="form__col">
+                                <label for="company">
+                                    Filter by company
+                                    <select class="form-select" name="company">
+                                        <option selected value="">Select company</option>
+                                        {% for company in companies %}
+                                            <option value="{{ company.pk }}"> {{ company }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form__foot">
+                            <button class="btn btn-info">Apply</button>
+                            <a class="btn btn-info" href="{% url 'show all expenses' %}">Clear</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="section__body-group">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr class="table table-light">
+                                <th>Title</th>
+                                <th>Created by</th>
+                                <th>Additional info</th>
+                                <th>For Assignment</th>
+                                <th>Details</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for object in object_list %}
+                                <tr>
+                                    <td>{{ object.title }}</td>
+                                    <td>{{ object.created_by.appuserprofile.full_name }}</td>
+                                    <td>{{ object.additional_information | truncatechars:50 }}</td>
+                                    <td>{{ object.assignment }}</td>
+                                    <td>
+                                        <a class="btn btn-outline-primary" href="{% url 'expense details' object.pk %}">
+                                            See Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="8" align="center">No Offers to show</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% if is_paginated %}
+                        {% include 'partials/pagination.html' %}
+                    {% endif %}
+                </div>
             </div>
-            <div class="container">
-                <label for="company">
-                    Filter by company
-                    <select class="form-select" name="company">
-                        <option selected value="">Select company</option>
-                        {% for company in companies %}
-                            <option value="{{ company.pk }}"> {{ company }}</option>
-                        {% endfor %}
-                    </select>
-                </label>
-            </div>
-            <button class="btn btn-info">Apply</button>
-            <a class="btn btn-info" href="{% url 'show all expenses' %}">Clear</a>
-        </form>
-    </div>
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-            <tr class="table table-light">
-                <th>Title</th>
-                <th>Created by</th>
-                <th>Additional info</th>
-                <th>For Assignment</th>
-                <th>Details</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for object in object_list %}
-                <tr>
-                    <td>{{ object.title }}</td>
-                    <td>{{ object.created_by.appuserprofile.full_name }}</td>
-                    <td>{{ object.additional_information | truncatechars:50 }}</td>
-                    <td>{{ object.assignment }}</td>
-                    <td>
-                        <a class="btn btn-outline-primary" href="{% url 'expense details' object.pk %}">
-                            See Details
-                        </a>
-                    </td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="8" align="center">No Offers to show</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% if is_paginated %}
-        {% include 'partials/pagination.html' %}
-    {% endif %}
+        </div>
+    </section>
 {% endblock %}

@@ -4,98 +4,133 @@
     Assignments
 {% endblock %}
 {% block content %}
-    <h1>Assignments</h1>
-    <div class="p-5 bg-body-tertiary border rounded-3">
-
-        <form action="" method="get">
-            <div class="container">
-                {{ paginator_form }}
-            </div>
-            <div class="container">
-                {{ search_by_name_form }}
-            </div>
-            <div class="container">
-                {% include 'estate/partials/building_selector.html' %}
-
-                <label for="report_type">
-                    Filter by report type
-
-                    <select class="form-select" name="report_type">
-                        <option selected value="">Report Type</option>
-                        {% for report in reports %}
-                            <option value="{{ report.report_type }}"> {{ report.report_type }}</option>
-                        {% endfor %}
-                    </select>
-
-                </label>
+    <section class="section">
+        <div class="container">
+            <div class="section__head">
+                <h1>Assignments</h1>
             </div>
 
-            <div class="container">
-                Extra available fields:
-                <p>{{ extra_filter_fields_form }}</p>
-            </div>
-            <div class="container">
-                <button class="btn btn-info">Apply</button>
-                <a class="btn btn-info" href="{% url 'show all assignments' %}">Clear</a>
-            </div>
-        </form>
-    </div>
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-            <tr class="table table-light">
-                <th>Service Report</th>
-                <th>Assigned to</th>
-                <th>Assigned by</th>
-                <th>Status</th>
-                <th>Report Type</th>
-                <th>Meeting</th>
-                <th>Offer</th>
-                <th>Last Updated</th>
-                <th>Details</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for object in object_list %}
-                <tr>
-                    <td>{{ object.service_report | truncatechars:25 }}</td>
-                    {% if request.user == object.user %}
-                        <td>You</td>
-                    {% else %}
-                        <td>{{ object.user.appuserprofile.full_name }}</td>
+            <div class="section__body">
+                <div class="section__body-group">
+                    <form action="" method="get" class="form-main form-main--filters">
+                        <div class="form__col">
+                            {{ paginator_form }}
+                        </div>
+
+                        <div class="form__col">
+                            {{ search_by_name_form }}
+                        </div>
+
+
+                        <div class="form__col">
+                            {% include 'estate/partials/building_selector.html' %}
+                        </div>
+                        <div class="form__col">
+                            <label for="report_type">
+                                Filter by report type
+
+                                <select class="form-select" name="report_type">
+                                    <option selected value="">Report Type</option>
+                                    {% for report in reports %}
+                                        <option value="{{ report.report_type }}"> {{ report.report_type }}</option>
+                                    {% endfor %}
+                                </select>
+
+                            </label>
+                        </div>
+
+                        <div class="form__wrap">
+                            <div class="form__label">
+                                <label>Extra available fields:</label>
+                            </div>
+
+                            <div class="form__col">
+                                <label>{{ extra_filter_fields_form.assignment_status.label }}</label>
+                                <p>{{ extra_filter_fields_form.assignment_status }}</p>
+                            </div>
+
+                            <div class="form__col">
+                                <label>{{ extra_filter_fields_form.expense_estimate_available.label }}</label>
+                                <p>{{ extra_filter_fields_form.expense_estimate_available }}</p>
+                            </div>
+
+                            <div class="form__col">
+                                <label>{{ extra_filter_fields_form.meeting_required.label }}</label>
+                                <p>{{ extra_filter_fields_form.meeting_required }}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="form__foot">
+                            <button class="btn btn-info">Apply</button>
+
+                            <a class="btn btn-info" href="{% url 'show all assignments' %}">Clear</a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="section__body-group">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr class="table table-light">
+                                <th>Service Report</th>
+                                <th>Assigned to</th>
+                                <th>Assigned by</th>
+                                <th>Status</th>
+                                <th>Report Type</th>
+                                <th>Meeting</th>
+                                <th>Offer</th>
+                                <th>Last Updated</th>
+                                <th>Details</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for object in object_list %}
+                                <tr>
+                                    <td>{{ object.service_report | truncatechars:25 }}</td>
+                                    {% if request.user == object.user %}
+                                        <td>You</td>
+                                    {% else %}
+                                        <td>{{ object.user.appuserprofile.full_name }}</td>
+                                    {% endif %}
+                                    {% if request.user == object.assigned_by %}
+                                        <td>You</td>
+                                    {% else %}
+                                        <td>{{ object.assigned_by.appuserprofile.full_name }}</td>
+                                    {% endif %}
+                                    <td>{{ object.assignment_status }}</td>
+                                    <td>{{ object.service_report.report_type }}</td>
+                                    {% if object.meeting_required %}
+                                        <td><img src="{% static 'images/icon-yes.svg' %}" alt="True"></td>
+                                    {% else %}
+                                        <td><img src="{% static 'images/icon-no.svg' %}" alt="False"></td>
+                                    {% endif %}
+                                    {% if object.expense_estimate_available %}
+                                        <td><img src="{% static 'images/icon-yes.svg' %}" alt="True"></td>
+                                    {% else %}
+                                        <td><img src="{% static 'images/icon-no.svg' %}" alt="False"></td>
+                                    {% endif %}
+                                    <td>{{ object.last_updated }}</td>
+                                    <td><a class="btn btn-outline-primary"
+                                           href="{% url 'assignment details' object.pk %}">See
+                                        Details</a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="8" align="center">No Assignments to show</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% if is_paginated %}
+                        {% include 'partials/pagination.html' %}
                     {% endif %}
-                    {% if request.user == object.assigned_by %}
-                        <td>You</td>
-                    {% else %}
-                        <td>{{ object.assigned_by.appuserprofile.full_name }}</td>
-                    {% endif %}
-                    <td>{{ object.assignment_status }}</td>
-                    <td>{{ object.service_report.report_type }}</td>
-                    {% if object.meeting_required %}
-                        <td><img src="{% static 'images/icon-yes.svg' %}" alt="True"></td>
-                    {% else %}
-                        <td><img src="{% static 'images/icon-no.svg' %}" alt="False"></td>
-                    {% endif %}
-                    {% if object.expense_estimate_available %}
-                        <td><img src="{% static 'images/icon-yes.svg' %}" alt="True"></td>
-                    {% else %}
-                        <td><img src="{% static 'images/icon-no.svg' %}" alt="False"></td>
-                    {% endif %}
-                    <td>{{ object.last_updated }}</td>
-                    <td><a class="btn btn-outline-primary" href="{% url 'assignment details' object.pk %}">See
-                        Details</a>
-                    </td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="8" align="center">No Assignments to show</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    {% if is_paginated %}
-        {% include 'partials/pagination.html' %}
-    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

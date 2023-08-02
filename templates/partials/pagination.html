@@ -1,6 +1,6 @@
 {% load custom_tags %}
 {% load static %}
-<div>
+<nav class="nav-pagination">
     {% if page_obj.has_previous %}
         <a href="?{% pagination_parameters page=page_obj.previous_page_number %}">
             <img src="{% static 'images/page_arrow_previous_active.svg' %}" alt=""></a>
@@ -15,4 +15,4 @@
     {% else %}
         <img src="{% static 'images/page_arrow_next_inactive.svg' %}" alt="">
     {% endif %}
-</div>
+</nav>

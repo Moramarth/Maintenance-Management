@@ -3,7 +3,6 @@ TODO:
     - Add styles to all pages
     - Populate DB for further testing and improving functionality
     - Cache and middleware where necessary
-    - store media files at S3
     - add REST functionality if applicable
     - add Async functionality if applicable
     - Error handling

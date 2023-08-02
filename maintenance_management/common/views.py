@@ -29,6 +29,7 @@ def home_page(request):
         "tenants": tenants,
         "buildings": buildings,
         "reviews": reviews,
+        "range": range(1, 6),
     }
     return render(request, 'common/home.html', context)
 

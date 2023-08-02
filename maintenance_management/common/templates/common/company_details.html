@@ -34,8 +34,8 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-                {% if object.company_logo %}
-                    <img src="{{ object.company_logo.url }}" alt="">
+                {% if object.file %}
+                    <img src="{{ object.file.url }}" alt="">
                 {% else %}
                     <img src="{% static 'images/default_company_logo.jpg' %}" alt="">
                 {% endif %}

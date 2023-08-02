@@ -14,12 +14,16 @@
     padding-right: 2.0rem;
     height: 4.0rem;
     font-size: 1.6rem;
-    line-height: 1.1rem;
+    line-height: 1.4;
     border-radius: 0.6rem;
     border: 0.1rem solid var(--c-primary);
     background: white;
     color: #333;
     transition: color 0.4s, border 0.4s, background 0.4s;
+}
+
+.form-main select {
+    cursor: pointer;
 }
 
 .form-main input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):focus,
@@ -39,12 +43,19 @@
 
 .form-main label {
     display: block;
-    margin-bottom: 0.5rem;
     font-size: 1.6rem;
     line-height: 1.33;
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: 1px;
+}
+
+.form-main label > * {
+    margin-top: 0.5rem;
+}
+
+.form-main label:not(:last-child) {
+    margin-bottom: 0.5rem;
 }
 
 .form-main button {
@@ -95,4 +106,54 @@
 
 .form-main--login .form__foot button {
     margin-right: auto;
+}
+
+/*
+    - Form -- Filters
+*/
+
+.form-main--filters {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -1.0rem;
+    width: auto;
+}
+
+.form-main--filters .form__col {
+    width: calc(100% / 4);
+    padding: 1.0rem;
+}
+
+.form-main--filters .form__col--selects-primary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.0rem;
+}
+
+.form-main--filters .form__col--selects-primary > * {
+    width: calc(100% / 2);
+}
+
+.form-main--filters .form__foot {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 2.0rem;
+}
+
+.form-main--filters .form__wrap {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-main--filters .form__label {
+    width: 100%;
+    padding: 1.0rem 1.0rem 0 1.0rem;
+    margin-top: 1.0rem;
+    border-top: 0.2rem solid black;
+}
+
+.form-main--filters .form__wrap .form__col {
+    width: calc(100% / 3);
 }

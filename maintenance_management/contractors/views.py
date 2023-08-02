@@ -21,6 +21,7 @@ class ShowAllMeetings(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.
     group_required = [GroupEnum.contractors, GroupEnum.engineering, GroupEnum.supervisor]
     template_name = 'contractors/show_all_meetings.html'
     model = Meeting
+    ordering = ["meeting_date"]
 
     _DEFAULT_PAGINATE_BY = 5
 
@@ -47,6 +48,14 @@ class CreateMeeting(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.Cr
     model = Meeting
     success_url = reverse_lazy('show all meetings')
     form_class = MeetingForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        assignment = get_object_or_404(Assignment, pk=self.kwargs['pk'])
+        context.update({
+            "assignment": assignment
+        })
+        return context
 
     def form_valid(self, form):
         meeting = form.save(commit=False)
@@ -145,6 +154,14 @@ class CreateExpensesEstimate(auth_mixins.LoginRequiredMixin, GroupRequiredMixin,
     model = ExpensesEstimate
     fields = ["title", "additional_information", "file"]
     success_url = reverse_lazy('show all expenses')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        assignment = get_object_or_404(Assignment, pk=self.kwargs['pk'])
+        context.update({
+            "assignment": assignment
+        })
+        return context
 
     def form_valid(self, form):
         expense_estimate = form.save(commit=False)

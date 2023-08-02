@@ -1,0 +1,12 @@
+.nav-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 2.0rem;
+    align-items: center;
+}
+
+.nav-pagination img {
+    display: block;
+    width: 3.2rem;
+    height: auto;
+}

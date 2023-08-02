@@ -15,7 +15,7 @@
                     <a href="{% url 'expense details' object.pk %}">Cancel</a>
                 {% else %}
                     <button class="btn btn-primary">Create</button>
-                    <a href="{% url 'assign report' object.assignment.pk %}">Cancel</a>
+                    <a href="{% url 'assignment details' assignment.pk %}">Cancel</a>
                 {% endif %}
             </div>
         </form>

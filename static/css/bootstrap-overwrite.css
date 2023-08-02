@@ -1,4 +1,22 @@
 /*
+    - Buttons
+*/
+
+.btn {
+    padding: 1.3rem 2.0rem;
+    font-size: 1.6rem;
+    line-height: 1.1rem;
+    border-radius: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-dark {
+    background-color: black;
+    border-color: black;
+}
+/*
     - Navigation
 */
 
@@ -53,6 +71,32 @@
 }
 
 /*
+    - carousel
+*/
+
+.carousel-control-next,
+.carousel-control-prev {
+    opacity: 1;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+    width: 4.2rem;
+    height: 4.2rem;
+    background-color: black;
+    border-radius: 50%;
+    background-size: 2.0rem auto;
+    background-position: center center;
+    opacity: 1;
+    box-shadow: 0 0 1.0rem black;
+}
+
+.carousel-control-next:hover,
+.carousel-control-prev:hover {
+    opacity: 0.5;
+}
+
+/*
     - Card
 */
 
@@ -87,4 +131,12 @@
     position: relative;
     z-index: 10;
     margin-top: 46%;
+}
+
+/*
+    - Tables
+*/
+
+.table a.btn {
+    white-space: nowrap;
 }

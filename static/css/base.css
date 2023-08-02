@@ -19,3 +19,7 @@ footer {
 a {
     transition: color 0.4s, background 0.4s, box-shadow 0.4s, opacity 0.4s;
 }
+
+img {
+    max-width: 100%;
+}
