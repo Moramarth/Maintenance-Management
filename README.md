@@ -2,14 +2,14 @@
 This repository contains my final project for the course Python Web Framework - June 2023
 
 # Quick navigation
-- [General info](#if-you-want-to-test:)
+- [General info](#if-you-want-to-test)
 - [Permissions for Engineering](#permissions-for-engineering)
 - [Permissions for Supervisor](#permissions-for-supervisor)
 - [Setting up roles](#setting-up-roles)
 - [Intended user creation](#intended-user-creation)
 
 
-# If you want to test:
+# If you want to test
 Keep in mind this is work in progress, not ready for the exam.
 
 If you need any additional information contact me via links on my profile page.
