@@ -13,7 +13,7 @@ class ShowAllBuildings(views.ListView):
     ordering = ["name"]
     filter_set = None
 
-    _DEFAULT_PAGINATE_BY = 6
+    _DEFAULT_PAGINATE_BY = 3
 
     def get_queryset(self):
         queryset = super().get_queryset()

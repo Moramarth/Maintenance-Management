@@ -5,8 +5,10 @@
     align-items: center;
 }
 
-.nav-pagination img {
-    display: block;
-    width: 3.2rem;
-    height: auto;
+.nav-pagination h4 {
+    font-size: 1.6rem;
+    line-height: 1.33;
+    text-transform: lowercase;
+    font-weight: 700;
+    letter-spacing: 1px;
 }

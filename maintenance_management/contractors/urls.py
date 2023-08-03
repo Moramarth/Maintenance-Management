@@ -2,7 +2,9 @@ from django.urls import path, include
 
 from .views import ShowAllMeetings, CreateMeeting, ShowMeetingDetails, EditMeeting, DeleteMeeting, \
     ShowAllExpensesEstimates, CreateExpensesEstimate, ShowExpensesEstimateDetails, EditExpensesEstimate, \
-    DeleteExpensesEstimate
+    DeleteExpensesEstimate, download_file
+
+from .signals import *
 
 urlpatterns = [
     path("meetings/",
@@ -21,6 +23,7 @@ urlpatterns = [
              path("<int:pk>/", ShowExpensesEstimateDetails.as_view(), name="expense details"),
              path("<int:pk>/edit/", EditExpensesEstimate.as_view(), name="edit expense"),
              path("<int:pk>/delete/", DeleteExpensesEstimate.as_view(), name="delete expense"),
+             path("download/<int:pk>/", download_file, name="download file"),
          ]))
 
 ]

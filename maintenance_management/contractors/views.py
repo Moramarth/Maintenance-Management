@@ -1,5 +1,8 @@
+import pathlib
+
 from django.contrib.auth import mixins as auth_mixins
 from django.core.exceptions import PermissionDenied
+from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic as views
@@ -216,3 +219,10 @@ class DeleteExpensesEstimate(auth_mixins.LoginRequiredMixin, GroupRequiredMixin,
                 raise PermissionDenied
 
         return context
+
+
+def download_file(request, pk):
+    expense = get_object_or_404(ExpensesEstimate, pk=pk)
+    extension = pathlib.Path(expense.file.name).suffix
+    filename_with_extension = f"Offer-{expense.pk}-{expense.created_by}{expense.title[:20]}{extension}"
+    return FileResponse(expense.file, as_attachment=True, filename=filename_with_extension)

@@ -3,16 +3,17 @@
 <nav class="nav-pagination">
     {% if page_obj.has_previous %}
         <a href="?{% pagination_parameters page=page_obj.previous_page_number %}">
-            <img src="{% static 'images/page_arrow_previous_active.svg' %}" alt=""></a>
-    {% else %}
-        <img src="{% static 'images/page_arrow_previous_inactive.svg' %}" alt="">
-    {% endif %}
-    {{ page_obj }}
-    {% if page_obj.has_next %}
-        <a href="?{% pagination_parameters page=page_obj.next_page_number %}">
-            <img src="{% static 'images/page_arrow_next_active.svg' %}" alt="">
+        <i class="fa-solid fa-circle-arrow-left fa-beat"></i>
         </a>
     {% else %}
-        <img src="{% static 'images/page_arrow_next_inactive.svg' %}" alt="">
+        <i class="fa-solid fa-circle-arrow-left"></i>
+    {% endif %}
+    <h4>page {{ page_obj.number }} of {{ paginator.num_pages }}</h4>
+    {% if page_obj.has_next %}
+        <a href="?{% pagination_parameters page=page_obj.next_page_number %}">
+            <i class="fa-solid fa-circle-arrow-right fa-beat"></i>
+        </a>
+    {% else %}
+        <i class="fa-solid fa-circle-arrow-right"></i>
     {% endif %}
 </nav>

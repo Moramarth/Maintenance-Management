@@ -2,6 +2,8 @@ from django.urls import path, include
 from .views import ShowAllReports, ShowReportDetails, EditServiceReport, DeleteServiceReport, CreateServiceReport, \
     ShowAllReviews, CreateReview, ShowReviewDetails, EditReview, DeleteReview
 
+from .signals import *
+
 urlpatterns = [
     path("service-reports/",
          include([

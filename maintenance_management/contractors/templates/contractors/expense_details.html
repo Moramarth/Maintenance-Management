@@ -13,7 +13,8 @@
     </div>
     <p>Created by : {{ object.created_by.appuserprofile.full_name }}</p>
     {% if object.file %}
-        <a href="{{ object.file.url }}">Attached File</a>
+        <a class="btn btn-primary" href="{{ object.file.url }}" target="_blank">Preview</a>
+        <a class="btn btn-primary" href="{% url 'download file' object.pk %}">Download</a>
     {% endif %}
     {% if request.user == object.created_by %}
         <div>

@@ -140,3 +140,15 @@
 .table a.btn {
     white-space: nowrap;
 }
+.table {
+    background-color: #dce4e8;
+}
+
+th {
+
+    font-size: 1.6rem;
+    line-height: 1.33;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+}

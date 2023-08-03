@@ -14,7 +14,6 @@ class MeetingAdmin(admin.ModelAdmin):
 
 @admin.register(ExpensesEstimate)
 class ExpensesEstimateAdmin(admin.ModelAdmin):
-    # TODO: download file from link
     list_display = ["title", "created_by", "name", "file"]
 
     def name(self, obj):

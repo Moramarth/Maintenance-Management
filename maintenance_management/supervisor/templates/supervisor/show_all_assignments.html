@@ -62,9 +62,9 @@
 
 
                         <div class="form__foot">
-                            <button class="btn btn-info">Apply</button>
+                            <button class="btn btn-primary">Apply</button>
 
-                            <a class="btn btn-info" href="{% url 'show all assignments' %}">Clear</a>
+                            <a class="btn btn-primary" href="{% url 'show all assignments' %}">Clear</a>
                         </div>
                     </form>
                 </div>
@@ -102,14 +102,14 @@
                                     <td>{{ object.assignment_status }}</td>
                                     <td>{{ object.service_report.report_type }}</td>
                                     {% if object.meeting_required %}
-                                        <td><img src="{% static 'images/icon-yes.svg' %}" alt="True"></td>
+                                        <td><i class="fa-solid fa-circle-check"></i></td>
                                     {% else %}
-                                        <td><img src="{% static 'images/icon-no.svg' %}" alt="False"></td>
+                                        <td><i class="fa-solid fa-circle-xmark"></i></td>
                                     {% endif %}
                                     {% if object.expense_estimate_available %}
-                                        <td><img src="{% static 'images/icon-yes.svg' %}" alt="True"></td>
+                                        <td><i class="fa-solid fa-circle-check"></i></td>
                                     {% else %}
-                                        <td><img src="{% static 'images/icon-no.svg' %}" alt="False"></td>
+                                        <td><i class="fa-solid fa-circle-xmark"></i></td>
                                     {% endif %}
                                     <td>{{ object.last_updated }}</td>
                                     <td><a class="btn btn-outline-primary"
@@ -125,7 +125,6 @@
                             </tbody>
                         </table>
                     </div>
-
                     {% if is_paginated %}
                         {% include 'partials/pagination.html' %}
                     {% endif %}

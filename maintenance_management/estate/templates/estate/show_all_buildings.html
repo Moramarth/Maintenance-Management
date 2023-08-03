@@ -4,38 +4,62 @@
     Buildings
 {% endblock %}
 {% block content %}
-    <h1>Our Buildings</h1>
-    <form action="" method="get">
-        {{ paginator_form }}
-        {{ building_filter_form }}
+    <section class="section">
+        <div class="container">
+            <div class="section__head">
+                <h1>Our Buildings</h1>
+            </div>
 
-        <button class="btn btn-info">Apply</button>
-        <a class="btn btn-info" href="{% url 'show all buildings' %}">Clear</a>
-    </form>
-    <div class="container">
-        <div class="row row-cols-3 row-cols-md-3 g-4">
-            {% for building in object_list %}
-                <div class="col">
-                    <div class="card">
-                        {% if building.file %}
-                            <img src="{{ building.file.url }}" class="card-img-top" alt="...">
-                        {% else %}
-                            <img src="{% static 'images/default_building_picture.png' %}" class="card-img-top"
-                                 alt="No picture">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ building.name }}</h5>
-                            <p class="card-text">{{ building.city }} </p>
-                            <a href="{% url 'building details' building.pk %}">See Details</a>
+            <div class="section__body">
+                <div class="section__body-group">
+                    <form action="" method="get" class="form-main form-main--filters">
+                        <div class="form__wrap">
+                            <div class="form__col">
+                                {{ paginator_form }}
+                            </div>
+                            <div class="form__col">
+                                <label for="">{{ building_filter_form.name.label }}</label>
+                                {{ building_filter_form.name }}
+                            </div>
+                            <div class="form__col">
+                                <label for="">{{ building_filter_form.city.label }}</label>
+                                {{ building_filter_form.city }}
+                            </div>
+                            <div class="form__foot">
+                                <button class="btn btn-primary">Apply</button>
+                                <a class="btn btn-primary" href="{% url 'show all buildings' %}">Clear</a>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            {% empty %}
-                <h1>No Buildings to show</h1>
-            {% endfor %}
+                <div class="section__body-group">
+                <div class="row row-cols-3 row-cols-md-3 g-4">
+                    {% for building in object_list %}
+                        <div class="col">
+                            <div class="card card--box">
+                                {% if building.file %}
+                                    <img src="{{ building.file.url }}" class="card-img-top" alt="...">
+                                {% else %}
+                                    <img src="{% static 'images/default_building_picture.png' %}"
+                                         class="card-img-top"
+                                         alt="No picture">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ building.name }}</h5>
+                                    <p class="card-text">{{ building.city }} </p>
+                                    <a href="{% url 'building details' building.pk %}">See Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <h1>No Buildings to show</h1>
+                    {% endfor %}
+                </div>
+                </div>
+                {% if is_paginated %}
+                    {% include 'partials/pagination.html' %}
+                {% endif %}
+            </div>
         </div>
-    </div>
-    {% if is_paginated %}
-        {% include 'partials/pagination.html' %}
-    {% endif %}
+    </section>
 {% endblock %}
