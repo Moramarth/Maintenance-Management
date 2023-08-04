@@ -6,80 +6,142 @@
 {% endblock %}
 {% block content %}
     {% address_display_for_company company as address %}
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                    role="tab" aria-controls="home" aria-selected="true">Company Info
-            </button>
-        </li>
-        {% if user_is_authenticated %}
-            {% if address %}
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                            type="button"
-                            role="tab" aria-controls="profile" aria-selected="false">Address
-                    </button>
-                </li>
-            {% endif %}
-            {% if company.appuserprofile_set.all %}
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
-                            type="button"
-                            role="tab" aria-controls="contact" aria-selected="false">Employees
-                    </button>
-                </li>
-            {% endif %}
-        {% endif %}
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-                {% if object.file %}
-                    <img src="{{ object.file.url }}" alt="">
-                {% else %}
-                    <img src="{% static 'images/default_company_logo.jpg' %}" alt="">
-                {% endif %}
-                <h4>{{ object.name }}</h4>
-                {% if object.additional_information %}
-                    <p>{{ object.additional_information }}</p>
-                {% endif %}
-                {% if object.business_field %}
-                    <p>Business Field: {{ object.business_field }}</p>
-                {% endif %}
-                <p class="text-muted">Partner since: {{ company.created_on }}</p>
-                {% if request.user.appuserprofile in company.appuserprofile_set.all %}
-                    <a class="btn btn-danger" href="{% url 'edit company' company.pk %}">Edit Company Info</a>
-                {% endif %}
+    <section class="section">
+        <div class="container">
+            <div class="section__head">
+                <h1>Company Details</h1>
+            </div>
+            <div class="section__body">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                                type="button"
+                                role="tab" aria-controls="home" aria-selected="true">Company Info
+                        </button>
+                    </li>
+                    {% if user_is_authenticated %}
+                        {% if address %}
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+                                        type="button"
+                                        role="tab" aria-controls="profile" aria-selected="false">Address
+                                </button>
+                            </li>
+                        {% endif %}
+                        {% if company.appuserprofile_set.all %}
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
+                                        type="button"
+                                        role="tab" aria-controls="contact" aria-selected="false">Employees
+                                </button>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+
+                </ul>
+                <div class="section__body-group">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="block-testimonial">
+                                <div class="block__image">
+                                    {% if object.file %}
+                                        <img src="{{ object.file.url }}" alt="">
+                                    {% else %}
+                                        <img src="{% static 'images/default_company_logo.jpg' %}" alt="">
+                                    {% endif %}
+                                </div>
+                                <div class="block__content">
+                                    <h1>{{ object.name }}</h1>
+                                    <form class="form-main form-main--filters">
+                                        <div class="form__label">
+                                            {% if object.business_field %}
+
+                                                <label>Business Field:</label>
+                                                {{ object.business_field }}
+
+                                            {% endif %}
+                                            {% if object.additional_information %}
+
+                                                <label>About us:</label>
+                                                {{ object.additional_information }}
+
+                                            {% endif %}
+                                        </div>
+                                        <div class="form__label">
+                                            <p class="text-muted">Partner since: {{ company.created_on }}</p>
+
+                                            {% if request.user.appuserprofile in company.appuserprofile_set.all %}
+                                                <a class="btn btn-danger" href="{% url 'edit company' company.pk %}">Edit
+                                                    Company Info</a>
+                                            {% endif %}
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {% if user_is_authenticated %}
+                            {% if address %}
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="container">
+                                        <form class="form-main form-main--login">
+
+                                            <div class="form__label">
+                                                <label>Address:</label>
+                                            </div>
+                                            <p>{{ address.building.city }}, {{ address.building.address }}</p>
+
+                                            <div class="form__label">
+                                                <label>Building:</label>
+                                            </div>
+                                            {{ address.building.name }}
+                                            <a href="{% url 'building details' address.pk %}" target="_blank">
+                                                <i class="fa-solid fa-arrow-right-to-bracket"
+                                                   data-toggle="tooltip"
+                                                   title="See Details"></i>
+                                            </a>
+
+
+                                            <div class="form__label">
+                                                <label>Location:</label>
+                                            </div>
+                                            {% if address.section %}
+                                                {{ address.section }},
+                                            {% endif %}
+                                            floor {{ address.floor }},
+                                            office {{ address.office_number }}
+
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if company.appuserprofile_set.all %}
+                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="container">
+                                        <form class="form-main form-main--login">
+                                            {% for person in object.appuserprofile_set.all %}
+                                                <div>
+                                                    {{ person.full_name }}
+                                                    <a href="{% url 'profile details' person.pk %}" target="_blank">
+                                                        <i class="fa-solid fa-circle-info"
+                                                           data-toggle="tooltip"
+                                                           title="Contact Info"></i>
+                                                    </a>
+                                                    <p></p>
+                                                </div>
+                                            {% empty %}
+                                                <h2>No Employees to show</h2>
+                                            {% endfor %}
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            </div>
+                        {% endif %}
+                </div>
             </div>
         </div>
-        {% if user_is_authenticated %}
-            {% if address %}
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-                        <p>Location: {{ address.building.city }}, {{ address.building.address }}</p>
-                        <a href="{% url 'building details' address.pk %}">{{ address.building.name }}</a>
-                        <p>{% if address.section %}
-                            {{ address.section }},
-                        {% endif %}
-                            floor {{ address.floor }},
-                            office {{ address.office_number }}
-                        </p>
-                    </div>
-                </div>
-            {% endif %}
-            {% if company.appuserprofile_set.all %}
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-                        {% for person in object.appuserprofile_set.all %}
-                            <div>
-                                {{ person.full_name }}
-                                <a class="btn btn-outline-primary" href="{% url 'profile details' person.pk %}">Go to
-                                    profile</a>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
-            </div>
-        {% endif %}
+    </section>
 {% endblock %}

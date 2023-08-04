@@ -147,7 +147,7 @@ class ShowAllReviews(views.ListView):
         context.update(
             {
                 "rating_filter_form": RatingSelectionFilterForm(self.request.GET),
-                "range": range(1, 6),
+                "range": range(1, 5 + 1),
             }
         )
         return context

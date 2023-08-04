@@ -3,24 +3,109 @@
     Expenses
 {% endblock %}
 {% block content %}
-    <div>
-        <h5>For assignment: {{ object.assignment }}</h5>
-        <a class="btn btn-outline-primary" href="{% url 'assignment details' object.assignment.pk %}">See Details</a>
-    </div>
-    <div class="p-5 bg-body-tertiary border rounded-3">
-        <h5>{{ object.title }}</h5>
-        <p>{{ object.additional_information }}</p>
-    </div>
-    <p>Created by : {{ object.created_by.appuserprofile.full_name }}</p>
-    {% if object.file %}
-        <a class="btn btn-primary" href="{{ object.file.url }}" target="_blank">Preview</a>
-        <a class="btn btn-primary" href="{% url 'download file' object.pk %}">Download</a>
-    {% endif %}
-    {% if request.user == object.created_by %}
-        <div>
-            <a class="btn btn-warning" href="{% url 'edit expense' object.pk %}">Edit</a>
-            <a class="btn btn-danger" href="{% url 'delete expense' object.pk %}">Delete</a>
+    <section class="section">
+        <div class="container">
+            <div class="section__head">
+                <h1> Offer Details</h1>
+
+            </div>
+            <form class="form-main form-main--filters">
+                <div class="form__wrap">
+                    <div class="form__foot">
+
+                        {% if request.user == object.created_by %}
+
+                            <a class="btn btn-warning" href="{% url 'edit expense' object.pk %}">Edit</a>
+                            <a class="btn btn-danger" href="{% url 'delete expense' object.pk %}">Delete</a>
+
+                        {% endif %}
+                        <a class="btn btn-primary" href="{% url 'show all expenses' %}">Back to Offers</a>
+                    </div>
+                </div>
+            </form>
+            <div class="section__body">
+
+                <div class="section__body-group">
+
+
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr class="table table-light">
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>For assignment:</th>
+                                <td>
+                                    {{ object.assignment }}
+                                    <a href="{% url 'assignment details' object.assignment.pk %}" target="_blank">
+                                        <i class="fa-solid fa-arrow-right-to-bracket"
+                                           data-toggle="tooltip"
+                                           title="See Details"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th>
+                                    Title:
+                                </th>
+                                <td>
+                                    {{ object.title }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>More info:</th>
+                                <td>{{ object.additional_information | truncatechars:50 }}</td>
+                            </tr>
+                            <tr>
+                                <th>Created by:</th>
+                                <td>
+                                    {{ object.created_by.appuserprofile.full_name }}
+                                    <a href="{% url 'profile details' object.created_by.pk %}" target="_blank">
+                                        <i class="fa-solid fa-circle-info"
+                                           data-toggle="tooltip"
+                                           title="Contact Info"></i>
+                                    </a>
+
+                                </td>
+                            </tr>
+                            {% if object.file %}
+                                <tr>
+                                    <th>
+                                        Attached file:
+                                    </th>
+                                    <td>
+                                        {{ object.file.name }}
+                                        <a href="{{ object.file.url }}"
+                                           target="_blank">
+                                            <i class="fa-regular fa-file"
+                                               data-toggle="tooltip"
+                                               title="View File"></i></a>
+
+
+                                        <a href="{% url 'download file' object.pk %}">
+                                            <i class="fa-regular fa-floppy-disk"
+                                               data-toggle="tooltip"
+                                               title="Download"></i></a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                            <thead>
+                            <tr class="table table-light">
+
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-    {% endif %}
-    <a class="btn btn-primary" href="{% url 'show all expenses' %}">Back to Offers</a>
+    </section>
 {% endblock %}

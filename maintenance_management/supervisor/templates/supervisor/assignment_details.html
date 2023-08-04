@@ -7,7 +7,7 @@
         <div class="container">
 
             <div class="section__head">
-                <h1> Assignment Details:</h1>
+                <h1> Assignment Details</h1>
             </div>
             <form class="form-main form-main--filters">
                 <div class="form__wrap">
@@ -41,31 +41,44 @@
                                 <th></th>
                             </tr>
                             </thead>
+
                             <tbody>
-                            <tr>
+
                             <tr>
                                 <th> Date Created:</th>
                                 <td>{{ object.date_assigned }}</td>
                             </tr>
-                            <th>For Service Report:</th>
-                            <td>
-                                {{ object.service_report }}
-                                <a href="{% url 'report details' object.service_report.pk %}">See
-                                    Details</a>
-                            </td>
+                            <tr>
+                                <th>For Service Report:</th>
+                                <td>
+                                    {{ object.service_report }}
+                                    <a href="{% url 'report details' object.service_report.pk %}" target="_blank"><i
+                                            class="fa-solid fa-arrow-right-to-bracket"
+                                            data-toggle="tooltip"
+                                            title="See Details"></i></a>
+                                </td>
                             </tr>
+
                             <tr>
                                 <th>Assigned by:</th>
                                 <td>
                                     {{ object.assigned_by.appuserprofile.full_name }}
-                                    <a href="{% url 'profile details' object.assigned_by.pk %}">Contact info</a>
+                                    <a href="{% url 'profile details' object.assigned_by.pk %}" target="_blank">
+                                        <i class="fa-solid fa-circle-info"
+                                           data-toggle="tooltip"
+                                           title="Contact Info"></i>
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
                                 <th>Assigned to:</th>
                                 <td>
                                     {{ object.user.appuserprofile.full_name }}
-                                    <a href="{% url 'profile details' object.user.pk %}">Contact info</a>
+                                    <a href="{% url 'profile details' object.user.pk %}" target="_blank">
+                                        <i class="fa-solid fa-circle-info"
+                                           data-toggle="tooltip"
+                                           title="Contact Info"></i>
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
@@ -79,8 +92,9 @@
                                     <th>Meeting:</th>
                                     <td>
                                         {{ object.meeting_set.first.meeting_date }}
-                                        <a href="{% url 'meeting details' object.meeting_set.first.pk %}">
-                                            Show Meeting
+                                        <a href="{% url 'meeting details' object.meeting_set.first.pk %}" target="_blank">
+                                            <i class="fa-solid fa-arrow-right-to-bracket"
+                                               data-toggle="tooltip" title="Show Meeting"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -91,7 +105,8 @@
                                     <th>Offer:</th>
                                     <td>
                                         <a href="{% url 'expense details' object.expensesestimate_set.first.pk %}">
-                                            Show Offer
+                                            <i class="fa-solid fa-arrow-right-to-bracket"
+                                               data-toggle="tooltip" title="Show Offer"></i>
                                         </a>
                                     </td>
                                 </tr>

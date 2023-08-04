@@ -16,7 +16,10 @@
         <p> {{ object.address }} </p>
         <p> Current tenants: {{ object.additionaladdressinformation_set.count }} companies </p>
         <div class="p-5 bg-body-tertiary border rounded-3">Placeholder for map
-            <a href="https://www.google.com/maps/search/{{ link }}/" target="_blank">See on map</a>
+            <a href="https://www.google.com/maps/search/{{ link }}/" target="_blank">
+                <i class="fa-solid fa-location-dot fa-bounce"
+                 data-toggle="tooltip" title="See On Map"></i>
+            </a>
         </div>
     </div>
 {% endblock %}

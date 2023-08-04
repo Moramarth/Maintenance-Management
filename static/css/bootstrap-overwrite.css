@@ -152,3 +152,8 @@ th {
     font-weight: 700;
     letter-spacing: 1px;
 }
+
+#myTab {
+    justify-content: center;
+    border: 0 solid transparent
+}
