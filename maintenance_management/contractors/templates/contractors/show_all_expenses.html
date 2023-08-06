@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
+
 {% block page_title %}
     Offers
 {% endblock %}
+
+{% block section_header %}
+    <h1>Offers</h1>
+{% endblock %}
+
 {% block content %}
-    <section class="section">
-        <div class="container">
-            <div class="section__head">
-                <h1>Offers</h1>
-            </div>
-            <div class="section__body">
                 <div class="section__body-group">
                     <form action="" method="get" class="form-main form-main--filters">
                         <div class="form__wrap">
@@ -74,7 +74,4 @@
                         {% include 'partials/pagination.html' %}
                     {% endif %}
                 </div>
-            </div>
-        </div>
-    </section>
 {% endblock %}

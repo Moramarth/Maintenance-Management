@@ -51,28 +51,25 @@ def auto_assign_reports(request):
     TODO: further testing and optimisation where needed
      """
 
-    errors = None
     reports_assigned_count = 0
-    try:
-        reports = ServiceReport.objects.all().filter(report_status=ServiceReport.ReportStatus.PENDING)
-        group = Group.objects.get(name="Engineering")
-        engineers = UserModel.objects.all().filter(groups=group)
 
-        for report in reports:
-            for engineer in engineers:
-                if engineer.appuserprofile.expertise == report.report_type:
-                    create_assignment_object(request.user, report, engineer)
-                    report_is_assigned(report, engineer)
-                    reports_assigned_count += 1
-    except Exception as errors:
-        pass
+    reports = ServiceReport.objects.all().filter(report_status=ServiceReport.ReportStatus.PENDING)
+    group = Group.objects.get(name="Engineering")
+    engineers = UserModel.objects.all().filter(groups=group)
+
+    for report in reports:
+        for engineer in engineers:
+            if engineer.appuserprofile.expertise == report.report_type:
+                create_assignment_object(request.user, report, engineer)
+                report_is_assigned(report, engineer)
+                reports_assigned_count += 1
+
     if reports_assigned_count == 1:
-        no_errors_message = f"{reports_assigned_count} report was automatically assigned!"
+        message = f"{reports_assigned_count} report was automatically assigned!"
     else:
-        no_errors_message = f"{reports_assigned_count} reports were automatically assigned!"
-    context = {"status_message": no_errors_message}
-    if errors:
-        context["status_message"] = errors
+        message = f"{reports_assigned_count} reports were automatically assigned!"
+    context = {"status_message": message}
+
     return render(request, "supervisor/auto_assign_status.html", context)
 
 

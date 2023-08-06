@@ -1,26 +1,34 @@
 {% extends 'base.html' %}
+
 {% block page_title %}
     Reviews
 {% endblock %}
+
+{% block section_header %}
+    <h1>Create Review</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="form-main form-main--login">
-        <form method="post">
-            <div class="form__fields">
-                {% if service_report %}
-                    Your Review for {{ service_report }}
-                {% endif %}
-                {% csrf_token %}
-                {{ form.as_p }}
-            </div>
-            <div class="form__foot">
-                {% if object %}
-                    <button class="btn btn-warning">Edit</button>
-                    <a href="{% url 'review details' object.pk %}">Cancel</a>
-                {% else %}
-                    <button class="btn btn-primary">Submit</button>
-                    <a href="{% url 'report details' service_report.pk %}">Cancel</a>
-                {% endif %}
-            </div>
-        </form>
+    <div class="section__body-group">
+        <div class="form-main form-main--login">
+            <form method="post">
+                <div class="form__fields">
+                    {% if service_report %}
+                        Your Review for {{ service_report }}
+                    {% endif %}
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                </div>
+                <div class="form__foot">
+                    {% if object %}
+                        <button class="btn btn-warning">Edit</button>
+                        <a href="{% url 'review details' object.pk %}">Cancel</a>
+                    {% else %}
+                        <button class="btn btn-primary">Submit</button>
+                        <a href="{% url 'report details' service_report.pk %}">Cancel</a>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}

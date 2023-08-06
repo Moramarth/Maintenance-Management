@@ -1,21 +1,29 @@
 {% extends 'base.html' %}
+
 {% block page_title %}
     Reviews
 {% endblock %}
+
+{% block section_header %}
+    <h1>Delete Review</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="form-main form-main--login">
-        <form method="post">
-            <div class="form__fields">
-                {% csrf_token %}
-                <h2>Are you sure you want to delete your Review?</h2>
-                <p> {{ object.service_report.title }}</p>
-                <p>Rated: {{ object.rating }}</p>
-                <p>Your comment: {{ object.comment | truncatechars:30 }}</p>
-            </div>
-            <div class="form__foot">
-                <button class="btn btn-danger">Confirm</button>
-                <a href="{% url 'show all reviews' %}">Cancel</a>
-            </div>
-        </form>
+    <div class="section__body-group">
+        <div class="form-main form-main--login">
+            <form method="post">
+                <div class="form__fields">
+                    {% csrf_token %}
+                    <h2>Are you sure you want to delete your Review?</h2>
+                    <p>Report: {{ object.service_report.title }}</p>
+                    <p>Rated: {{ object.rating }}</p>
+                    <p>Your comment: {{ object.comment | truncatechars:30 }}</p>
+                </div>
+                <div class="form__foot">
+                    <button class="btn btn-danger">Confirm</button>
+                    <a href="{% url 'show all reviews' %}">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}

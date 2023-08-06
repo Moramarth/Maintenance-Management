@@ -1,19 +1,27 @@
 {% extends 'base.html' %}
+
 {% block page_title %}
     Assignment
 {% endblock %}
+
+{% block section_header %}
+    <h1>Delete Assignment</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="form-main form-main--login">
-        <form method="post">
-            <div class="form__fields">
-                {% csrf_token %}
-                <h2>Are you sure you want to delete this Assignment?</h2>
-                <p> {{ object.service_report }} assigned to {{ object.user }}</p>
-            </div>
-            <div class="form__foot">
-                <button class="btn btn-danger">Confirm</button>
-                <a href="{% url 'show all assignments' %}">Cancel</a>
-            </div>
-        </form>
+    <div class="section__body-group">
+        <div class="form-main form-main--login">
+            <form method="post">
+                <div class="form__fields">
+                    {% csrf_token %}
+                    <h2>Are you sure you want to delete this Assignment?</h2>
+                    <p> {{ object.service_report }} assigned to {{ object.user }}</p>
+                </div>
+                <div class="form__foot">
+                    <button class="btn btn-danger">Confirm</button>
+                    <a href="{% url 'show all assignments' %}">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}

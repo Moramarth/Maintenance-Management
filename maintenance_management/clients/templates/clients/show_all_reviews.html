@@ -1,78 +1,73 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block page_title %}
     Reviews
 {% endblock %}
+
+{% block section_header %}
+    <h1>Reviews</h1>
+{% endblock %}
+
 {% block content %}
-    <section class="section">
-        <div class="container">
-            <div class="section__head">
-                <h1>Reviews</h1>
-            </div>
-
-            <div class="section__body">
-                <div class="section__body-group">
-                    <form action="" method="get" class="form-main form-main--filters">
-                        <div class="form__wrap">
-                            <div class="form__col">
-                                {{ paginator_form }}
-                            </div>
-                            <div class="form__col">
-                                {{ rating_filter_form }}
-                            </div>
-                        </div>
-                        <div class="form__foot">
-                            <button class="btn btn-primary">Apply</button>
-                            <a class="btn btn-primary" href="{% url 'show all reviews' %}">Clear</a>
-                        </div>
-                    </form>
+    <div class="section__body-group">
+        <form action="" method="get" class="form-main form-main--filters">
+            <div class="form__wrap">
+                <div class="form__col">
+                    {{ paginator_form }}
                 </div>
-                <div class="section__body-group">
-                    {% for object in object_list %}
-                        <div class="block-testimonial">
-                            <div class="block__image">
-                                {% if object.user.appuserprofile.file %}
-                                    <img src="{{ object.user.appuserprofile.file.url }}"
-                                         class="img-fluid rounded-start"
-                                         alt="">
-                                {% else %}
-                                    <img src="{% static 'images/default_profile_picture.png' %}"
-                                         class="img-fluid rounded-start"
-                                         alt="">
-                                {% endif %}
-
-                                <div class="block__image-review">
-                                    {% for i in range %}
-                                        {% if i > object.rating %}
-                                            <i class="fa-regular fa-star"></i>
-                                        {% else %}
-                                            <i class="fa-solid fa-star"></i>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="block__content">
-                                <h5 class="card-title">{{ object.user.appuserprofile.full_name }}</h5>
-                                <p class="card-text">{{ object.comment }}</p>
-                                <p class="card-text"><small
-                                        class="text-muted">{{ object.submitted }}</small>
-                                </p>
-                                <a href="{% url 'review details' object.pk %}">See Details</a>
-                            </div>
-
-                            <div>Rating: {{ object.rating }}</div>
-                        </div>
-
-                    {% empty %}
-                        <h1>No Reviews to show</h1>
-                    {% endfor %}
-
-                    {% if is_paginated %}
-                        {% include 'partials/pagination.html' %}
+                <div class="form__col">
+                    {{ rating_filter_form }}
+                </div>
+            </div>
+            <div class="form__foot">
+                <button class="btn btn-primary">Apply</button>
+                <a class="btn btn-primary" href="{% url 'show all reviews' %}">Clear</a>
+            </div>
+        </form>
+    </div>
+    <div class="section__body-group">
+        {% for object in object_list %}
+            <div class="block-testimonial">
+                <div class="block__image">
+                    {% if object.user.appuserprofile.file %}
+                        <img src="{{ object.user.appuserprofile.file.url }}"
+                             class="img-fluid rounded-start"
+                             alt="">
+                    {% else %}
+                        <img src="{% static 'images/default_profile_picture.png' %}"
+                             class="img-fluid rounded-start"
+                             alt="">
                     {% endif %}
-                </div>
-            </div>
-        </div>
 
-    </section>
+                    <div class="block__image-review">
+                        {% for i in range %}
+                            {% if i > object.rating %}
+                                <i class="fa-regular fa-star"></i>
+                            {% else %}
+                                <i class="fa-solid fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="block__content">
+                    <h5 class="card-title">{{ object.user.appuserprofile.full_name }}</h5>
+                    <p class="card-text">{{ object.comment }}</p>
+                    <p class="card-text"><small
+                            class="text-muted">{{ object.submitted }}</small>
+                    </p>
+                    <a href="{% url 'review details' object.pk %}">See Details</a>
+                </div>
+
+                <div>Rating: {{ object.rating }}</div>
+            </div>
+
+        {% empty %}
+            <h1>No Reviews to show</h1>
+        {% endfor %}
+
+        {% if is_paginated %}
+            {% include 'partials/pagination.html' %}
+        {% endif %}
+    </div>
 {% endblock %}

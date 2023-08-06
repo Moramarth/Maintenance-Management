@@ -2,24 +2,30 @@
 {% block page_title %}
     Registration
 {% endblock %}
-{% block content %}
-    <div class="form-main form-main--login">
-        <form action="" method="post">
-            <div class="form__fields">
-                {% csrf_token %}
-                {{ form.as_p }}
-            </div>
-            <div class="form__foot">
-                <button class="btn btn-primary">
-                    {% if user_is_authenticated %}
-                        Send Invite
-                    {% else %}
-                        Register
-                    {% endif %}
 
-                </button>
-                <a href="{% url 'home page' %}">Cancel</a>
-            </div>
-        </form>
+{% block section_header %}
+    <h1>Registration Invite</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="section__body-group">
+        <div class="form-main form-main--login">
+            <form action="" method="post">
+                <div class="form__fields">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                </div>
+                <div class="form__foot">
+                    <button class="btn btn-primary">
+                        {% if user_is_authenticated %}
+                            Send Invite
+                        {% else %}
+                            Register
+                        {% endif %}
+                    </button>
+                    <a href="{% url 'home page' %}">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}

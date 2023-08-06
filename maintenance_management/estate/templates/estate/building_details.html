@@ -1,17 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block page_title %}
     Building Details
 {% endblock %}
+
+{% block section_header %}
+    <h1>Building Details</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="p-5 bg-body-tertiary border rounded-3">
+    <div class="section__body-group">
         {% if object.file %}
             <img src="{{ object.file.url }}" width="300px" height="300px" alt="Building Picture">
         {% else %}
             <img src="{% static 'images/default_building_picture.png' %}" width="300px" height="300px"
                  alt="Building Picture">
         {% endif %}
-        <h4> {{ object.name }} </h4>
+        <h1> {{ object.name }} </h1>
         <p> {{ object.city }} </p>
         <p> {{ object.address }} </p>
         <p> Current tenants: {{ object.additionaladdressinformation_set.count }} companies </p>

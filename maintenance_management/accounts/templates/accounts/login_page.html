@@ -1,17 +1,23 @@
 {% extends 'base.html' %}
+
+{% block section_header %}
+    <h1>Welcome to Maintenance Management</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="form-main form-main--login">
-        <form action="" method="post">
-            <div class="form__fields">
-                {{ form.as_p }}
-                {% csrf_token %}
-            </div>
+    <div class="section__body-group">
+        <div class="form-main form-main--login">
+            <form action="" method="post">
+                <div class="form__fields">
+                    {{ form.as_p }}
+                    {% csrf_token %}
+                </div>
+                <div class="form__foot">
+                    <button class="btn btn-primary">Login</button>
 
-            <div class="form__foot">
-                <button class="btn btn-primary">Login</button>
-
-                <a href="{% url 'reset password' %}">Forgotten password</a>
-            </div>
-        </form>
+                    <a href="{% url 'reset password' %}">Forgotten password</a>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}

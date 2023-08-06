@@ -1,156 +1,153 @@
 {% extends 'base.html' %}
 {% load custom_tags %}
+
 {% block page_title %}
     Service Reports
 {% endblock %}
+
+{% block section_header %}
+    <h1>Service Report Details</h1>
+{% endblock %}
+
 {% block content %}
-    <section class="section">
-        <div class="container">
-
-            <div class="section__head">
-                <h1>Service Report Details</h1>
-            </div>
-            <form class="form-main form-main--filters">
-                <div class="form__wrap">
-                    <div class="form__foot">
-                        {% if request.user == object.user %}
-                            {% if object.report_status == "Pending" %}
-                                <a class="btn btn-warning" href="{% url 'edit report' object.pk %}">
-                                    Edit Report
-                                </a>
-                                <a class="btn btn-danger" href="{% url 'delete report' object.pk %}">
-                                    Delete Report
-                                </a>
-                            {% else %}
-                                <a class="btn btn-warning disabled" href="{% url 'edit report' object.pk %}">
-                                    Edit Report
-                                </a>
-                                <a class="btn btn-danger disabled" href="{% url 'delete report' object.pk %}">
-                                    Delete Report
-                                </a>
-                            {% endif %}
+        <div class="form-main form-main--filters">
+            <div class="form__wrap">
+                <div class="form__foot">
+                    {% if request.user == object.user %}
+                        {% if object.report_status == "Pending" %}
+                            <a class="btn btn-warning" href="{% url 'edit report' object.pk %}">
+                                Edit Report
+                            </a>
+                            <a class="btn btn-danger" href="{% url 'delete report' object.pk %}">
+                                Delete Report
+                            </a>
+                        {% else %}
+                            <a class="btn btn-warning disabled" href="{% url 'edit report' object.pk %}">
+                                Edit Report
+                            </a>
+                            <a class="btn btn-danger disabled" href="{% url 'delete report' object.pk %}">
+                                Delete Report
+                            </a>
                         {% endif %}
-                        {% if object.report_status == "Pending" or object.report_status == "Rejected" %}
-                            {% if viewer_group.name == 'Supervisor' %}
-                                <a class="btn btn-success" href="{% url 'assign report' object.pk %}">
-                                    Assign Report
-                                </a>
-                            {% elif viewer_group.name == 'Engineering' %}
-                                <a class="btn btn-success" href="{% url 'self assign' object.pk %}">
-                                    Assign Report to Me
-                                </a>
-                                <a class="btn btn-success" href="{% url 'assign report' object.pk %}">
-                                    Assign Report to Contractor
-                                </a>
-                            {% endif %}
+                    {% endif %}
+                    {% if object.report_status == "Pending" or object.report_status == "Rejected" %}
+                        {% if viewer_group.name == 'Supervisor' %}
+                            <a class="btn btn-success" href="{% url 'assign report' object.pk %}">
+                                Assign Report
+                            </a>
+                        {% elif viewer_group.name == 'Engineering' %}
+                            <a class="btn btn-success" href="{% url 'self assign' object.pk %}">
+                                Assign Report to Me
+                            </a>
+                            <a class="btn btn-success" href="{% url 'assign report' object.pk %}">
+                                Assign Report to Contractor
+                            </a>
                         {% endif %}
-                        <a class="btn btn-primary" href="{% url 'show all reports' %}">
-                            View Service Reports
-                        </a>
-                    </div>
-                </div>
-            </form>
-            <div class="section__body">
-                <div class="section__body-group">
-                    <div class="table-responsive">
-
-                        <table class="table table-hover">
-                            <thead>
-                            <tr class="table table-light">
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th>Subject:</th>
-                                <td>{{ object.title }}</td>
-                            </tr>
-                            <tr>
-                                <th>Description:</th>
-                                <td>{{ object.description | truncatechars:50 }}</td>
-                            </tr>
-                            <tr>
-                                <th>From:</th>
-                                <td>{{ object.user.appuserprofile.full_name }}
-                                    Employee at
-                                    {{ object.company.name }}
-                                    <a href="{% url 'profile details' object.user.pk %}" target="_blank">
-                                        <i class="fa-solid fa-circle-info"
-                                           data-toggle="tooltip"
-                                           title="Contact Info"></i>
-                                    </a>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Report Type:</th>
-                                <td>{{ object.report_type }}</td>
-                            </tr>
-                            <tr>
-                                <th>Report Status:</th>
-                                <td>{{ object.report_status }}</td>
-                            </tr>
-                            {% if object.file %}
-                                <tr>
-                                    <th>Image:</th>
-                                    <td>
-                                        <a href="{{ object.file.url }}" target="_blank">
-                                        <i class="fa-regular fa-image"
-                                           data-toggle="tooltip"
-                                           title="View Image"></i>
-                                    </a>
-                                    </td>
-                                </tr>
-                            {% endif %}
-                            {% if object.assigned_to %}
-                                <tr>
-                                    <th>Assigned to:</th>
-                                    <td>{{ object.assigned_to.appuserprofile.full_name }}
-                                        Employee at {{ object.assigned_to.appuserprofile.company.name }}
-
-                                        <a href="{% url 'profile details' object.assigned_to.pk %}" target="_blank">
-
-                                            <i class="fa-solid fa-circle-info"
-                                               data-toggle="tooltip"
-                                               title="Contact Info"></i>
-                                        </a></td>
-                                </tr>
-
-                                <tr>
-                                    <th>Related Assignment</th>
-                                    <td>
-                                        {{ object.assignment_set.first.date_assigned }}
-                                        <a href="{% url 'assignment details' object.assignment_set.first.pk %} "
-                                           target="_blank">
-                                            <i class="fa-solid fa-arrow-right-to-bracket"
-                                               data-toggle="tooltip"
-                                               title="See Details"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endif %}
-                            </tbody>
-                            <thead>
-                            <tr class="table table-light">
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                        </table>
-
-                    </div>
-
-                    <form class="form-main form-main--filters">
-                        <div class="form__foot">
-                            {% if object.report_status == "Done" and request.user == object.user %}
-                                <a class="btn btn-success" href="{% url 'create review' object.pk %}">Create Review</a>
-                            {% endif %}
-                        </div>
-                    </form>
-
+                    {% endif %}
+                    <a class="btn btn-primary" href="{% url 'show all reports' %}">
+                        View Service Reports
+                    </a>
                 </div>
             </div>
         </div>
-    </section>
+
+        <div class="section__body-group">
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="table table-light">
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>Subject:</th>
+                        <td>{{ object.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description:</th>
+                        <td>{{ object.description | truncatechars:50 }}</td>
+                    </tr>
+                    <tr>
+                        <th>From:</th>
+                        <td>{{ object.user.appuserprofile.full_name }}
+                            Employee at
+                            {{ object.company.name }}
+                            <a href="{% url 'profile details' object.user.pk %}" target="_blank">
+                                <i class="fa-solid fa-circle-info"
+                                   data-toggle="tooltip"
+                                   title="Contact Info"></i>
+                            </a>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Report Type:</th>
+                        <td>{{ object.report_type }}</td>
+                    </tr>
+                    <tr>
+                        <th>Report Status:</th>
+                        <td>{{ object.report_status }}</td>
+                    </tr>
+                    {% if object.file %}
+                        <tr>
+                            <th>Image:</th>
+                            <td>
+                                <a href="{{ object.file.url }}" target="_blank">
+                                    <i class="fa-regular fa-image"
+                                       data-toggle="tooltip"
+                                       title="View Image"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if object.assigned_to %}
+                        <tr>
+                            <th>Assigned to:</th>
+                            <td>{{ object.assigned_to.appuserprofile.full_name }}
+                                Employee at {{ object.assigned_to.appuserprofile.company.name }}
+
+                                <a href="{% url 'profile details' object.assigned_to.pk %}" target="_blank">
+
+                                    <i class="fa-solid fa-circle-info"
+                                       data-toggle="tooltip"
+                                       title="Contact Info"></i>
+                                </a></td>
+                        </tr>
+
+                        <tr>
+                            <th>Related Assignment</th>
+                            <td>
+                                {{ object.assignment_set.first.date_assigned }}
+                                <a href="{% url 'assignment details' object.assignment_set.first.pk %} "
+                                   target="_blank">
+                                    <i class="fa-solid fa-arrow-right-to-bracket"
+                                       data-toggle="tooltip"
+                                       title="See Details"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                    <thead>
+                    <tr class="table table-light">
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                </table>
+
+            </div>
+
+            <div class="form-main form-main--filters">
+                <div class="form__foot">
+                    {% if object.report_status == "Done" and request.user == object.user %}
+                        <a class="btn btn-success" href="{% url 'create review' object.pk %}">Create Review</a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
 {% endblock %}

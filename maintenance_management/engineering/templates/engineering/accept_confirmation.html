@@ -1,20 +1,25 @@
 {% extends 'base.html' %}
+
 {% block page_title %}
     Accept Assignment
 {% endblock %}
+
+{% block section_header %}
+    <h1>Accept Assignment</h1>
+{% endblock %}
+
 {% block content %}
-    <section class="section">
-        <div class="section__body">
-            <div class="section__body-group">
-                {% if assignment.user %}
-                    <h2>You have accepted {{ assignment.service_report }} successfully!</h2>
-                {% else %}
-                    <h2>Assignment to {{ assignment.service_report }} has been rejected!</h2>
-                {% endif %}
-                <div class="form__foot">
-                    <a href="{% url 'show all assignments' %}">Back to My Assignments</a>
-                </div>
+    <div class="section__body-group">
+        <div class="form-main form-main--login">
+            {% if assignment.user %}
+                <h2>You have accepted {{ assignment.service_report }} successfully!</h2>
+            {% else %}
+                <h2>Assignment to {{ assignment.service_report }} has been rejected!</h2>
+            {% endif %}
+            <div class="form__foot">
+                <a href="{% url 'show all assignments' %}">Back to My Assignments</a>
             </div>
         </div>
-    </section>
+    </div>
+
 {% endblock %}

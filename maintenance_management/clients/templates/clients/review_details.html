@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block page_title %}
     Reviews
 {% endblock %}
+
+{% block section_header %}
+    <h1>Review Details</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="p-5 bg-body-tertiary border rounded-3">
+    <div class="section__body-group">
         {% if object.user.appuserprofile.file %}
             <img class="img-fluid rounded-start"
                  src="{{ object.user.appuserprofile.file.url }}"

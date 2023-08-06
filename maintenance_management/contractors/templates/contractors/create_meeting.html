@@ -1,23 +1,31 @@
 {% extends 'base.html' %}
+
 {% block page_title %}
     Meetings
 {% endblock %}
+
+{% block section_header %}
+    <h1>Create a Meeting</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="form-main form-main--login">
-        <form action="" method="post">
-            <div class="form__fields">
-                {% csrf_token %}
-                {{ form.as_p }}
-            </div>
-            <div class="form__foot">
-                {% if object %}
-                    <button class="btn btn-warning">Edit</button>
-                    <a href="{% url 'meeting details' object.pk %}">Cancel</a>
-                {% else %}
-                    <button class="btn btn-primary">Create</button>
-                    <a href="{% url 'assignment details' assignment.pk %}">Cancel</a>
-                {% endif %}
-            </div>
-        </form>
+    <div class="section__body-group">
+        <div class="form-main form-main--login">
+            <form action="" method="post">
+                <div class="form__fields">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                </div>
+                <div class="form__foot">
+                    {% if object %}
+                        <button class="btn btn-warning">Edit</button>
+                        <a href="{% url 'meeting details' object.pk %}">Cancel</a>
+                    {% else %}
+                        <button class="btn btn-primary">Create</button>
+                        <a href="{% url 'assignment details' assignment.pk %}">Cancel</a>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}

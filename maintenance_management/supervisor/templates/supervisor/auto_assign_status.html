@@ -1,14 +1,21 @@
 {% extends 'base.html' %}
+
 {% block page_title %}
     Supervisor
 {% endblock %}
+
+{% block section_header %}
+    <h1>Auto Assignment</h1>
+{% endblock %}
+
 {% block content %}
-    <section class="section">
-        <div class="section__body">
-            <div class="section__body-group">
-                <h2>{{ status_message }}</h2>
+    <div class="form-main form-main--login">
+        <div class="section__body-group">
+            <h2>{{ status_message }}</h2>
+            <div class="form__foot">
                 <a href="{% url 'show all reports' %}">Back to reports</a>
             </div>
         </div>
-    </section>
+    </div>
+
 {% endblock %}

@@ -1,117 +1,114 @@
 {% extends 'base.html' %}
+
 {% block page_title %}
     Service Reports
 {% endblock %}
+
+{% block section_header %}
+    <h1>Service Reports</h1>
+{% endblock %}
+
 {% block content %}
-    <section class="section">
-        <div class="container">
-            <div class="section__head">
-                <h1>Service Reports</h1>
-            </div>
-            <div class="section__body">
-                <div class="section__body-group">
-                    {% if viewer_group.name == "Supervisor" %}
-                        <a class="btn btn-outline-danger" href="{% url 'auto assign' %}">Auto assign reports</a>
-                    {% endif %}
-                    <form action="" method="get" class="form-main form-main--filters">
-                        <div class="form__wrap">
-                            <div class="form__col">
-                                {{ paginator_form }}
-                            </div>
-                            <div class="form__col">
-                                {{ search_by_name_form }}
-                            </div>
-                            <div class="form__col">
-                                {% include 'estate/partials/building_selector.html' %}
-                            </div>
-                        </div>
-
-
-                        <div class="form__label">
-                            <label>Extra available fields:</label>
-                        </div>
-
-                        <div class="form__col">
-                            <label>{{ service_report_filter_form.title.label }}</label>
-                            <p>{{ service_report_filter_form.title }}</p>
-                        </div>
-
-                        <div class="form__col">
-                            <label>{{ service_report_filter_form.report_type.label }}</label>
-                            <p>{{ service_report_filter_form.report_type }}</p>
-                        </div>
-
-                        <div class="form__col">
-                            <label>{{ service_report_filter_form.report_status.label }}</label>
-                            <p>{{ service_report_filter_form.report_status }}</p>
-                        </div>
-
-                        <div class="form__col">
-                            <label>{{ service_report_filter_form.company.label }}</label>
-                            <p>{{ service_report_filter_form.company }}</p>
-                        </div>
-
-                        <div class="form__foot">
-                            <button class="btn btn-primary">Apply</button>
-                            <a class="btn btn-primary" href="{% url 'show all reports' %}">Clear</a>
-                        </div>
-
-                    </form>
+    <div class="section__body-group">
+        {% if viewer_group.name == "Supervisor" %}
+            <a class="btn btn-outline-danger" href="{% url 'auto assign' %}">Auto assign reports</a>
+        {% endif %}
+        <form action="" method="get" class="form-main form-main--filters">
+            <div class="form__wrap">
+                <div class="form__col">
+                    {{ paginator_form }}
                 </div>
-                <div class="section__body-group">
-
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr class="table table-light">
-                                <th>Title</th>
-                                <th>Created by</th>
-                                <th>Company</th>
-                                <th>Report Status</th>
-                                <th>Report Type</th>
-                                <th>Submit Date</th>
-                                <th>Assigned to</th>
-                                <th>Details</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for object in object_list %}
-                                <tr>
-                                    <td>{{ object.title | truncatechars:25 }}</td>
-                                    {% if request.user == object.user %}
-                                        <td>You</td>
-                                    {% else %}
-                                        <td>{{ object.user.appuserprofile.full_name }}</td>
-                                    {% endif %}
-                                    <td>{{ object.company.name }}</td>
-                                    <td>{{ object.report_status }}</td>
-                                    <td>{{ object.report_type }}</td>
-                                    <td>{{ object.submit_date }}</td>
-                                    {% if not object.assigned_to %}
-                                        <td>None</td>
-                                    {% elif request.user == object.assigned_to %}
-                                        <td>You</td>
-                                    {% else %}
-                                        <td>{{ object.assigned_to.appuserprofile.full_name }}</td>
-                                    {% endif %}
-
-                                    <td><a class="btn btn-outline-primary" href="{% url 'report details' object.pk %}">See
-                                        Details</a>
-                                    </td>
-                                </tr>
-                            {% empty %}
-                                <tr>
-                                    <td colspan="8" align="center">No Service Reports to show</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    {% if is_paginated %}
-                        {% include 'partials/pagination.html' %}
-                    {% endif %}
+                <div class="form__col">
+                    {{ search_by_name_form }}
+                </div>
+                <div class="form__col">
+                    {% include 'estate/partials/building_selector.html' %}
                 </div>
             </div>
+
+
+            <div class="form__label">
+                <label>Extra available fields:</label>
+            </div>
+
+            <div class="form__col">
+                <label>{{ service_report_filter_form.title.label }}</label>
+                <p>{{ service_report_filter_form.title }}</p>
+            </div>
+
+            <div class="form__col">
+                <label>{{ service_report_filter_form.report_type.label }}</label>
+                <p>{{ service_report_filter_form.report_type }}</p>
+            </div>
+
+            <div class="form__col">
+                <label>{{ service_report_filter_form.report_status.label }}</label>
+                <p>{{ service_report_filter_form.report_status }}</p>
+            </div>
+
+            <div class="form__col">
+                <label>{{ service_report_filter_form.company.label }}</label>
+                <p>{{ service_report_filter_form.company }}</p>
+            </div>
+
+            <div class="form__foot">
+                <button class="btn btn-primary">Apply</button>
+                <a class="btn btn-primary" href="{% url 'show all reports' %}">Clear</a>
+            </div>
+
+        </form>
+    </div>
+    <div class="section__body-group">
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr class="table table-light">
+                    <th>Title</th>
+                    <th>Created by</th>
+                    <th>Company</th>
+                    <th>Report Status</th>
+                    <th>Report Type</th>
+                    <th>Submit Date</th>
+                    <th>Assigned to</th>
+                    <th>Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for object in object_list %}
+                    <tr>
+                        <td>{{ object.title | truncatechars:25 }}</td>
+                        {% if request.user == object.user %}
+                            <td>You</td>
+                        {% else %}
+                            <td>{{ object.user.appuserprofile.full_name }}</td>
+                        {% endif %}
+                        <td>{{ object.company.name }}</td>
+                        <td>{{ object.report_status }}</td>
+                        <td>{{ object.report_type }}</td>
+                        <td>{{ object.submit_date }}</td>
+                        {% if not object.assigned_to %}
+                            <td>None</td>
+                        {% elif request.user == object.assigned_to %}
+                            <td>You</td>
+                        {% else %}
+                            <td>{{ object.assigned_to.appuserprofile.full_name }}</td>
+                        {% endif %}
+
+                        <td><a class="btn btn-outline-primary" href="{% url 'report details' object.pk %}">See
+                            Details</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8" align="center">No Service Reports to show</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </section>
+        {% if is_paginated %}
+            {% include 'partials/pagination.html' %}
+        {% endif %}
+    </div>
 {% endblock %}

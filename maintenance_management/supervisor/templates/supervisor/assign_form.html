@@ -1,21 +1,27 @@
 {% extends 'base.html' %}
+
 {% block page_title %}
     Assign Report
 {% endblock %}
+{% block section_header %}
+    <h1>Assign Report</h1>
+{% endblock %}
 {% block content %}
-    <div class="form-main form-main--login">
-        <form action="" method="post">
-            <p>Report: {{ report.title }}</p>
-            <p>From: {{ report.company.name }}</p>
-            <p>Report Type: {{ report.report_type }}</p>
-            <div class="form__fields">
-                {% csrf_token %}
-                {{ form.as_p }}
-            </div>
-            <div class="form__foot">
-                <button class="btn btn-success">Assign Report</button>
-                <a href="{% url 'report details' report.pk %}">Cancel</a>
-            </div>
-        </form>
+    <div class="section__body-group">
+        <div class="form-main form-main--login">
+            <form action="" method="post">
+                <p>Report: {{ report.title }}</p>
+                <p>From: {{ report.company.name }}</p>
+                <p>Report Type: {{ report.report_type }}</p>
+                <div class="form__fields">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                </div>
+                <div class="form__foot">
+                    <button class="btn btn-success">Assign Report</button>
+                    <a href="{% url 'report details' report.pk %}">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}

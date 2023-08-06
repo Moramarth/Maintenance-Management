@@ -1,70 +1,66 @@
 {% extends 'base.html' %}
+
 {% block page_title %}
     Meetings
 {% endblock %}
-{% block content %}
-    <section class="section">
-        <div class="container">
-            <div class="section__head">
-                <h1>Meetings</h1>
-            </div>
 
-            <div class="section__body">
-                <div class="section__body-group">
-                    <form action="" method="get" class="form-main form-main--filters">
-                        <div class="form__wrap">
-                            <div class="form__col">
-                                {{ paginator_form }}
-                            </div>
-                            <div class="form__col">
-                                {{ search_by_name_form }}
-                            </div>
-                            <div class="form__col">
-                                {% include 'estate/partials/building_selector.html' %}
-                            </div>
-                            <div class="form__foot">
-                                <button class="btn btn-primary">Apply</button>
-                                <a class="btn btn-primary" href="{% url 'show all meetings' %}">Clear</a>
-                            </div>
-                        </div>
-                    </form>
+{% block section_header %}
+    <h1>Meetings</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="section__body-group">
+        <form action="" method="get" class="form-main form-main--filters">
+            <div class="form__wrap">
+                <div class="form__col">
+                    {{ paginator_form }}
                 </div>
-                <div class="section__body-group">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr class="table table-light">
-                                <th>Created by</th>
-                                <th>For Assignment</th>
-                                <th>Description</th>
-                                <th>Date</th>
-                                <th>Details</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for object in object_list %}
-                                <tr>
-                                    <td>{{ object.created_by.appuserprofile.full_name }}</td>
-                                    <td>{{ object.assignment.service_report.title }}</td>
-                                    <td>{{ object.description | truncatechars:50 }}</td>
-                                    <td>{{ object.meeting_date }}</td>
-                                    <td><a class="btn btn-outline-primary" href="{% url 'meeting details' object.pk %}">See
-                                        Details</a>
-                                    </td>
-                                </tr>
-                            {% empty %}
-                                <tr>
-                                    <td colspan="8" align="center">No Meeting to show</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    {% if is_paginated %}
-                        {% include 'partials/pagination.html' %}
-                    {% endif %}
+                <div class="form__col">
+                    {{ search_by_name_form }}
+                </div>
+                <div class="form__col">
+                    {% include 'estate/partials/building_selector.html' %}
+                </div>
+                <div class="form__foot">
+                    <button class="btn btn-primary">Apply</button>
+                    <a class="btn btn-primary" href="{% url 'show all meetings' %}">Clear</a>
                 </div>
             </div>
+        </form>
+    </div>
+    <div class="section__body-group">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr class="table table-light">
+                    <th>Created by</th>
+                    <th>For Assignment</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for object in object_list %}
+                    <tr>
+                        <td>{{ object.created_by.appuserprofile.full_name }}</td>
+                        <td>{{ object.assignment.service_report.title }}</td>
+                        <td>{{ object.description | truncatechars:50 }}</td>
+                        <td>{{ object.meeting_date }}</td>
+                        <td><a class="btn btn-outline-primary" href="{% url 'meeting details' object.pk %}">See
+                            Details</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8" align="center">No Meeting to show</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </section>
+        {% if is_paginated %}
+            {% include 'partials/pagination.html' %}
+        {% endif %}
+    </div>
 {% endblock %}

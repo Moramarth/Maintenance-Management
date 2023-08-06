@@ -1,137 +1,130 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block section_header %}
+    <h1>We take care of our buildings</h1>
+
+    <h2>You focus on your business</h2>
+{% endblock %}
 {% block content %}
-    <section class="section">
-        <div class="container">
-            <div class="section__head">
-                <h1>We take care of our buildings</h1>
+    <div class="section__body-group">
+        <h4>Our Buildings</h4>
 
-                <h2>You focus on your business</h2>
-            </div>
+        <div class="row row-cols-3 row-cols-md-3 g-4">
+            <a href="{% url 'show all buildings' %}">&nbsp;</a>
 
-            <div class="section__body">
-                <div class="section__body-group">
-                    <h4>Our Buildings</h4>
-
-                    <div class="row row-cols-3 row-cols-md-3 g-4">
-                        <a href="{% url 'show all buildings' %}">&nbsp;</a>
-
-                        {% for building in buildings %}
-                            <div class="col">
-                                <div class="card card--box">
-                                    {% if building.file %}
-                                        <img src="{{ building.file.url }}" class="card-img-top" alt="...">
-                                    {% else %}
-                                        <img src="{% static 'images/default_building_picture.png' %}"
-                                             class="card-img-top"
-                                             alt="No picture">
-                                    {% endif %}
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ building.name }}</h5>
-                                        <p class="card-text">{{ building.city }} </p>
-                                    </div>
-                                </div>
-                            </div>
-                        {% empty %}
-                            <h1>No Buildings to show</h1>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="section__body-group">
-                    <h4>Our partners</h4>
-
-                    <div class="row row-cols-3 row-cols-md-3 g-4">
-                        <a href="{% url 'show all companies' %}">&nbsp;</a>
-
-                        {% for tenant in tenants %}
-                            <div class="col">
-                                <div class="card card--box">
-                                    {% if tenant.file %}
-                                        <img src="{{ tenant.file.url }}" class="card-img-top" alt="...">
-                                    {% else %}
-                                        <img src="{% static 'images/default_company_logo.jpg' %}" class="card-img-top"
-                                             alt="No picture">
-                                    {% endif %}
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ tenant.name }}</h5>
-                                        {% if tenant.businessfiled %}
-                                            <p class="card-text">{{ tenant.business_field }} </p>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        {% empty %}
-                            <h1>No Partners yet</h1>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="section__body-group">
-                    <div class="section__body-group-head">
-                        <h4>Feedback</h4>
-
-                        <a class="btn btn-dark" href="{% url 'show all reviews' %}"> See all reviews</a>
-                    </div>
-
-                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            {% for review in reviews %}
-                                <div class="carousel-item {% if review == reviews.0 %}active{% endif %}">
-                                    <div class="block-testimonial">
-                                        <div class="block__image">
-                                            {% if review.user.appuserprofile.file %}
-                                                <img src="{{ review.user.appuserprofile.file.url }}"
-                                                     class="img-fluid rounded-start"
-                                                     alt="">
-                                            {% else %}
-                                                <img src="{% static 'images/default_profile_picture.png' %}"
-                                                     class="img-fluid rounded-start"
-                                                     alt="">
-                                            {% endif %}
-
-                                            <div class="block__image-review">
-                                                {% for i in range %}
-                                                    {% if i > review.rating %}
-                                                        <i class="fa-regular fa-star"></i>
-                                                    {% else %}
-                                                        <i class="fa-solid fa-star"></i>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-
-                                        <div class="block__content">
-                                            <h5 class="card-title">{{ review.user.appuserprofile.full_name }}</h5>
-
-                                            <p class="card-text">{{ review.comment }}</p>
-
-                                            <p class="card-text"><small
-                                                    class="text-muted">{{ review.submitted }}</small>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
+            {% for building in buildings %}
+                <div class="col">
+                    <div class="card card--box">
+                        {% if building.file %}
+                            <img src="{{ building.file.url }}" class="card-img-top" alt="...">
+                        {% else %}
+                            <img src="{% static 'images/default_building_picture.png' %}"
+                                 class="card-img-top"
+                                 alt="No picture">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ building.name }}</h5>
+                            <p class="card-text">{{ building.city }} </p>
                         </div>
-
-                        <button class="carousel-control-prev" type="button"
-                                data-bs-target="#carouselExampleControls"
-                                data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-
-                        <button class="carousel-control-next" type="button"
-                                data-bs-target="#carouselExampleControls"
-                                data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
                     </div>
                 </div>
-            </div>
+            {% empty %}
+                <h1>No Buildings to show</h1>
+            {% endfor %}
         </div>
-    </section>
+    </div>
 
+    <div class="section__body-group">
+        <h4>Our partners</h4>
+
+        <div class="row row-cols-3 row-cols-md-3 g-4">
+            <a href="{% url 'show all companies' %}">&nbsp;</a>
+
+            {% for tenant in tenants %}
+                <div class="col">
+                    <div class="card card--box">
+                        {% if tenant.file %}
+                            <img src="{{ tenant.file.url }}" class="card-img-top" alt="...">
+                        {% else %}
+                            <img src="{% static 'images/default_company_logo.jpg' %}" class="card-img-top"
+                                 alt="No picture">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ tenant.name }}</h5>
+                            {% if tenant.businessfiled %}
+                                <p class="card-text">{{ tenant.business_field }} </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <h1>No Partners yet</h1>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="section__body-group">
+        <div class="section__body-group-head">
+            <h4>Feedback</h4>
+
+            <a class="btn btn-dark" href="{% url 'show all reviews' %}"> See all reviews</a>
+        </div>
+
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for review in reviews %}
+                    <div class="carousel-item {% if review == reviews.0 %}active{% endif %}">
+                        <div class="block-testimonial">
+                            <div class="block__image">
+                                {% if review.user.appuserprofile.file %}
+                                    <img src="{{ review.user.appuserprofile.file.url }}"
+                                         class="img-fluid rounded-start"
+                                         alt="">
+                                {% else %}
+                                    <img src="{% static 'images/default_profile_picture.png' %}"
+                                         class="img-fluid rounded-start"
+                                         alt="">
+                                {% endif %}
+
+                                <div class="block__image-review">
+                                    {% for i in range %}
+                                        {% if i > review.rating %}
+                                            <i class="fa-regular fa-star"></i>
+                                        {% else %}
+                                            <i class="fa-solid fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="block__content">
+                                <h5 class="card-title">{{ review.user.appuserprofile.full_name }}</h5>
+
+                                <p class="card-text">{{ review.comment }}</p>
+
+                                <p class="card-text"><small
+                                        class="text-muted">{{ review.submitted }}</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button class="carousel-control-prev" type="button"
+                    data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+
+            <button class="carousel-control-next" type="button"
+                    data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
 {% endblock %}

@@ -1,89 +1,87 @@
 {% extends 'base.html' %}
+
 {% block page_title %}
     Meetings
 {% endblock %}
+
+{% block section_header %}
+    <h1> Meeting Details</h1>
+{% endblock %}
+
 {% block content %}
-    <section class="section">
-        <div class="container">
-            <div class="section__head">
-                <h1> Meeting Details</h1>
-            </div>
-
-            <form class="form-main form-main--filters">
-                <div class="form__wrap">
-                    <div class="form__foot">
+    <div class="form-main form-main--filters">
+        <div class="form__wrap">
+            <div class="form__foot">
 
 
-                        {% if request.user == object.created_by %}
+                {% if request.user == object.created_by %}
 
-                            <a class="btn btn-warning" href="{% url 'edit meeting' object.pk %}">Edit Meeting</a>
-                            <a class="btn btn-danger" href="{% url 'delete meeting' object.pk %}">Delete Meeting</a>
+                    <a class="btn btn-warning" href="{% url 'edit meeting' object.pk %}">Edit Meeting</a>
+                    <a class="btn btn-danger" href="{% url 'delete meeting' object.pk %}">Delete Meeting</a>
 
-                        {% endif %}
-                        <a class="btn btn-primary" href="{% url 'show all meetings' %}">Back to Meetings</a>
-                    </div>
-                </div>
-            </form>
-
-            <div class="section__body">
-                <div class="section__body-group">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr class="table table-light">
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            <tr>
-                                <th>For assignment:</th>
-                                <td>
-                                    {{ object.assignment }}
-                                    <a href="{% url 'assignment details' object.assignment.pk %}" target="_blank">
-                                        <i class="fa-solid fa-arrow-right-to-bracket"
-                                           data-toggle="tooltip"
-                                           title="See Details"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>Description:</th>
-                                <td>{{ object.description | truncatechars:50 }}</td>
-                            </tr>
-                            <tr>
-                                <th>Meeting date:</th>
-                                <td>{{ object.meeting_date }}</td>
-                            </tr>
-
-                            <tr>
-                                <th>Created by:</th>
-                                <td>
-                                    {{ object.created_by.appuserprofile.full_name }}
-                                    <a href="{% url 'profile details' object.created_by.pk %}" target="_blank">
-                                        <i class="fa-solid fa-circle-info"
-                                           data-toggle="tooltip"
-                                           title="Contact Info"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
-
-                            </tbody>
-                            <thead>
-                            <tr class="table table-light">
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            </thead>
-
-                        </table>
-                    </div>
-                </div>
+                {% endif %}
+                <a class="btn btn-primary" href="{% url 'show all meetings' %}">Back to Meetings</a>
             </div>
         </div>
-    </section>
+    </div>
+
+
+    <div class="section__body-group">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr class="table table-light">
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <th>For assignment:</th>
+                    <td>
+                        {{ object.assignment }}
+                        <a href="{% url 'assignment details' object.assignment.pk %}" target="_blank">
+                            <i class="fa-solid fa-arrow-right-to-bracket"
+                               data-toggle="tooltip"
+                               title="See Details"></i>
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Description:</th>
+                    <td>{{ object.description | truncatechars:50 }}</td>
+                </tr>
+                <tr>
+                    <th>Meeting date:</th>
+                    <td>{{ object.meeting_date }}</td>
+                </tr>
+
+                <tr>
+                    <th>Created by:</th>
+                    <td>
+                        {{ object.created_by.appuserprofile.full_name }}
+                        <a href="{% url 'profile details' object.created_by.pk %}" target="_blank">
+                            <i class="fa-solid fa-circle-info"
+                               data-toggle="tooltip"
+                               title="Contact Info"></i>
+                        </a>
+                    </td>
+                </tr>
+
+
+                </tbody>
+                <thead>
+                <tr class="table table-light">
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div>
+
 
 {% endblock %}

@@ -83,7 +83,8 @@ class ChangePasswordDone(auth_views.PasswordChangeDoneView):
     template_name = 'accounts/password/change_password_successful.html'
 
 
-class PasswordReset(auth_mixins.LoginRequiredMixin, auth_views.PasswordResetView):
+class PasswordReset(auth_views.PasswordResetView):
+    template_name = 'accounts/password/password_reset_form.html'
     html_email_template_name = 'accounts/password/reset_password_email.html'
     success_url = reverse_lazy('reset password successful')
 
@@ -93,8 +94,8 @@ class PasswordResetDone(auth_views.PasswordResetDoneView):
 
 
 class PasswordResetConfirm(auth_views.PasswordResetConfirmView):
-    pass
+    template_name = 'accounts/password/password_reset_confirm.html'
 
 
 class PasswordResetComplete(auth_views.PasswordResetCompleteView):
-    pass
+    template_name = 'accounts/password/password_reset_complete.html'

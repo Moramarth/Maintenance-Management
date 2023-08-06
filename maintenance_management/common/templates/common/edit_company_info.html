@@ -1,18 +1,26 @@
 {% extends 'base.html' %}
+
 {% block page_title %}
     Edit Company Information
 {% endblock %}
+
+{% block section_header %}
+    <h1>Edit Company Information</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="form-main form-main--login">
-        <form action="" method="post" enctype="multipart/form-data">
-            <div class="form__fields">
-                {% csrf_token %}
-                {{ form.as_p }}
-            </div>
-            <div class="form__foot">
-                <button class="btn btn-warning">Edit</button>
-                <a href="{% url 'company details' object.pk %}">Back</a>
-            </div>
-        </form>
+    <div class="section__body-group">
+        <div class="form-main form-main--login">
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="form__fields">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                </div>
+                <div class="form__foot">
+                    <button class="btn btn-warning">Edit</button>
+                    <a href="{% url 'company details' object.pk %}">Back</a>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}

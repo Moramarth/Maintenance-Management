@@ -1,19 +1,27 @@
 {% extends 'base.html' %}
+
 {% block page_title %}
-    Delete Expenses
+    Delete Offer
 {% endblock %}
+
+{% block section_header %}
+    <h1>Delete Offer</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="form-main form-main--login">
-        <form action="" method="post">
-            <div class="form__fields">
-                <h2>Are you sure you want to delete your offer?</h2>
-                <p>{{ object.title }}</p>
-                {% csrf_token %}
-            </div>
-            <div class="form__foot">
-                <button class="btn btn-danger">Confirm</button>
-                <a href="{% url 'show all expenses' %}">Cancel</a>
-            </div>
-        </form>
+    <div class="section__body-group">
+        <div class="form-main form-main--login">
+            <form action="" method="post">
+                <div class="form__fields">
+                    <h2>Are you sure you want to delete your offer?</h2>
+                    <p>{{ object.title }}</p>
+                    {% csrf_token %}
+                </div>
+                <div class="form__foot">
+                    <button class="btn btn-danger">Confirm</button>
+                    <a href="{% url 'show all expenses' %}">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}
