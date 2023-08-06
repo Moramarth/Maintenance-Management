@@ -34,6 +34,8 @@
             {% for building in object_list %}
                 <div class="col">
                     <div class="card card--box">
+                        <a href="{% url 'building details' building.pk %}">See Details</a>
+
                         {% if building.file %}
                             <img src="{{ building.file.url }}" class="card-img-top" alt="...">
                         {% else %}
@@ -44,7 +46,6 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ building.name }}</h5>
                             <p class="card-text">{{ building.city }} </p>
-                            <a href="{% url 'building details' building.pk %}">See Details</a>
                         </div>
                     </div>
                 </div>

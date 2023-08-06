@@ -7,5 +7,7 @@
 @import './logo.css';
 @import './section.css';
 @import './block-testimonial.css';
+@import './block-review.css';
+@import './block-map.css';
 @import './nav-pagination.css';
 @import './bootstrap-overwrite.css';

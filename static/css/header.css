@@ -1,7 +1,43 @@
 .header {
     width: 100%;
-    border-bottom: 0.1rem solid rgba(0,0,0,0.4);
+    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.4);
+    padding: 1.2rem 0;
 }
+
 .header + * {
-    padding-top: 7.0rem;
+    padding-top: 8.5rem;
+}
+
+.header .container {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo {
+    margin-right: auto;
+}
+
+.header .navbar {
+    text-align: right;
+}
+
+@media (max-width: 991px) {
+    .header .navbar-collapse {
+        padding: 2.0rem var(--bs-gutter-x, .75rem);
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 8.5rem;
+        bottom: 0;
+        overflow: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        background-color: white;
+    }
+}
+
+@media (max-width: 767px) {
+    .header + * {
+        padding-top: 6.5rem;
+    }
 }

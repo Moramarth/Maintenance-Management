@@ -1,0 +1,49 @@
+.block-review {
+    width: 100%;
+    display: flex;
+}
+
+.block-review .block__image {
+    width: 40.0rem;
+    position: relative;
+}
+
+.block-review .block__content {
+    width: calc(100% - 40.0rem - 12.0rem);
+    padding: 0 2.0rem;
+}
+
+.block-review .block__content-bg {
+    min-height: 100%;
+}
+
+.block-review .block__content strong {
+    font-size: 1.6rem;
+    line-height: 1.33;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.block-review .block__logo,
+.block-review .block__image,
+.block-review .block__content-bg {
+    padding: 1.0rem;
+    border: 0.1rem solid black;
+    border-radius: 1.0rem !important;
+    background-color: white;
+}
+
+.block-review .block__logo {
+    width: 12.0rem;
+    align-self: flex-start;
+    margin-bottom: auto;
+}
+.block-review .block__image img,
+.block-review .block__logo img {
+    border: 0;
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0.6rem;
+}

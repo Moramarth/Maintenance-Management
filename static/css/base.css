@@ -23,3 +23,9 @@ a {
 img {
     max-width: 100%;
 }
+
+@media (max-width: 767px) {
+    html {
+        font-size: 50%;
+    }
+}

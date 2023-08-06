@@ -45,3 +45,18 @@
     object-fit: contain;
     object-position: center center;
 }
+
+@media (max-width: 767px) {
+    .footer {
+        text-align: center;
+    }
+
+    .footer .footer__content {
+        width: 100%;
+    }
+
+    .footer .footer__actions {
+        justify-content: center;
+        width: 100%;
+    }
+}

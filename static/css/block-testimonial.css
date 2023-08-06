@@ -21,6 +21,8 @@
     width: 100%;
     border: 1px solid black;
     border-radius: 1.0rem;
+    object-fit: cover;
+    object-position: center top;
 }
 
 .block-testimonial .block__content {
@@ -40,7 +42,7 @@
     border: 1px solid black;
 }
 
-@media (max-width: 1199.98px) {
+@media (max-width: 1200px) {
     .block-testimonial {
         flex-direction: column;
         gap: 2.0rem;
@@ -48,10 +50,28 @@
 
     .block-testimonial .block__image {
         width: 100%;
+        max-width: 30.0rem;
+        margin-left: auto;
+        margin-right: auto;
+        height: 0;
+        padding-top: 50%;
+    }
+
+    .block-testimonial .block__image img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
     }
 
     .block-testimonial .block__content {
         padding: 0;
         width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .block-testimonial {
+        margin: 0;
     }
 }

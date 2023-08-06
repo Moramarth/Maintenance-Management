@@ -133,6 +133,22 @@
     margin-top: 46%;
 }
 
+.card--box > a {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    text-decoration: none;
+    font-size: 0;
+    line-height: 0;
+    z-index: 100;
+}
+
+.card--box:hover {
+    box-shadow: 0 0 2.0rem black;
+}
+
 /*
     - Tables
 */
@@ -153,7 +169,52 @@ th {
     letter-spacing: 1px;
 }
 
-#myTab {
+.nav-tabs {
     justify-content: center;
-    border: 0 solid transparent
+    border: 0;
+}
+
+.nav-tabs button.nav-link {
+    padding: 1.0rem 2.0rem !important;
+    color: black;
+}
+.nav-tabs button.nav-link.active {
+    border-color: black;
+    border-bottom: 0;
+    border-radius: 0.6rem 0.6rem 0 0;
+    background: rgba(255,255,255,0.4);
+    color: black;
+}
+
+.nav-tabs button.nav-link:not(.active):hover {
+    border-color: transparent;
+}
+
+.navbar-toggler {
+    padding: 1.0rem;
+}
+
+.navbar-toggler-icon {
+    width: 2.0rem;
+    height: 2.0rem;
+}
+
+/*
+Sliders
+*/
+
+@media (max-width: 767px) {
+    .carousel {
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 2.0rem;
+        justify-content: center;
+    }
+
+    .carousel-control-next,
+    .carousel-control-prev {
+        position: relative;
+        width: auto;
+    }
 }

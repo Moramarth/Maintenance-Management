@@ -1,15 +1,13 @@
 {% load static %}
 {% load custom_tags %}
 {% user_staff_status request.user as user_is_staff %}
+
 <nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container-fluid">
-        <a class="logo" href="{% url 'home page' %}">
-            <img src="{% static 'images/navbar_logo.png' %}" alt="logo" width="" height=""
-                 class="d-inline-block align-text-top"/>
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-            <span>Maintenance Management</span>
-        </a>
-
+    <div class="navbar-collapse collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
             {% if user_is_staff %}
                 <li><a class="nav-link" href="{% url 'admin page' %}">Go to Administration</a></li>

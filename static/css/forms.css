@@ -60,10 +60,10 @@
 
 .form-main button {
     padding: 1.0rem 2.0rem;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     line-height: 1.0rem;
     height: 4.0rem;
-    border-radius: 1.0rem;
+    border-radius: 0.6rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -156,4 +156,30 @@
 
 .form-main--filters .form__wrap .form__col {
     width: calc(100% / 3);
+}
+
+@media (max-width: 991px) {
+    .form-main--filters .form__wrap .form__col {
+        width: calc(100% / 2);
+    }
+
+    .form-main--filters .form__col {
+        width: calc(100% / 3);
+    }
+
+    .form-main--filters .form__col--selects-primary > * {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .form-main--filters .form__foot {
+        flex-direction: column;
+    }
+
+    .form-main--filters .form__wrap .form__col,
+    .form-main--filters .form__col,
+    .form-main--filters .form__col--selects-primary > * {
+        width: 100%;
+    }
 }

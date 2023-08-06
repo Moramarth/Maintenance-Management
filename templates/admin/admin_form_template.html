@@ -1,0 +1,173 @@
+{% extends "admin/base_site.html" %}
+{% load custom_tags %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block extrahead %}{{ block.super }}
+    <script src="{% url 'admin:jsi18n' %}"></script>
+    {{ media }}
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}
+    <link rel="stylesheet" href="{% static "admin/css/forms.css" %}">{% endblock %}
+
+{% block coltype %}colM{% endblock %}
+
+{% block bodyclass %}{{ block.super }} app-{{ opts.app_label }} model-{{ opts.model_name }} change-form{% endblock %}
+
+{% if not is_popup %}
+    {% block breadcrumbs %}
+        <div class="breadcrumbs">
+            <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+            &rsaquo; <a
+                href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+            &rsaquo; {% if has_view_permission %}
+            <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}
+            {{ opts.verbose_name_plural|capfirst }}{% endif %}
+            &rsaquo;
+            {% if add %}{% blocktranslate with name=opts.verbose_name %}Add {{ name }}{% endblocktranslate %}{% else %}
+                {{ original|truncatewords:"18" }}{% endif %}
+        </div>
+    {% endblock %}
+{% endif %}
+
+{% block content %}
+    <div id="content-main">
+        {% block object-tools %}
+            {% if change and not is_popup %}
+                <ul class="object-tools">
+                    {% block object-tools-items %}
+                        {% change_form_object_tools %}
+                    {% endblock %}
+                </ul>
+            {% endif %}
+        {% endblock %}
+        <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}{% if form_url %}action="{{ form_url }}" {% endif %}method="post"
+              id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}
+            <div>
+                {% if is_popup %}<input type="hidden" name="{{ is_popup_var }}" value="1">{% endif %}
+                {% if to_field %}<input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}">{% endif %}
+                {% if save_on_top %}{% block submit_buttons_top %}{% submit_row %}{% endblock %}{% endif %}
+                {% if errors %}
+                    <p class="errornote">
+                        {% blocktranslate count counter=errors|length %}Please correct the error below.{% plural %}
+                            Please correct the errors below.{% endblocktranslate %}
+                    </p>
+                    {{ adminform.form.non_field_errors }}
+                {% endif %}
+
+                {% block field_sets %}
+                    {% for fieldset in adminform %}
+                        {% include "admin/includes/fieldset.html" %}
+
+                    {% endfor %}
+                    <h3>Drag and drop Marker on map to pinpoint exact building location</h3>
+                    <div class="form-row">
+                        <div>
+                            <div class="flex-container">
+                                <label
+                                        style="
+                                        width : 160px;
+                                        padding: 4px 10px 0 0;"
+                                        class="required"
+                                        for="latitude">
+                                    Latitude:
+                                </label>
+                                <input type="text" name="latitude" value="{{ original.latitude }}" class="js__lat" id="js__lat"
+                                       readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div>
+                            <div class="flex-container">
+                                <label
+                                        style="
+                                        width: 160px;
+                                        padding: 4px 10px 0 0;"
+                                        class="required" for="longitude">Longitude: </label>
+                                <input type="text" name="longitude" value="{{ original.longitude }}" class="js__lng"
+                                       id="js__lng" readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endblock %}
+
+                {% block after_field_sets %}{% endblock %}
+
+
+                {% block inline_field_sets %}
+                    {% for inline_admin_formset in inline_admin_formsets %}
+                        {% include inline_admin_formset.opts.template %}
+                    {% endfor %}
+                {% endblock %}
+
+                {% block after_related_objects %}{% endblock %}
+
+                {% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
+
+                {% block admin_change_form_document_ready %}
+                    <script id="django-admin-form-add-constants"
+                            src="{% static 'admin/js/change_form.js' %}"
+                            {% if adminform and add %}
+                            data-model-name="{{ opts.model_name }}"
+                            {% endif %}
+                            async>
+                    </script>
+                {% endblock %}
+
+                {# JavaScript for prepopulated fields #}
+                {% prepopulated_fields_js %}
+
+            </div>
+
+        </form>
+    </div>
+{% get_google_maps_api_key as maps_key %}
+    <div class="block-map js-block-map">
+
+        <div style="width: 100%;
+                    height: 0;
+                    padding-top: 50%;
+                    position: relative;
+                    overflow: hidden;"
+             class="block__map"
+             id="map"
+             {% if not original %}
+             data-lat="42.56422429111076"
+             data-lng="25.2266924234375"
+             data-title="Bulgaria"
+             {% else %}
+             data-lat="{{ original.latitude }}"
+                 data-lng="{{ original.longitude }}"
+                 data-title="{{ original.city }} {{ original.address}}"
+                {% endif %}
+        >
+        </div>
+    </div>
+
+
+
+    <script type="module" src="{% static '/js/google-map_input.js' %}"></script>
+
+    <script>(g => {
+        var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__",
+            m = document, b = window;
+        b = b[c] || (b[c] = {});
+        var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams,
+            u = () => h || (h = new Promise(async (f, n) => {
+                await (a = m.createElement("script"));
+                e.set("libraries", [...r] + "");
+                for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
+                e.set("callback", c + ".maps." + q);
+                a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+                d[q] = f;
+                a.onerror = () => h = n(Error(p + " could not load."));
+                a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+                m.head.append(a)
+            }));
+        d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
+    })
+    ({key: "{{maps_key}}", v: "weekly"});</script>
+
+{% endblock %}

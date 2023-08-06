@@ -34,13 +34,3 @@ class ShowAllBuildings(views.ListView):
 class ShowBuildingDetails(views.DetailView):
     template_name = 'estate/building_details.html'
     model = Building
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        address = self.object.address.replace(" ", "+")
-        link = f"{self.object.city}+{address}"
-        context.update({
-            "link": link
-        }
-        )
-        return context

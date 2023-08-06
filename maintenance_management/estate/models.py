@@ -34,6 +34,15 @@ class Building(models.Model):
         validators=[validate_file_size],
         verbose_name="Picture",
     )
+
+    latitude = models.FloatField(
+        blank=True,
+        null=True,
+    )
+    longitude = models.FloatField(
+        blank=True,
+        null=True,
+    )
     tenants = models.ManyToManyField(Company, through="AdditionalAddressInformation")
 
     def get_absolute_url(self):

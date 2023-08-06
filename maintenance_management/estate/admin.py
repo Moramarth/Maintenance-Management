@@ -7,7 +7,16 @@ from maintenance_management.estate.models import Building, AdditionalAddressInfo
 class BuildingAdmin(admin.ModelAdmin):
     list_display = ["name", "city", "address"]
     list_filter = ["city"]
+    exclude = ["latitude", "longitude"]
     view_on_site = True
+    change_form_template = 'admin/admin_form_template.html'
+
+    def save_model(self, request, obj, form, change):
+        obj.latitude = request.POST.get("latitude")
+        obj.longitude = request.POST.get("longitude")
+        super().save_model(request, obj, form, change)
+
+
 
 
 @admin.register(AdditionalAddressInformation)

@@ -1,3 +1,4 @@
+from decouple import config
 from django import template
 
 register = template.Library()
@@ -44,3 +45,8 @@ def pagination_parameters(context, **kwargs):
         del data[key]
 
     return data.urlencode()
+
+
+@register.simple_tag()
+def get_google_maps_api_key():
+    return config("GOOGLE_MAPS_API_KEY")

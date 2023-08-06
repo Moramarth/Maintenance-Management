@@ -10,37 +10,57 @@
 {% endblock %}
 
 {% block content %}
+
     <div class="section__body-group">
-        {% if object.user.appuserprofile.file %}
-            <img class="img-fluid rounded-start"
-                 src="{{ object.user.appuserprofile.file.url }}"
-                 alt="">
-        {% else %}
-            <img class="img-fluid rounded-start" src="{% static 'images/default_profile_picture.png' %}" alt="">
-        {% endif %}
-        {% if object.service_report %}
-            <p> For: {{ object.service_report }}</p>
-        {% endif %}
-        {% if object.user %}
-            <p> From: {{ object.user.appuserprofile.full_name }}</p>
-        {% else %}
-            <p>Ex tenant</p>
-        {% endif %}
-        <p> Rating: {{ object.rating }}</p>
-        <p> Comment: {{ object.comment }}</p>
-        {% if object.user.appuserprofile.company %}
-            <p> {{ object.user.appuserprofile.company.name }}</p>
-        {% else %}
-            <p>Previous Partner</p>
-        {% endif %}
-        {% if object.user.appuserprofile.company.logo %}
-            <img class="img-fluid rounded-start" src="{{ object.user.appuserprofile.company.logo.url }}" alt="">
-        {% else %}
-            <img class="img-fluid rounded-start" src="{% static 'images/default_company_logo.jpg' %}" alt="">
-        {% endif %}
-        {% if user_is_authenticated and request.user == object.user %}
-            <a class="btn btn-warning" href="{% url 'edit review' object.pk %}">Edit</a>
-            <a class="btn btn-danger" href="{% url 'delete review' object.pk %}">Delete</a>
-        {% endif %}
+        <div class="block-review">
+            <div class="block__image">
+                {% if object.user.appuserprofile.file %}
+                    <img class="img-fluid rounded-start"
+                         src="{{ object.user.appuserprofile.file.url }}"
+                         alt="">
+                {% else %}
+                    <img class="img-fluid rounded-start" src="{% static 'images/default_profile_picture.png' %}"
+                         alt="">
+                {% endif %}
+            </div>
+
+            <div class="block__content">
+                <div class="block__content-bg">
+                    {% if object.user %}
+                        <p><strong>From:</strong> {{ object.user.appuserprofile.full_name }}</p>
+                    {% else %}
+                        <p><strong>From:</strong> Ex tenant</p>
+                    {% endif %}
+                    {% if object.user.appuserprofile.company %}
+                        <p><strong>Company:</strong> {{ object.user.appuserprofile.company.name }}</p>
+                    {% else %}
+                        <p><strong>Company:</strong> Previous Partner</p>
+                    {% endif %}
+                    {% if object.service_report %}
+                        <p><strong>For:</strong> {{ object.service_report }}</p>
+                    {% endif %}
+                    <p><strong>Rating:</strong> {{ object.rating }}</p>
+                    <p><strong>Comment:</strong> {{ object.comment }}</p>
+                </div>
+            </div>
+
+            <div class="block__logo">
+                {% if object.user.appuserprofile.company.logo %}
+                    <img class="img-fluid rounded-start" src="{{ object.user.appuserprofile.company.logo.url }}"
+                         alt="">
+                {% else %}
+                    <img class="img-fluid rounded-start" src="{% static 'images/default_company_logo.jpg' %}"
+                         alt="">
+                {% endif %}
+            </div>
+
+            {% if user_is_authenticated and request.user == object.user %}
+                <div class="block__actions">
+                    <a class="btn btn-warning" href="{% url 'edit review' object.pk %}">Edit</a>
+                    <a class="btn btn-danger" href="{% url 'delete review' object.pk %}">Delete</a>
+                </div>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
+
