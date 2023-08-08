@@ -28,3 +28,6 @@ class StaticStorage(S3Boto3Storage):
 
     def path(self, name):
         pass
+
+
+media_storage = MediaStorage()

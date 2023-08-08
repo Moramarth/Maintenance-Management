@@ -12,8 +12,6 @@
     <div class="form-main form-main--filters">
         <div class="form__wrap">
             <div class="form__foot">
-
-
                 {% if request.user == object.created_by %}
 
                     <a class="btn btn-warning" href="{% url 'edit meeting' object.pk %}">Edit Meeting</a>
@@ -24,8 +22,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="section__body-group">
         <div class="table-responsive">
             <table class="table table-hover">
@@ -36,7 +32,6 @@
                 </tr>
                 </thead>
                 <tbody>
-
                 <tr>
                     <th>For assignment:</th>
                     <td>
@@ -48,7 +43,6 @@
                         </a>
                     </td>
                 </tr>
-
                 <tr>
                     <th>Description:</th>
                     <td>{{ object.description | truncatechars:50 }}</td>
@@ -57,7 +51,6 @@
                     <th>Meeting date:</th>
                     <td>{{ object.meeting_date }}</td>
                 </tr>
-
                 <tr>
                     <th>Created by:</th>
                     <td>
@@ -69,8 +62,6 @@
                         </a>
                     </td>
                 </tr>
-
-
                 </tbody>
                 <thead>
                 <tr class="table table-light">

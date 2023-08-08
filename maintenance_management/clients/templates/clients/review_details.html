@@ -10,6 +10,16 @@
 {% endblock %}
 
 {% block content %}
+    {% if user_is_authenticated and request.user == object.user %}
+        <div class="form-main form-main--filters">
+            <div class="form__wrap">
+                <div class="form__foot">
+                    <a class="btn btn-warning" href="{% url 'edit review' object.pk %}">Edit</a>
+                    <a class="btn btn-danger" href="{% url 'delete review' object.pk %}">Delete</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
     <div class="section__body-group">
         <div class="block-review">
@@ -53,13 +63,6 @@
                          alt="">
                 {% endif %}
             </div>
-
-            {% if user_is_authenticated and request.user == object.user %}
-                <div class="block__actions">
-                    <a class="btn btn-warning" href="{% url 'edit review' object.pk %}">Edit</a>
-                    <a class="btn btn-danger" href="{% url 'delete review' object.pk %}">Delete</a>
-                </div>
-            {% endif %}
         </div>
     </div>
 {% endblock %}

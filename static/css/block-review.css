@@ -47,3 +47,45 @@
     height: auto;
     border-radius: 0.6rem;
 }
+
+@media (max-width: 1200px) {
+    .block-review {
+        flex-direction: column;
+        gap: 2.0rem;
+    }
+
+    .block-review .block__image {
+        width: 100%;
+        max-width: 40.0rem;
+        margin-left: auto;
+        margin-right: auto;
+        height: 0;
+        padding-top: 50%;
+    }
+
+    .block-review .block__image img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+    }
+
+    .block-review .block__content {
+        padding: 0;
+        width: 100%;
+    }
+}
+@media (max-width: 992px){
+    .block-review .block__image {
+        max-width: 30.0rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .block-review {
+        margin: 0;
+    }
+    .block-review .block__image {
+        max-width: 25.0rem;
+    }
+}

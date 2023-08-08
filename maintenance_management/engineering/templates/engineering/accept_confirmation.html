@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block content %}
-    <div class="section__body-group">
         <div class="form-main form-main--login">
             {% if assignment.user %}
                 <h2>You have accepted {{ assignment.service_report }} successfully!</h2>
@@ -20,6 +19,4 @@
                 <a href="{% url 'show all assignments' %}">Back to My Assignments</a>
             </div>
         </div>
-    </div>
-
 {% endblock %}

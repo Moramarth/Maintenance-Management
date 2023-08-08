@@ -23,11 +23,7 @@
             </div>
         </div>
     </div>
-
-
     <div class="section__body-group">
-
-
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
@@ -70,7 +66,6 @@
                                data-toggle="tooltip"
                                title="Contact Info"></i>
                         </a>
-
                     </td>
                 </tr>
                 {% if object.file %}
@@ -79,7 +74,7 @@
                             Attached file:
                         </th>
                         <td>
-                            {{ object.file.name }}
+                            Offer-{{object.pk}}-{{ object.created_by}}-{{object.title | truncatechars:20}}
                             <a href="{{ object.file.url }}"
                                target="_blank">
                                 <i class="fa-regular fa-file"

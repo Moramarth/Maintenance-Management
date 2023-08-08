@@ -17,20 +17,20 @@
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
                     type="button"
-                    role="tab" aria-controls="home" aria-selected="true">Personal information
+                    role="tab" aria-controls="home" aria-selected="true">Personal Information
             </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
                     type="button"
-                    role="tab" aria-controls="profile" aria-selected="false">Company Info
+                    role="tab" aria-controls="profile" aria-selected="false">Company Details
             </button>
         </li>
         {% if address %}
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
                         type="button"
-                        role="tab" aria-controls="contact" aria-selected="false">Current address
+                        role="tab" aria-controls="contact" aria-selected="false">Current Address
                 </button>
             </li>
         {% endif %}
@@ -41,10 +41,9 @@
                 <div class="block-testimonial">
                     <div class="block__image">
                         {% if object.file %}
-                            <img src="{{ object.file.url }}" alt="Profile Picture" width="300" height="300">
+                            <img src="{{ object.file.url }}" alt="Profile Picture">
                         {% else %}
-                            <img src="{% static 'images/default_profile_picture.png' %}" alt="" width="300"
-                                 height="300">
+                            <img src="{% static 'images/default_profile_picture.png' %}" alt="">
 
                         {% endif %}
                     </div>
@@ -89,8 +88,7 @@
                         {% if object.company.file %}
                             <img src="{{ object.company.file.url }}" alt="Company Logo">
                         {% else %}
-                            <img src="{% static 'images/default_company_logo.jpg' %}" alt="" width="300"
-                                 height="300">
+                            <img src="{% static 'images/default_company_logo.jpg' %}" alt="">
                         {% endif %}
                     </div>
                     <div class="block__content">

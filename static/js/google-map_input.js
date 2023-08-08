@@ -1,7 +1,7 @@
-// Google Map Api
+// Google Map Api -> map presented to admin for setting coordinates
 
 async function initMap() {
-    const {Map, InfoWindow} = await google.maps.importLibrary("maps");
+    const {Map} = await google.maps.importLibrary("maps");
     const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
 
     const _id = 'map';
@@ -11,8 +11,8 @@ async function initMap() {
         lng: parseFloat(_container.dataset.lng)
     };
 
-    let _inputLat = document.getElementById( 'js__lat' );
-    let _inputLng = document.getElementById( 'js__lng' );
+    let _inputLat = document.getElementById('js__lat');
+    let _inputLng = document.getElementById('js__lng');
 
     const map = new Map(document.getElementById(_id), {
         center: {
@@ -36,8 +36,8 @@ async function initMap() {
     draggableMarker.addListener("dragend", (event) => {
         const position = draggableMarker.position;
 
-        _inputLat.setAttribute( 'value', position.lat );
-        _inputLng.setAttribute( 'value', position.lng );
+        _inputLat.setAttribute('value', position.lat);
+        _inputLng.setAttribute('value', position.lng);
     });
 }
 

@@ -1,7 +1,7 @@
-// Google Map Api
+// Google Map Api -> map presented to user for view purpose only
 
 async function initMap() {
-    const {Map, InfoWindow} = await google.maps.importLibrary("maps");
+    const {Map} = await google.maps.importLibrary("maps");
 
     const _id = 'map';
     const _container = document.getElementById(_id);

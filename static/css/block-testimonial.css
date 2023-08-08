@@ -69,9 +69,8 @@
         width: 100%;
     }
 }
-
-@media (max-width: 767px) {
-    .block-testimonial {
+@media (max-width: 992px) {
+    .block-testimonial  {
         margin: 0;
     }
 }

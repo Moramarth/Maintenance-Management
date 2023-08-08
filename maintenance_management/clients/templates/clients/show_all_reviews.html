@@ -51,15 +51,23 @@
                     </div>
                 </div>
                 <div class="block__content">
-                    <h5 class="card-title">{{ object.user.appuserprofile.full_name }}</h5>
-                    <p class="card-text">{{ object.comment }}</p>
-                    <p class="card-text"><small
-                            class="text-muted">{{ object.submitted }}</small>
+                    {% if object.user %}
+                        <p><strong>From:</strong> {{ object.user.appuserprofile.full_name }}</p>
+                    {% else %}
+                        <p><strong>From:</strong> Ex tenant</p>
+                    {% endif %}
+                    {% if object.comment %}
+                        <p><strong>Comment:</strong> {{ object.comment }}</p>
+                    {% endif %}
+                    <p><small
+                            class="text-muted"> Submitted at {{ object.submitted }}</small>
                     </p>
-                    <a href="{% url 'review details' object.pk %}">See Details</a>
+                    <a href="{% url 'review details' object.pk %}" target="_blank">
+                        <i class="fa-solid fa-arrow-right-to-bracket"
+                           data-toggle="tooltip"
+                           title="See Details"></i>
+                    </a>
                 </div>
-
-                <div>Rating: {{ object.rating }}</div>
             </div>
 
         {% empty %}

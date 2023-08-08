@@ -1,7 +1,6 @@
-
-// Magnific Popup Plugin
+// Magnific Popup Plugin used in registration info page
 $(function() {
-    $('.test-popup-link').magnificPopup({
+    $('.image-popup-link').magnificPopup({
         type: 'image'
     });
 });

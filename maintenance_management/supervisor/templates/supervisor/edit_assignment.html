@@ -9,19 +9,17 @@
 {% endblock %}
 
 {% block content %}
-    <div class="section__body-group">
-        <div class="form-main form-main--login">
-            <form method="post">
-                <div class="form__fields">
-                    {% csrf_token %}
-                    <h2> Choose an engineer or a contractor from the list:</h2>
-                    {{ form.user }}
-                </div>
-                <div class="form__foot">
-                    <button class="btn btn-warning">Edit</button>
-                    <a href="{% url 'assignment details' object.pk %}">Cancel</a>
-                </div>
-            </form>
-        </div>
+    <div class="form-main form-main--login">
+        <form method="post">
+            <div class="form__fields">
+                {% csrf_token %}
+                <h2> Choose an engineer or a contractor from the list:</h2>
+                {{ form.user }}
+            </div>
+            <div class="form__foot">
+                <button class="btn btn-warning">Edit</button>
+                <a href="{% url 'assignment details' object.pk %}">Cancel</a>
+            </div>
+        </form>
     </div>
 {% endblock %}

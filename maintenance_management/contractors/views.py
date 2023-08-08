@@ -224,5 +224,5 @@ class DeleteExpensesEstimate(auth_mixins.LoginRequiredMixin, GroupRequiredMixin,
 def download_file(request, pk):
     expense = get_object_or_404(ExpensesEstimate, pk=pk)
     extension = pathlib.Path(expense.file.name).suffix
-    filename_with_extension = f"Offer-{expense.pk}-{expense.created_by}{expense.title[:20]}{extension}"
+    filename_with_extension = f"Offer-{expense.pk}-{expense.created_by}-{expense.title[:20]}{extension}"
     return FileResponse(expense.file, as_attachment=True, filename=filename_with_extension)

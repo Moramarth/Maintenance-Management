@@ -9,7 +9,8 @@ from django.utils.translation import gettext_lazy as _
 from maintenance_management.accounts.managers import AppUserManager
 from maintenance_management.common.models import Company
 
-from .validators import only_letters_validator, PHONE_VALIDATION, validate_file_size, first_char_validation
+from .validators import only_letters_validator, PHONE_VALIDATION, validate_file_size, first_char_validation, \
+    validate_user_is_not_already_registered
 
 
 class AppUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
@@ -148,6 +149,7 @@ class RegisterInvitation(models.Model):
         blank=False,
         null=False,
         unique=True,
+        validators=[validate_user_is_not_already_registered]
     )
     unique_identifier = models.UUIDField(default=uuid.uuid4, primary_key=True)
 

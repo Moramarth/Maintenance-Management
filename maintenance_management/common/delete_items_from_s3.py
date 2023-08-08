@@ -1,4 +1,4 @@
-from maintenance_management.common.custom_storage_classes import MediaStorage
+from maintenance_management.common.custom_storage_classes import media_storage
 
 
 def delete_file_when_delete_model_instance(instance):
@@ -27,7 +27,7 @@ def delete_old_file_when_update_model_instance(instance):
         except:
             new_img = None
         if new_img != old_img:
-            MediaStorage().delete(old_img.name)
+            media_storage.delete(old_img.name)
     except:
 
         pass
