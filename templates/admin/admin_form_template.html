@@ -72,7 +72,13 @@
                                         for="latitude">
                                     Latitude:
                                 </label>
-                                <input type="text" name="latitude" value="{{ original.latitude }}" class="js__lat" id="js__lat"
+                                <input type="text" name="latitude"
+                                       {% if original.latitude %}
+                                       value="{{ original.latitude }}"
+                                       {% else %}
+                                        value="42.56422429111076"
+                                       {% endif %}
+                                       class="js__lat" id="js__lat"
                                        readonly/>
                             </div>
                         </div>
@@ -85,7 +91,13 @@
                                         width: 160px;
                                         padding: 4px 10px 0 0;"
                                         class="required" for="longitude">Longitude: </label>
-                                <input type="text" name="longitude" value="{{ original.longitude }}" class="js__lng"
+                                <input type="text" name="longitude"
+                                       {% if original.longitude %}
+                                       value="{{ original.longitude }}"
+                                       {% else %}
+                                        value="25.2266924234375"
+                                       {% endif %}
+                                       class="js__lng"
                                        id="js__lng" readonly/>
                             </div>
                         </div>
@@ -133,7 +145,7 @@
                     overflow: hidden;"
              class="block__map"
              id="map"
-             {% if not original %}
+             {% if not original or not original.latitude or not original.longitude %}
              data-lat="42.56422429111076"
              data-lng="25.2266924234375"
              data-title="Bulgaria"

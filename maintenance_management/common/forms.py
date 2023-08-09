@@ -15,10 +15,10 @@ class SearchByNameForm(forms.Form):
 
 
 class PaginateByForm(forms.Form):
-    MIN_VALUE_FOR_PAGINATOR = 1
+    MIN_VALUE_FOR_PAGINATOR = 3
 
     paginator = forms.IntegerField(
         min_value=MIN_VALUE_FOR_PAGINATOR,
         required=False,
-        label="Items on page"
+        label="Items on page",
     )

@@ -2,7 +2,8 @@
 {% load i18n static %}
 
 {% block extrastyle %}{{ block.super }}
-    <link rel="stylesheet" href="{% static "admin/css/dashboard.css" %}">{% endblock %}
+    <link rel="stylesheet" href="{% static "admin/css/dashboard.css" %}">
+<link rel="icon" href="{% static 'images/navbar_logo.png' %}">{% endblock %}
 
 {% block coltype %}colMS{% endblock %}
 

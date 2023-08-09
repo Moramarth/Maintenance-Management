@@ -21,14 +21,13 @@
     text-align: right;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 991.98px) {
     .header .navbar-collapse {
         padding: 2.0rem var(--bs-gutter-x, .75rem);
         position: fixed;
         left: 0;
         right: 0;
         top: 8.5rem;
-        bottom: 0;
         overflow: hidden;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
@@ -36,7 +35,7 @@
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 767.98px) {
     .header + * {
         padding-top: 6.5rem;
     }

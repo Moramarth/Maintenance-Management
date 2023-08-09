@@ -42,7 +42,10 @@ class ShowAllMeetings(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.
         return queryset
 
     def get_paginate_by(self, queryset):
-        return self.request.GET.get("paginator", ShowAllMeetings._DEFAULT_PAGINATE_BY)
+        paginator = self.request.GET.get("paginator", None)
+        if not paginator:
+            return ShowAllMeetings._DEFAULT_PAGINATE_BY
+        return paginator
 
 
 class CreateMeeting(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.CreateView):
@@ -148,7 +151,10 @@ class ShowAllExpensesEstimates(auth_mixins.LoginRequiredMixin, GroupRequiredMixi
         return context
 
     def get_paginate_by(self, queryset):
-        return self.request.GET.get("paginator", ShowAllExpensesEstimates._DEFAULT_PAGINATE_BY)
+        paginator = self.request.GET.get("paginator", None)
+        if not paginator:
+            return ShowAllExpensesEstimates._DEFAULT_PAGINATE_BY
+        return paginator
 
 
 class CreateExpensesEstimate(auth_mixins.LoginRequiredMixin, GroupRequiredMixin, views.CreateView):

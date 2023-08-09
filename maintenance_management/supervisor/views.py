@@ -108,8 +108,10 @@ class ShowAllAssignments(LoginRequiredMixin, GroupRequiredMixin, views.ListView)
         return self.filter_set.qs
 
     def get_paginate_by(self, queryset):
-
-        return self.request.GET.get("paginator", ShowAllAssignments._DEFAULT_PAGINATE_BY)
+        paginator = self.request.GET.get("paginator", None)
+        if not paginator:
+            return ShowAllAssignments._DEFAULT_PAGINATE_BY
+        return paginator
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

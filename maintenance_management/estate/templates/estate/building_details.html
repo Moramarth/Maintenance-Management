@@ -18,8 +18,7 @@
                 {% if object.file %}
                     <img src="{{ object.file.url }}" alt="Building Picture">
                 {% else %}
-                    <img src="{% static 'images/default_building_picture.png' %}" width="300px" height="300px"
-                         alt="Building Picture">
+                    <img src="{% static 'images/default_building_picture.png' %}" alt="Building Picture">
                 {% endif %}
             </div>
             <div class="block__content">
@@ -38,7 +37,7 @@
 
             <div class="block__map"
                  id="map"
-                    {% if not object %}
+                    {% if not object or not object.latitude or not object.longitude %}
                  data-lat="42.56422429111076"
                  data-lng="25.2266924234375"
                  data-title="Bulgaria"

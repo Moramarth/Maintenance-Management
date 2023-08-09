@@ -28,7 +28,10 @@ class ShowAllBuildings(views.ListView):
         return context
 
     def get_paginate_by(self, queryset):
-        return self.request.GET.get("paginator", ShowAllBuildings._DEFAULT_PAGINATE_BY)
+        paginator = self.request.GET.get("paginator", None)
+        if not paginator:
+            return ShowAllBuildings._DEFAULT_PAGINATE_BY
+        return paginator
 
 
 class ShowBuildingDetails(views.DetailView):

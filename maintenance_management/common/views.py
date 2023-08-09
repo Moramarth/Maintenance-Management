@@ -77,4 +77,7 @@ class ShowAllCompanies(views.ListView):
         return queryset
 
     def get_paginate_by(self, queryset):
-        return self.request.GET.get("paginator", ShowAllCompanies._DEFAULT_PAGINATE_BY)
+        paginator = self.request.GET.get("paginator", None)
+        if not paginator:
+            return ShowAllCompanies._DEFAULT_PAGINATE_BY
+        return paginator

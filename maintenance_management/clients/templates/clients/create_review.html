@@ -20,7 +20,7 @@
                 </div>
                 <div class="form__foot">
                     {% if object %}
-                        <button class="btn btn-warning">Edit</button>
+                        <button class="btn btn-success">Save</button>
                         <a href="{% url 'review details' object.pk %}">Cancel</a>
                     {% else %}
                         <button class="btn btn-primary">Submit</button>

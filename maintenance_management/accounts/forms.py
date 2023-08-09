@@ -19,6 +19,8 @@ class RegisterInvitationForm(forms.ModelForm):
         group = Group.objects.all().filter(name=self.request.user.groups.name)
         company = Company.objects.all().filter(pk=self.request.user.appuserprofile.company.pk)
         self.fields["unique_identifier"].widget.attrs["readonly"] = "readonly"
+        self.fields["unique_identifier"].widget.attrs["style"] = "display:none"
+        self.fields["unique_identifier"].label = ""
         self.fields["groups"].queryset = group
         self.fields["company"].queryset = company
 

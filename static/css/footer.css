@@ -47,7 +47,7 @@
     color: #0b0b0b;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 767.98px) {
     .footer {
         text-align: center;
     }

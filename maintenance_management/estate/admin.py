@@ -17,8 +17,6 @@ class BuildingAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
-
-
 @admin.register(AdditionalAddressInformation)
 class AdditionalAddressInformationAdmin(admin.ModelAdmin):
     list_display = ["building", "company", "section", "floor", "office_number"]
