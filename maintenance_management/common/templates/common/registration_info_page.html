@@ -6,16 +6,90 @@
 {% endblock %}
 
 {% block section_header %}
-    <h1> TODO: Registration info and tutorial</h1>
+    <h1>Registration info and tutorial</h1>
 {% endblock %}
 
 {% block content %}
-    <div class="section__body-group">
-        Some information here
+    <h2> Registration for the service is available only for our business partners.</h2>
+    <div class="section__body-group info-page">
+        <ul>
+            <li>
+                <div class="info-page-text">
+                    <p>
+                        You will receive a message to the provided e-mail in your contract.
+                    </p>
+                    <p>
+                        Follow the link to start the registration process for our system.
+                    </p>
+                </div>
+                <div class="info-page-img">
+                    <a class="image-popup-link" href="{% static 'images/register_page_normal_size/email_invite.png' %}">
+                        <img src="{% static 'images/register_page_tiny_png/Email_Invite_192x120.png' %}" alt="">
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="info-page-text">
+                    <p>
+                        Your e-mail will be set as a prime identifier.
+                    </p>
+                    <p>
+                        Enter a strong password and submit the form.
+                    </p>
+                </div>
+                <div class="info-page-img">
+                    <a class="image-popup-link"
+                       href="{% static 'images/register_page_normal_size/registration form.PNG' %}">
+                        <img src="{% static 'images/register_page_tiny_png/registration_form_105x120.png' %}" alt="">
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="info-page-text">
+                    <p>
+                        After form submission an empty profile is automatically created for you.
+                    </p>
+                    <p>
+                        Please press the EDIT PROFILE button to fill the next form.
+                    </p>
+                </div>
+                <div class="info-page-img">
+                    <a class="image-popup-link"
+                       href="{% static 'images/register_page_normal_size/empty_profile.png' %}">
+                        <img src="{% static 'images/register_page_tiny_png/Empty_Profile_263x120.png' %}" alt="">
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="info-page-text">
+                    <p>
+                        Please fill your personal information correctly.
+                    </p>
+                    <p>
+                        Profile picture field is optional.
+                    </p>
+                </div>
+                <div class="info-page-img">
+                    <a class="image-popup-link"
+                       href="{% static 'images/register_page_normal_size/edit_profile_with_data.png' %}">
+                        <img src="{% static 'images/register_page_tiny_png/edit_profile_with_data_91x120.png' %}"
+                             alt="">
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="info-page-text">
+                    <p>You are ready to use our services as intended.</p>
+                </div>
+                <div class="info-page-img">
+                    <a class="image-popup-link"
+                       href="{% static 'images/register_page_normal_size/profile with data.PNG' %}">
+                        <img src="{% static 'images/register_page_tiny_png/profile_with_data_244x120.png' %}" alt="">
+                    </a>
+                </div>
+            </li>
 
-        <a class="image-popup-link" href="{% static 'images/403.jpg' %}">
-            <img src="{% static 'images/github-mark.svg' %}" alt="">
-        </a>
+        </ul>
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

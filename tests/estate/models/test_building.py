@@ -10,10 +10,7 @@ from maintenance_management.estate.views import ShowBuildingDetails
 
 @override_settings(STORAGES={
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "django.core.files.storage.InMemoryStorage",
     },
 })
 class BuildingTests(TestCase):
@@ -24,7 +21,6 @@ class BuildingTests(TestCase):
         "file": SimpleUploadedFile(
             name="test_picture.jpg",
             content=b"",
-
         )
     }
 
@@ -36,7 +32,6 @@ class BuildingTests(TestCase):
         self.assertEqual(1, len(Building.objects.all()))
 
         building.file.delete()
-        os.rmdir('images')
 
     def test_building_create__max_length_name_exceeded__expect_raise(self):
         building = Building(**self.VALID_BUILDING_DATA)
@@ -68,7 +63,6 @@ class BuildingTests(TestCase):
         building = Building.objects.create(**self.VALID_BUILDING_DATA)
         self.assertEqual(building.name, str(building))
         building.file.delete()
-        os.rmdir('images')
 
     def test_building_get_absolute_url_method__expect_no_errors(self):
         building = Building.objects.create(**self.VALID_BUILDING_DATA)
@@ -78,4 +72,4 @@ class BuildingTests(TestCase):
         self.assertEqual(200, response.status_code)
 
         building.file.delete()
-        os.rmdir('images')
+

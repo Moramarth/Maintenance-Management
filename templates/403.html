@@ -1,11 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block page_title %}
     403 Forbidden
 {% endblock %}
+
+{% block section_header %}
+    <h1>403 Forbidden</h1>
+{% endblock %}
+
 {% block content %}
-
+<div class="error-image">
     <img src="{% static 'images/403.jpg' %}" alt="">
-
-    <a class="btn btn-dark text-centered"  href="{% url 'home page' %}"> <h1>BACK TO HOMEPAGE</h1></a>
+    </div>
+    <div class="form-main form-main--filters">
+        <div class="form__wrap">
+            <div class="form__foot">
+                <a class="btn btn-dark text-centered" href="{% url 'home page' %}">BACK TO HOMEPAGE</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

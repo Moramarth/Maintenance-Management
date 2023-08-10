@@ -10,10 +10,7 @@ from maintenance_management.common.views import CompanyDetails
 
 @override_settings(STORAGES={
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "django.core.files.storage.InMemoryStorage",
     },
 })
 class CompanyTests(TestCase):
@@ -36,7 +33,6 @@ class CompanyTests(TestCase):
         self.assertEqual(1, len(Company.objects.all()))
 
         company.file.delete()
-        os.rmdir('images')
 
     def test_company_str_dunder__with_valid_data_expect_no_errors(self):
         company = Company(**self.VALID_COMPANY_DATA)
@@ -48,7 +44,6 @@ class CompanyTests(TestCase):
             str(company)
         )
         company.file.delete()
-        os.rmdir('images')
 
     def test_company_create__with_name_max_length_exceeded__expect_raises(self):
         company = Company(**self.VALID_COMPANY_DATA)
@@ -72,4 +67,3 @@ class CompanyTests(TestCase):
         self.assertEqual(200, response.status_code)
 
         company.file.delete()
-        os.rmdir('images')

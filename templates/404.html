@@ -1,15 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block page_title %}
     404 Page Not Found
 {% endblock %}
+
+{% block section_header %}
+<h1>404 Page Not Found</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="container">
-        <h1>OOPS, something went wrong</h1>
-        <h1>Don`t worry! We can fix it</h1>
-
+    <div class="error-image">
+        <img src="{% static 'images/404.jpg' %}" alt="">
     </div>
-    <img src="{% static 'images/404.jpg' %}" alt="">
 
-    <a class="btn btn-dark text-centered" href="{% url 'home page' %}"><h1>BACK TO HOMEPAGE</h1></a>
+    <div class="form-main form-main--filters">
+        <div class="form__wrap">
+            <div class="form__foot">
+                <a class="btn btn-dark text-centered" href="{% url 'home page' %}">BACK TO HOMEPAGE</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

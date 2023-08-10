@@ -29,3 +29,14 @@ img {
         font-size: 50%;
     }
 }
+
+@media print {
+    div{
+        margin: 0;
+        max-width: none;
+    }
+
+    header, footer, .section__body a, .section__body-group:not(:has(.table-responsive)){
+        display: none;
+    }
+}

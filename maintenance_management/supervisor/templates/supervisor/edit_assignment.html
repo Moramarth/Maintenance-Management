@@ -13,8 +13,8 @@
         <form method="post">
             <div class="form__fields">
                 {% csrf_token %}
-                <h2> Choose an engineer or a contractor from the list:</h2>
-                {{ form.user }}
+                <h2> Choose {% if viewer_group.name == 'Supervisor' %}an engineer or{% endif %} a contractor from the list:</h2>
+                {{ form }}
             </div>
             <div class="form__foot">
                 <button class="btn btn-success">Save</button>

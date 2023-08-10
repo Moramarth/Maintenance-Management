@@ -73,6 +73,31 @@ def auto_assign_reports(request):
     return render(request, "supervisor/auto_assign_status.html", context)
 
 
+@login_required
+@group_required(GroupEnum.supervisor)
+def reject_service_report(request, pk):
+    report = get_object_or_404(ServiceReport, pk=pk)
+    report.report_status = ServiceReport.ReportStatus.REJECTED
+    report.save()
+
+    return redirect('report details', report.pk)
+
+
+@login_required
+@group_required(GroupEnum.supervisor)
+def assignment_is_done(request, pk):
+    """ When assignment status set to done, also sets the service report status to "DONE" """
+    assignment = get_object_or_404(Assignment, pk=pk)
+    assignment.assignment_status = Assignment.AssignmentStatus.DONE
+    assignment.save()
+
+    report = assignment.service_report
+    report.report_status = ServiceReport.ReportStatus.DONE
+    report.save()
+
+    return redirect('assignment details', assignment.pk)
+
+
 class ShowAllAssignments(LoginRequiredMixin, GroupRequiredMixin, views.ListView):
     """
     Visualises assignment information based on Roles

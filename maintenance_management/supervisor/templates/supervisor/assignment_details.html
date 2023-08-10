@@ -12,22 +12,42 @@
     <div class="form-main form-main--filters">
         <div class="form__wrap">
             <div class="form__foot">
-                {% if viewer_group.name == "Supervisor" %}
-                    <a class="btn btn-warning" href="{% url 'edit assignment' object.pk %}">Edit</a>
-                    <a class="btn btn-danger" href="{% url 'delete assignment' object.pk %}">Delete</a>
-                    <a class="btn btn-primary" href="{% url 'show all assignments' %}">Back to
-                        Assignments</a>
+                {% if object.assignment_status != "Done" %}
+
+                    {% if viewer_group.name == "Supervisor" %}
+                        {% if assignment.assignment_status != "Accepted" %}
+                            <a class="btn btn-warning" href="{% url 'edit assignment' object.pk %}">Edit</a>
+                            <a class="btn btn-danger" href="{% url 'delete assignment' object.pk %}">Delete</a>
+                        {% else %}
+                            <a class="btn btn-success" href="{% url 'assignment is done' object.pk %}">Done</a>
+                        {% endif %}
+
+
+                    {% elif viewer_group.name == "Engineering" %}
+                        {% if request.user == object.assigned_by %}
+                            {% if object.assignment_status != "Accepted" %}
+                                <a class="btn btn-warning" href="{% url 'edit assignment' object.pk %}">Edit</a>
+                            {% else %}
+                                <a class="btn btn-success" href="{% url 'assignment is done' object.pk %}">Done</a>
+                            {% endif %}
+                        {% else %}
+                            {% if object.assignment_status != "Accepted" %}
+                                <a class="btn btn-success" href="{% url 'accept assignment' object.pk %}">Accept</a>
+                                <a class="btn btn-danger" href="{% url 'reject assignment' object.pk %}">Reject</a>
+                            {% else %}
+                                <a class="btn btn-success" href="{% url 'assignment is done' object.pk %}">Done</a>
+                            {% endif %}
+                        {% endif %}
+
+                    {% elif viewer_group.name == "Contractors" and object.assignment_status != "Accepted" %}
+                        <a class="btn btn-success" href="{% url 'accept assignment' object.pk %}">Accept</a>
+                        <a class="btn btn-danger" href="{% url 'reject assignment' object.pk %}">Reject</a>
+                    {% endif %}
+
                 {% endif %}
 
-                {% if viewer_group.name == "Engineering" or viewer_group.name == "Contractors" %}
-                    {% if request.user == object.assigned_by %}
-                        <a class="btn btn-warning" href="{% url 'edit assignment' object.pk %}">Edit</a>
-                    {% endif %}
-                    <a class="btn btn-success" href="{% url 'accept assignment' object.pk %}">Accept</a>
-                    <a class="btn btn-danger" href="{% url 'reject assignment' object.pk %}">Reject</a>
-                    <a class="btn btn-primary" href="{% url 'show all assignments' %}">Back to My
-                        Assignments</a>
-                {% endif %}
+                <a class="btn btn-primary" href="{% url 'show all assignments' %}">Back to
+                    Assignments</a>
             </div>
         </div>
     </div>
@@ -74,11 +94,13 @@
                     <th>Assigned to:</th>
                     <td>
                         {{ object.user.appuserprofile.full_name }}
-                        <a href="{% url 'profile details' object.user.pk %}" target="_blank">
-                            <i class="fa-solid fa-circle-info"
-                               data-toggle="tooltip"
-                               title="Contact Info"></i>
-                        </a>
+                        {% if object.user %}
+                            <a href="{% url 'profile details' object.user.pk %}" target="_blank">
+                                <i class="fa-solid fa-circle-info"
+                                   data-toggle="tooltip"
+                                   title="Contact Info"></i>
+                            </a>
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>
@@ -132,26 +154,27 @@
 
             <div class="form__foot">
 
-
-                {% if request.user == object.user and viewer_group.name == "Contractors" %}
-                    {% if assignment.assignment_status == "Accepted" and object.expense_estimate_available %}
-                        <a class="btn btn-outline-primary disabled"
-                           href="{% url 'create meeting' object.pk %}">Create
-                            a
-                            Meeting</a>
-                        <a class="btn btn-outline-primary disabled"
-                           href="{% url 'create expense' object.pk %}">Create
-                            an
-                            Offer</a>
-                    {% elif assignment.assignment_status == "Accepted" %}
-                        <a class="btn btn-primary" href="{% url 'create meeting' object.pk %}">Create
-                            a
-                            Meeting</a>
-                        <a class="btn btn-primary" href="{% url 'create expense' object.pk %}">Create
-                            an
-                            Offer</a>
-                    {% else %}
-                        <h6>You can create a Meeting or an Offer once you accept the assignment</h6>
+                {% if object.assignment_status != "Done" %}
+                    {% if request.user == object.user and viewer_group.name == "Contractors" %}
+                        {% if assignment.assignment_status == "Accepted" and object.expense_estimate_available %}
+                            <a class="btn btn-outline-primary disabled"
+                               href="{% url 'create meeting' object.pk %}">Create
+                                a
+                                Meeting</a>
+                            <a class="btn btn-outline-primary disabled"
+                               href="{% url 'create expense' object.pk %}">Create
+                                an
+                                Offer</a>
+                        {% elif assignment.assignment_status == "Accepted" %}
+                            <a class="btn btn-primary" href="{% url 'create meeting' object.pk %}">Create
+                                a
+                                Meeting</a>
+                            <a class="btn btn-primary" href="{% url 'create expense' object.pk %}">Create
+                                an
+                                Offer</a>
+                        {% else %}
+                            <h2>You can create a Meeting or an Offer once you accept the assignment</h2>
+                        {% endif %}
                     {% endif %}
                 {% endif %}
 

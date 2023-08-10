@@ -2,6 +2,7 @@
     width: 100%;
     position: relative;
 }
+
 .section .section__head {
     text-align: center;
     width: 100%;
@@ -17,7 +18,7 @@
 
 .section .section__head h2 {
     font-size: 3.0rem;
-    color: rgba(0,0,0,0.8);
+    color: rgba(0, 0, 0, 0.8);
     text-shadow: 0 0 1.0rem white;
 }
 
@@ -43,7 +44,7 @@
 .section .section__body-group {
     width: 100%;
     padding: 2.0rem;
-    background-color: rgba(255,255,255,0.4);
+    background-color: rgba(255, 255, 255, 0.4);
     border-radius: 1.0rem;
     border: 0.1rem solid #333;
 }
@@ -96,5 +97,63 @@
 
 .section .section__body-group > .row > a:hover ~ .col .card--box {
     box-shadow: 0 0 2.0rem black;
+}
+
+.section__body > h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 3rem;
+    text-shadow: 0 0 1.0rem white;
+}
+
+.section__body > div.error-image {
+    width: 700px;
+    margin: auto;
+}
+
+@media (max-width: 767.98px) {
+    .section__body > div.error-image {
+    width: auto;
+}
+}
+
+
+.info-page > ul {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    gap: 3rem;
+}
+
+.info-page > ul > li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border: solid 1px black;
+    border-radius: 1rem;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 1.8rem;
+    text-shadow: 0 0 1.0rem rgba(0, 0, 0, 0.4);
+}
+
+.info-page > ul > li > div.info-page-img {
+    box-shadow: 0 0 1.0rem rgba(0, 0, 0, 0.6);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: box-shadow 0.5s;
+}
+
+.info-page > ul > li > div.info-page-img:hover {
+    box-shadow: 0 0 3.0rem rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 991.98px) {
+    .info-page > ul > li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
 

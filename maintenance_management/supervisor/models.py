@@ -23,6 +23,7 @@ class Assignment(models.Model):
         PENDING = "Pending"
         ACCEPTED = "Accepted"
         REJECTED = "Rejected"
+        DONE = "Done"
 
     service_report = models.ForeignKey(
         ServiceReport,
