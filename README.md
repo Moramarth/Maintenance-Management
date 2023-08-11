@@ -22,24 +22,26 @@ Project is modified to also meet the requirements set by the [SoftUni University
 ## General info
 
 - Framework:
-    * Django 4.2.1 [Django](https://docs.djangoproject.com/en/4.2/)
+    * Django 4.2.1
+    [![Django](https://skillicons.dev/icons?i=django)](https://docs.djangoproject.com/en/4.2/)
+
 
 - Database:
-    * PostgreSQL [DB](https://www.postgresql.org/)
+    * PostgreSQL [![Postgres](https://skillicons.dev/icons?i=postgres)](https://www.postgresql.org/)
 
 - Third-party apps:
     * [django-filter](https://django-filter.readthedocs.io/en/stable/) 23.2
     * [django-storages](https://django-storages.readthedocs.io/en/latest/) 1.13.2
 
 - Services:
-    * AWS S3 [S3](https://aws.amazon.com/s3/)
-    * Google Maps API [maps](https://developers.google.com/maps)
+    * AWS S3 [![S3](https://skillicons.dev/icons?i=aws)](https://aws.amazon.com/s3/)
+    * [Google Maps API](https://developers.google.com/maps)
 
 - Styles:
-    * Bootstrap 5 [B](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
-    * Fontawesome [F](https://fontawesome.com/)
+    * Bootstrap 5 [![Bootstrap](https://skillicons.dev/icons?i=bootstrap)](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+    * [Fontawesome](https://fontawesome.com/)
     * [MagnificPopup](https://dimsemenov.com/plugins/magnific-popup/)
-    * CSS
+    * CSS ![CSS](https://skillicons.dev/icons?i=css)
 
 ## Business Logic
 
@@ -128,9 +130,24 @@ To manually create users(error free) set SUSPEND_SIGNALS to True in settings.py
 ## Screenshots
 
 - Home
+
+  ![Home_page](https://github.com/Moramarth/Maintenance-Management/assets/122516587/b9315d68-e0cf-4bd6-9e4b-87ef4168bd7b)
+
 - Forms
+
+   ![Forms](https://github.com/Moramarth/Maintenance-Management/assets/122516587/78c4a984-116b-4444-a55a-bea98db01ade)
+  
 - List views
+
+  ![List_views](https://github.com/Moramarth/Maintenance-Management/assets/122516587/12dbb038-3b57-42f1-a4a7-3f2997409e0d)
+
 - Details views
+
+  ![details_view](https://github.com/Moramarth/Maintenance-Management/assets/122516587/7da5a379-5093-45ea-b680-0f6c4d5555a7)
+
 - Profile
+
+  ![profile](https://github.com/Moramarth/Maintenance-Management/assets/122516587/a7124272-68fa-476e-b058-89d794dbcfd7)
+
 
 [back to start](#quick-navigation)
