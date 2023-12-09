@@ -1,6 +1,5 @@
 TODO:
     - Session settings
-    - Add styles to all pages
     - Populate DB for further testing and improving functionality
     - Cache and middleware where necessary
     - add REST functionality if applicable

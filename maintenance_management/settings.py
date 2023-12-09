@@ -51,11 +51,14 @@ INSTALLED_APPS = [
     # Third-party apps:
     'django_filters',
     'storages',
+    'rest_framework',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -190,3 +193,5 @@ LOGOUT_REDIRECT_URL = reverse_lazy('home page')
 SUSPEND_SIGNALS = config('SUSPEND_SIGNALS') == "True"
 
 SESSION_COOKIE_AGE = 9 * 60 * 60
+
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]

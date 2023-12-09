@@ -28,5 +28,6 @@ urlpatterns = [
     path('engineering/', include('maintenance_management.engineering.urls')),
     path('estate/', include('maintenance_management.estate.urls')),
     path('supervisor/', include('maintenance_management.supervisor.urls')),
+    path('api/', include('maintenance_management.api.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
