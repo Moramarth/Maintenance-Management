@@ -1,13 +1,8 @@
-from django.urls import path
-
-from maintenance_management.api.views import show_all_buildings, show_all_companies, show_all_reviews, \
-    show_all_service_reports, generate_homepage, get_all_profiles
+from django.urls import path, include
 
 urlpatterns = [
-    path("buildings/", show_all_buildings, name="api_show_all_buildings"),
-    path("companies/", show_all_companies, name="api_show_all_companies"),
-    path("reviews/", show_all_reviews, name="api_show_all_reviews"),
-    path("service-reports/", show_all_service_reports, name="api_show_all_service_reports"),
-    path("home-page/", generate_homepage, name="api_generate_homepage"),
-    path("profiles/", get_all_profiles, name="api_get_all_profiles")
+    path("", include('maintenance_management.api.common.urls')),
+    path("accounts/", include('maintenance_management.api.accounts.urls')),
+    path("clients/", include('maintenance_management.api.clients.urls')),
+    path("estate/", include('maintenance_management.api.estate.urls')),
 ]
