@@ -1,6 +1,7 @@
 import random
 
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 
@@ -13,7 +14,7 @@ from maintenance_management.common.views import TENANTS_DISPLAYED_ON_HOME_PAGE, 
     REVIEWS_DISPLAYED_ON_HOME_PAGE
 
 
-@api_view(["GET", "POST"])
+@api_view(["GET"])
 @csrf_exempt
 def show_all_companies(request):
     companies = Company.objects.all()
@@ -21,7 +22,19 @@ def show_all_companies(request):
     return JsonResponse(serializer.data, safe=False)
 
 
-@api_view(["GET", "POST"])
+@api_view(["GET", "PATCH"])
+@csrf_exempt
+def get_company_by_id(request, pk):
+    if request.method == "GET":
+        company = get_object_or_404(Company, pk=pk)
+        if company:
+            serializer = CompanySerializer(company)
+            return JsonResponse(serializer.data, safe=False)
+
+        return
+
+
+@api_view(["GET"])
 @csrf_exempt
 def generate_homepage(request):
     tenants, buildings, reviews = get_queries_as_list()
