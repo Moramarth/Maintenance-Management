@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 
 from maintenance_management.api.clients.serializers import ReviewSerializer
-from maintenance_management.api.common.serializers import CompanySerializer
+from maintenance_management.api.common.serializers import CompanySerializer, AddressSerializer
 from maintenance_management.api.estate.serializers import BuildingSerializer
 from maintenance_management.common.helper_function import get_queries_as_list, verify_constants
 from maintenance_management.common.models import Company
@@ -30,8 +30,28 @@ def get_company_by_id(request, pk):
         if company:
             serializer = CompanySerializer(company)
             return JsonResponse(serializer.data, safe=False)
+    elif request.method == "PATCH":
+        company = get_object_or_404(Company, pk=pk)
+        if company:
+            data = request.data
+            company.name = data.get("name", company.name)
+            company.business_field = data.get("business_field", company.business_field)
+            company.additional_information = data.get("additional_information", company.additional_information)
+            company.file = data.get("file", company.file)
+            company.save()
+            return JsonResponse({"call was successful": "asd"})
+    return
 
-        return
+
+@api_view(["GET"])
+@csrf_exempt
+def get_company_address(request, pk):
+    company = get_object_or_404(Company, pk=pk)
+    if company:
+        address = company.additionaladdressinformation_set.first()
+        serializer = AddressSerializer(address)
+
+        return JsonResponse(serializer.data, safe=False)
 
 
 @api_view(["GET"])

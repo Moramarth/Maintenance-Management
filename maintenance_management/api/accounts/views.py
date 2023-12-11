@@ -67,14 +67,24 @@ def get_all_profiles(request):
     return JsonResponse(serializer.data, safe=False)
 
 
-@api_view(["GET", "PATCH", "DELETE"])
+@api_view(["GET", "PATCH"])
 @csrf_exempt
 def get_profile_by_id(request, pk):
-    profile = get_object_or_404(AppUserProfile, pk=pk)
-    if profile:
-        serializer = ProfileSerializer(profile)
-        return JsonResponse(serializer.data, safe=False)
-    return
+    if request.method == "GET":
+        profile = get_object_or_404(AppUserProfile, pk=pk)
+        if profile:
+            serializer = ProfileSerializer(profile)
+            return JsonResponse(serializer.data, safe=False)
+    elif request.method == "PATCH":
+        profile = get_object_or_404(AppUserProfile, pk=pk)
+        if profile:
+            data = request.data
+            profile.first_name = data.get("first_name", profile.first_name)
+            profile.last_name = data.get("last_name", profile.last_name)
+            profile.phone_number = data.get("phone_number", profile.phone_number)
+            profile.file = data.get("file", profile.file)
+            profile.save()
+            return JsonResponse({"call was successful": "asd"})
 
 
 @api_view(["GET"])
