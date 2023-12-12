@@ -1,9 +1,8 @@
 import jwt
 import datetime
 from decouple import config
-
 from django.contrib.auth import get_user_model
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
@@ -11,7 +10,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from maintenance_management.accounts.models import AppUserProfile, AppUser
+from maintenance_management.accounts.models import AppUserProfile
 from maintenance_management.api.accounts.serializers import ProfileSerializer, AppUserSerializer
 from maintenance_management.settings import SESSION_COOKIE_AGE
 
@@ -43,16 +42,12 @@ class LoginUser(APIView):
             "user_id": user.id,
         })
 
-        response.set_cookie(key="jwt", value=token, httponly=True,
-                            expires=datetime.datetime.utcnow() + datetime.timedelta(seconds=SESSION_COOKIE_AGE))
-
         return response
 
 
 class LogoutUser(APIView):
     def post(self, request):
         response = Response()
-        response.delete_cookie("jwt")
         response.data = {
             "message": "Logged out successfully"
         }
@@ -95,3 +90,22 @@ def get_user_by_id(request, pk):
         serializer = AppUserSerializer(user)
         return JsonResponse(serializer.data, safe=False)
     return
+
+
+@api_view(["POST"])
+@csrf_exempt
+def test_authentication(request):
+    token = request.data["token"]
+    response = HttpResponse()
+    try:
+        info = jwt.decode(jwt=token, key=config("JWT_SECRET"), algorithms=["HS256"])
+        user = UserModel.objects.get(pk=info["id"])
+        if not user:
+            response.status_code = 400
+            return response
+        response.status_code = 200
+        return response
+    except Exception as e:
+        print(e)
+        response.status_code = 403
+        return response

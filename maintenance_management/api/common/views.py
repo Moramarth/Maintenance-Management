@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 
+from maintenance_management.api.accounts.serializers import ProfileSerializer
 from maintenance_management.api.clients.serializers import ReviewSerializer
 from maintenance_management.api.common.serializers import CompanySerializer, AddressSerializer
 from maintenance_management.api.estate.serializers import BuildingSerializer
@@ -50,6 +51,16 @@ def get_company_address(request, pk):
     if company:
         address = company.additionaladdressinformation_set.first()
         serializer = AddressSerializer(address)
+
+        return JsonResponse(serializer.data, safe=False)
+
+@api_view(["GET"])
+@csrf_exempt
+def get_company_employees(request, pk):
+    company = get_object_or_404(Company, pk=pk)
+    if company:
+        employees = company.appuserprofile_set.all()
+        serializer = ProfileSerializer(employees, many=True)
 
         return JsonResponse(serializer.data, safe=False)
 
