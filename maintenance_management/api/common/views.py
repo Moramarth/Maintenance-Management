@@ -1,6 +1,8 @@
+import base64
 import random
 
-from django.http import JsonResponse
+from django.core.files.base import ContentFile
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
@@ -35,10 +37,22 @@ def get_company_by_id(request, pk):
         company = get_object_or_404(Company, pk=pk)
         if company:
             data = request.data
+            if not data["file"]:
+                company.file = None
+            else:
+                image_as_string = data["file"]
+                file_name = data["filename"]
+                extension = data["extension"]
+                try:
+                    image_data = base64.b64decode(image_as_string)
+                    company.file.save(name=f"{file_name}{extension}", content=ContentFile(image_data), save=True)
+                except Exception as error:
+                    print(error)
+                    return HttpResponse(status=400)
+
             company.name = data.get("name", company.name)
             company.business_field = data.get("business_field", company.business_field)
             company.additional_information = data.get("additional_information", company.additional_information)
-            company.file = data.get("file", company.file)
             company.save()
             return JsonResponse({"call was successful": "asd"})
     return

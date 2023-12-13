@@ -1,13 +1,19 @@
+import base64
+
 import jwt
+
 from decouple import config
 from django.contrib.auth import get_user_model
+from django.core.files.base import ContentFile
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 
 from maintenance_management.api.clients.serializers import ServiceReportSerializer, ReviewSerializer
+
 from maintenance_management.api.helper_functions.token_validation import validate_token
+
 from maintenance_management.clients.models import ServiceReport, Review
 from maintenance_management.common.models import Company
 
@@ -27,14 +33,23 @@ def show_all_service_reports(request):
         if user is not None:
             data = request.data
             del data["token"]
-            service_report = {}
-            for (key, value) in data.items():
-                service_report[key] = value
+            image_as_string = data.get("file", None)
+            if image_as_string:
+                del data["file"]
+                file_name = data["filename"]
+                del data["filename"]
+                extension = data["extension"]
+                del data["extension"]
             company = Company.objects.get(pk=user.appuserprofile.company.id)
-            service_report['company'] = company.id
-            serializer = ServiceReportSerializer(data=service_report)
+            data['company'] = company.id
+            serializer = ServiceReportSerializer(data=data)
             if serializer.is_valid():
-                serializer.save()
+                instance = serializer.save()
+                if image_as_string:
+                    image_data = base64.b64decode(image_as_string)
+                    instance.file.save(name=f"{file_name}{extension}", content=ContentFile(image_data), save=True)
+
+
             return JsonResponse({"call was successful": "asd"})
 
         response = HttpResponse()
@@ -60,7 +75,18 @@ def get_service_report_by_id(request, pk):
 
         if report:
             data = request.data
-            print(data)
+            if not data["file"]:
+                report.file = None
+            else:
+                image_as_string = data["file"]
+                file_name = data["filename"]
+                extension = data["extension"]
+                try:
+                    image_data = base64.b64decode(image_as_string)
+                    report.file.save(name=f"{file_name}{extension}", content=ContentFile(image_data), save=True)
+                except Exception as error:
+                    print(error)
+                    return HttpResponse(status=400)
 
             report.title = data.get("title", report.title)
             report.description = data.get("description", report.description)
