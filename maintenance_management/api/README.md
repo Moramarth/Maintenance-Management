@@ -73,18 +73,8 @@ Access the accounts app by navigating to `accounts/`.
   - Description: Get app user by ID.
   - Endpoint: `app-user/<int:pk>/`
   - Method: `GET`
-- `POST /domain-name/api/accounts/login/`
-  - Description: Log in user.
-  - Endpoint: `login/`
-  - Method: `POST`
-- `POST /domain-name/api/accounts/test-token/`
-  - Description: Test authentication token.
-  - Endpoint: `test-token/`
-  - Method: `POST`
-- `POST /domain-name/api/accounts/logout/`
-  - Description: Log out user.
-  - Endpoint: `logout/`
-  - Method: `POST`
+  
+# TODO: TOKEN endpoints
 
 ## Clients App
 Access the clients app by navigating to `clients/`.

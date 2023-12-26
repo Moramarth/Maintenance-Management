@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+import datetime
 from pathlib import Path
 
 from decouple import config
@@ -47,11 +48,13 @@ INSTALLED_APPS = [
     'maintenance_management.supervisor',
     'maintenance_management.accounts',
     'maintenance_management.estate',
+    'maintenance_management.api',
 
     # Third-party apps:
     'django_filters',
     'storages',
     'rest_framework',
+    'rest_framework_simplejwt',
     "corsheaders",
 ]
 
@@ -190,6 +193,7 @@ DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 LOGIN_URL = reverse_lazy('login user')
 LOGOUT_REDIRECT_URL = reverse_lazy('home page')
 
+# Default SUSPEND_SIGNALS should be false
 SUSPEND_SIGNALS = config('SUSPEND_SIGNALS') == "True"
 
 SESSION_COOKIE_AGE = 9 * 60 * 60
@@ -202,3 +206,15 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
 ]
 CORS_ALLOW_CREDENTIALS = True
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ["Bearer"],
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(minutes=15),
+}

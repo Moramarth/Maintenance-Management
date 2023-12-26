@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from maintenance_management.accounts.models import AppUserProfile, AppUser
+from maintenance_management.accounts.models import AppUserProfile
 
 UserModel = get_user_model()
 
