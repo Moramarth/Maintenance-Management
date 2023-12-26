@@ -1,13 +1,21 @@
 from django.urls import path
 
-from maintenance_management.api.accounts.views import get_all_profiles, get_user_by_id, get_profile_by_id, LoginUser, \
-    LogoutUser, test_authentication
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
+
+from maintenance_management.api.accounts.views import ProfileListView, UserModelDetailsView, ProfileDetailsUpdateView
 
 urlpatterns = [
-    path("profiles/", get_all_profiles, name="api_get_all_profiles"),
-    path("profiles/<int:pk>/", get_profile_by_id, name="api_get_profile_by_id"),
-    path("app-user/<int:pk>/", get_user_by_id, name="api_get_user-by_id"),
-    path("login/", LoginUser.as_view(), name="api_login_user"),
-    path("test-token/", test_authentication, name="test_authentication"),
-    path("logout/", LogoutUser.as_view(), name="api_login_user"),
+    path("profiles/", ProfileListView.as_view(), name="api_get_all_profiles"),
+    path("profiles/<int:pk>/", ProfileDetailsUpdateView.as_view(), name="api_get_profile_by_id"),
+    path("app-user/<int:pk>/", UserModelDetailsView.as_view(), name="api_get_user_by_id"),
+]
+
+urlpatterns += [
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ]
