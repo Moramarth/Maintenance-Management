@@ -45,10 +45,8 @@ Access the common app by navigating to `domain-name/api/`.
   - Description: Get company employees by ID.
   - Endpoint: `companies/<int:pk>/employees/`
   - Method: `GET`
-- `GET /domain-name/api/home-page/`
-  - Description: Generate homepage.
-  - Endpoint: `home-page/`
-  - Method: `GET`
+
+
 ## Accounts App
 Access the accounts app by navigating to `accounts/`.
 
@@ -73,8 +71,18 @@ Access the accounts app by navigating to `accounts/`.
   - Description: Get app user by ID.
   - Endpoint: `app-user/<int:pk>/`
   - Method: `GET`
-  
-# TODO: TOKEN endpoints
+- `POST /domain-name/api/token/`
+  - Description: Obtain an access token.
+  - Endpoint: `token/`
+  - Method: `POST`
+- `POST /domain-name/api/token/refresh/`
+  - Description: Refresh an access token.
+  - Endpoint: `token/refresh/`
+  - Method: `POST`
+- `POST /domain-name/api/token/verify/`
+  - Description: Verify an access token.
+  - Endpoint: `token/verify/`
+  - Method: `POST`
 
 ## Clients App
 Access the clients app by navigating to `clients/`.
