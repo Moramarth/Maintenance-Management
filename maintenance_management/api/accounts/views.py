@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
+from django.http import HttpResponse
 from rest_framework import generics
-
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from maintenance_management.accounts.models import AppUserProfile
 from maintenance_management.api.accounts.serializers import ProfileSerializer, AppUserSerializer
@@ -24,6 +26,16 @@ class ProfileDetailsUpdateView(UpdateWithImageFieldMixin, generics.RetrieveUpdat
     queryset = AppUserProfile.objects.all()
     serializer_class = ProfileSerializer
     lookup_field = "pk"
+
+
+@api_view(["GET"])
+def get_current_user(request):
+    if request.user.is_authenticated:
+        user = request.user
+        serializer = AppUserSerializer(user)
+        return Response(serializer.data)
+
+    return HttpResponse(status=400)
 
 # @api_view(["GET", "PATCH"])
 # @csrf_exempt
