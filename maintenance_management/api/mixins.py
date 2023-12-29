@@ -2,6 +2,7 @@ import base64
 
 from django.core.files.base import ContentFile
 from django.http import HttpResponse
+from rest_framework import status
 from rest_framework.response import Response
 
 
@@ -47,3 +48,48 @@ class UpdateWithImageFieldMixin:
             instance._prefetched_objects_cache = {}
 
         return Response(serializer.data)
+
+
+class EditDeleteIfOwnerMixin:
+    """ Requires methods  can_edit() and can_delete() implementation """
+
+    def can_edit(self):
+        """
+         Provides a custom per view way to restrict editing based on certain business logic requirements.
+         Does not replace permission classes but rather enhances it
+
+         Set return statement to True if it`s not needed
+        """
+        return False
+
+    def can_delete(self):
+        """
+         Provides a custom per view way to restrict deleting based on certain business logic requirements.
+         Does not replace permission classes but rather enhances it
+
+         Set return statement to True if it`s not needed
+        """
+        return False
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        if not self.can_edit():
+            return HttpResponse(status=403)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if not self.can_delete():
+            return HttpResponse(status=403)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
