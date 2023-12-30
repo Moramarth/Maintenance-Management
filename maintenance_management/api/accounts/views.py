@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
-from rest_framework import generics
+from rest_framework import generics, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -15,17 +15,23 @@ class UserModelDetailsView(generics.RetrieveAPIView):
     queryset = UserModel.objects.all()
     serializer_class = AppUserSerializer
     lookup_field = 'pk'
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class ProfileListView(generics.ListAPIView):
     queryset = AppUserProfile.objects.all()
     serializer_class = ProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class ProfileDetailsUpdateView(UpdateWithImageFieldMixin, generics.RetrieveUpdateAPIView):
     queryset = AppUserProfile.objects.all()
     serializer_class = ProfileSerializer
     lookup_field = "pk"
+    permission_classes = [permissions.IsAuthenticated]
+
+    def can_edit(self):
+        return self.request.user == self.get_object().user
 
 
 @api_view(["GET"])
@@ -36,35 +42,3 @@ def get_current_user(request):
         return Response(serializer.data)
 
     return HttpResponse(status=400)
-
-# @api_view(["GET", "PATCH"])
-# @csrf_exempt
-# def get_profile_by_id(request, pk):
-#     if request.method == "GET":
-#         profile = get_object_or_404(AppUserProfile, pk=pk)
-#         if profile:
-#             serializer = ProfileSerializer(profile)
-#             return JsonResponse(serializer.data, safe=False)
-#     elif request.method == "PATCH":
-#         profile = get_object_or_404(AppUserProfile, pk=pk)
-#         if profile:
-#             data = request.data
-#             print(data)
-#             if data["file"] is None:
-#                 profile.file = None
-#             else:
-#                 image_as_string = data["file"]
-#                 file_name = data["filename"]
-#                 extension = data["extension"]
-#                 try:
-#                     image_data = base64.b64decode(image_as_string)
-#                     profile.file.save(name=f"{file_name}{extension}", content=ContentFile(image_data), save=True)
-#                 except Exception as error:
-#                     print(error)
-#                     return HttpResponse(status=400)
-#
-#             profile.first_name = data.get("first_name", profile.first_name)
-#             profile.last_name = data.get("last_name", profile.last_name)
-#             profile.phone_number = data.get("phone_number", profile.phone_number)
-#             profile.save()
-#             return JsonResponse({"call was successful": "asd"})

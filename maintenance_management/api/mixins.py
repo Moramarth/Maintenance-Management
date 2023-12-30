@@ -50,7 +50,7 @@ class UpdateWithImageFieldMixin:
         return Response(serializer.data)
 
 
-class EditDeleteIfOwnerMixin:
+class UpdateDeleteIfOwnerMixin:
     """ Requires methods  can_edit() and can_delete() implementation """
 
     def can_edit(self):
@@ -86,6 +86,25 @@ class EditDeleteIfOwnerMixin:
             instance._prefetched_objects_cache = {}
 
         return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if not self.can_delete():
+            return HttpResponse(status=403)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class DeleteIfOwnerMixin:
+    """ Requires method can_delete() implementation """
+    def can_delete(self):
+        """
+         Provides a custom per view way to restrict deleting based on certain business logic requirements.
+         Does not replace permission classes but rather enhances it
+
+         Set return statement to True if it`s not needed
+        """
+        return False
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
