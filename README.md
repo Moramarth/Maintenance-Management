@@ -2,11 +2,7 @@
 
 [Screenshots](#screenshots)
 
-This repository contains my final project for the course Python Web Framework - June 2023
-
-The idea is based on a real assignment covering the needs of an office rental company.
-
-Project is modified to also meet the requirements set by the [SoftUni University](https://softuni.bg/) academy team.
+Ongoing API update, goal is to leave only admin panel, registration and password change/recovery on the server-side rendering.
 
 # Quick navigation
 
