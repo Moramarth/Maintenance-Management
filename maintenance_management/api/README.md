@@ -71,6 +71,10 @@ Access the accounts app by navigating to `accounts/`.
   - Description: Get app user by ID.
   - Endpoint: `app-user/<int:pk>/`
   - Method: `GET`
+- `GET /domain-name/api/accounts/app-user/current/`
+  - Description: Get current logged in app user.
+  - Endpoint: `app-user/current/`
+  - Method: `GET`
 - `POST /domain-name/api/token/`
   - Description: Obtain an access token.
   - Endpoint: `token/`
