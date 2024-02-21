@@ -5,4 +5,5 @@ urlpatterns = [
     path("accounts/", include('maintenance_management.api.accounts.urls')),
     path("clients/", include('maintenance_management.api.clients.urls')),
     path("estate/", include('maintenance_management.api.estate.urls')),
+    path("supervisor/", include('maintenance_management.api.supervisor.urls')),
 ]

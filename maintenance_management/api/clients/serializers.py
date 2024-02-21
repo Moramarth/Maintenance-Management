@@ -3,7 +3,7 @@ from rest_framework import serializers
 from maintenance_management.clients.models import Review, ServiceReport
 
 
-class UserAndCompanyFullNameSerializerMixin:
+class UserAndCompanyFullNameSerializerMixin(serializers.Serializer):
     user_full_name = serializers.SerializerMethodField(read_only=True)
     user_company_name = serializers.SerializerMethodField(read_only=True)
 
