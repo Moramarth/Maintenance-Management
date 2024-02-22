@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -14,7 +13,8 @@ from maintenance_management.clients.models import ServiceReport
 from maintenance_management.supervisor.filters import AssignmentFilter, initial_query_set_assignments_filter, \
     first_and_last_name_filter_for_assignment
 from maintenance_management.supervisor.forms import AssignForm, AssignmentEditByEngineerForm
-from maintenance_management.supervisor.helper_functions import create_assignment_object, report_is_assigned
+from maintenance_management.supervisor.helper_functions import create_assignment_object, report_is_assigned, \
+    report_auto_assign
 from maintenance_management.supervisor.models import Assignment
 
 UserModel = get_user_model()
@@ -51,18 +51,7 @@ def auto_assign_reports(request):
     TODO: further testing and optimisation where needed
      """
 
-    reports_assigned_count = 0
-
-    reports = ServiceReport.objects.all().filter(report_status=ServiceReport.ReportStatus.PENDING)
-    group = Group.objects.get(name="Engineering")
-    engineers = UserModel.objects.all().filter(groups=group)
-
-    for report in reports:
-        for engineer in engineers:
-            if engineer.appuserprofile.expertise == report.report_type:
-                create_assignment_object(request.user, report, engineer)
-                report_is_assigned(report, engineer)
-                reports_assigned_count += 1
+    reports_assigned_count = report_auto_assign(request.user)
 
     if reports_assigned_count == 1:
         message = f"{reports_assigned_count} report was automatically assigned!"
