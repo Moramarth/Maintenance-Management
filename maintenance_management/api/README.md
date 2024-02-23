@@ -10,6 +10,7 @@
 - [Clients App Endpoints](#clients-app-endpoints)
 - [Accounts App Endpoints](#accounts-app-endpoints)
 - [Estate App Endpoints](#estate-app-endpoints)
+- [Supervisor App Endpoints](#supervisor-app-endpoints)
 ## Overview
 The Maintenance Management API is currently in a test phase and is a work in progress. Its primary focus is to provide data from the database to support the creation of a frontend and visualization of information. It is important to note that the API is not implemented with full security measures or comprehensive validation at this stage.
 
@@ -146,3 +147,42 @@ Access the estate app by navigating to `estate/`.
   - Endpoint: `buildings/<int:pk>/`
   - Method: `GET`
 
+# Supervisor App
+
+Access the Supervisor app by navigating to `supervisor/`.
+
+### Supervisor App Endpoints
+- `GET /domain-name/api/supervisor/assignments/`
+  - Description: Retrieve all assignments.
+  - Endpoint: `assignments/`
+  - Method: `GET`
+
+- `GET /domain-name/api/supervisor/assignments/<int:pk>/`
+  - Description: Retrieve assignment details by ID.
+  - Endpoint: `assignments/<int:pk>/`
+  - Method: `GET`
+
+- `PATCH /domain-name/api/supervisor/assignments/<int:pk>/`
+  - Description: Update assignment details by ID.
+  - Endpoint: `assignments/<int:pk>/`
+  - Method: `PATCH`
+
+- `DELETE /domain-name/api/supervisor/assignments/<int:pk>/`
+  - Description: Delete assignment by ID.
+  - Endpoint: `assignments/<int:pk>/`
+  - Method: `DELETE`
+
+- `GET /domain-name/api/supervisor/auto-assign/`
+  - Description: Automatically assign service reports to engineers if suitable matches are found.
+  - Endpoint: `auto-assign/`
+  - Method: `POST`
+
+- `POST /domain-name/api/supervisor/assign-report/<int:pk>/`
+  - Description: Assign a service report to an engineer or contractor.
+  - Endpoint: `assign-report/<int:pk>/`
+  - Method: `POST`
+
+- `POST /domain-name/api/supervisor/reject-report/<int:pk>/`
+  - Description: Reject a service report.
+  - Endpoint: `reject-report/<int:pk>/`
+  - Method: `POST`
