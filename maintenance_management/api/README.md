@@ -11,6 +11,10 @@
 - [Accounts App Endpoints](#accounts-app-endpoints)
 - [Estate App Endpoints](#estate-app-endpoints)
 - [Supervisor App Endpoints](#supervisor-app-endpoints)
+- [Contractors App Endpoints](#contractors-app-endpoints)
+- [Engineering App Endpoints](#engineering-app-endpoints)
+
+
 ## Overview
 The Maintenance Management API is currently in a test phase and is a work in progress. Its primary focus is to provide data from the database to support the creation of a frontend and visualization of information. It is important to note that the API is not implemented with full security measures or comprehensive validation at this stage.
 
@@ -147,7 +151,7 @@ Access the estate app by navigating to `estate/`.
   - Endpoint: `buildings/<int:pk>/`
   - Method: `GET`
 
-# Supervisor App
+## Supervisor App
 
 Access the Supervisor app by navigating to `supervisor/`.
 
@@ -185,4 +189,78 @@ Access the Supervisor app by navigating to `supervisor/`.
 - `POST /domain-name/api/supervisor/reject-report/<int:pk>/`
   - Description: Reject a service report.
   - Endpoint: `reject-report/<int:pk>/`
+  - Method: `POST`
+## Contractors App
+
+Access the Contractors app by navigating to `contractors/`.
+
+### Contractors App Endpoints
+- `GET /domain-name/api/contractors/meetings/`
+  - Description: Retrieve all meetings.
+  - Endpoint: `meetings/`
+  - Method: `GET`
+
+- `POST /domain-name/api/contractors/meetings/`
+  - Description: Create a new meeting.
+  - Endpoint: `meetings/`
+  - Method: `POST`
+
+- `GET /domain-name/api/contractors/meetings/<int:pk>/`
+  - Description: Retrieve meeting details by ID.
+  - Endpoint: `meetings/<int:pk>/`
+  - Method: `GET`
+
+- `PATCH /domain-name/api/contractors/meetings/<int:pk>/`
+  - Description: Update meeting details by ID.
+  - Endpoint: `meetings/<int:pk>/`
+  - Method: `PATCH`
+
+- `DELETE /domain-name/api/contractors/meetings/<int:pk>/`
+  - Description: Delete meeting by ID.
+  - Endpoint: `meetings/<int:pk>/`
+  - Method: `DELETE`
+
+- `GET /domain-name/api/contractors/expenses-estimates/`
+  - Description: Retrieve all expenses estimates.
+  - Endpoint: `expenses-estimates/`
+  - Method: `GET`
+
+- `POST /domain-name/api/contractors/expenses-estimates/`
+  - Description: Create a new expenses estimate.
+  - Endpoint: `expenses-estimates/`
+  - Method: `POST`
+
+- `GET /domain-name/api/contractors/expenses-estimates/<int:pk>/`
+  - Description: Retrieve expenses estimate details by ID.
+  - Endpoint: `expenses-estimates/<int:pk>/`
+  - Method: `GET`
+
+- `PATCH /domain-name/api/contractors/expenses-estimates/<int:pk>/`
+  - Description: Update expenses estimate details by ID.
+  - Endpoint: `expenses-estimates/<int:pk>/`
+  - Method: `PATCH`
+
+- `DELETE /domain-name/api/contractors/expenses-estimates/<int:pk>/`
+  - Description: Delete expenses estimate by ID.
+  - Endpoint: `expenses-estimates/<int:pk>/`
+  - Method: `DELETE`
+
+## Engineering App
+
+Access the Engineering app by navigating to `engineering/`.
+
+### Engineering App Endpoints
+- `POST /domain-name/api/engineering/self-assign/<int:pk>/`
+  - Description: Assign a service report to yourself.
+  - Endpoint: `self-assign/<int:pk>/`
+  - Method: `POST`
+
+- `POST /domain-name/api/engineering/accept/<int:pk>/`
+  - Description: Accept an assignment.
+  - Endpoint: `accept/<int:pk>/`
+  - Method: `POST`
+
+- `POST /domain-name/api/engineering/reject/<int:pk>/`
+  - Description: Reject an assignment.
+  - Endpoint: `reject/<int:pk>/`
   - Method: `POST`
