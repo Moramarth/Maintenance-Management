@@ -5,7 +5,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from maintenance_management.accounts.models import AppUserProfile
-from maintenance_management.api.accounts.serializers import ProfileSerializer, AppUserSerializer
+from maintenance_management.api.accounts.serializers import ProfileSerializer, AppUserSerializer, \
+    RegistrationInvitationSerializer
 from maintenance_management.api.mixins import UpdateWithImageFieldMixin
 
 UserModel = get_user_model()
@@ -42,3 +43,13 @@ def get_current_user(request):
         return Response(serializer.data)
 
     return HttpResponse(status=400)
+
+
+# TODO: registration invite for clients group
+class RegistrationInvitationCreateView(generics.CreateAPIView):
+    serializer_class = RegistrationInvitationSerializer
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context

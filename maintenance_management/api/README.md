@@ -92,6 +92,10 @@ Access the accounts app by navigating to `accounts/`.
   - Description: Verify an access token.
   - Endpoint: `token/verify/`
   - Method: `POST`
+- `POST /domain-name/api/accounts/register-invite/`
+  - Description: Create a registration invitation.
+  - Endpoint: `register-invite/`
+  - Method: `POST`
 
 ## Clients App
 Access the clients app by navigating to `clients/`.
