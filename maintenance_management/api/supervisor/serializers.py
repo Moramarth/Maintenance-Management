@@ -8,6 +8,8 @@ class AssignmentSerializer(serializers.ModelSerializer):
     assigned_to_full_name = serializers.SerializerMethodField(read_only=True)
     assigned_by_full_name = serializers.SerializerMethodField(read_only=True)
     report_type = serializers.SerializerMethodField(read_only=True)
+    meeting_id = serializers.SerializerMethodField(read_only=True)
+    offer_id = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Assignment
@@ -24,3 +26,11 @@ class AssignmentSerializer(serializers.ModelSerializer):
 
     def get_report_type(self, obj):
         return obj.service_report.report_type
+
+    def get_meeting_id(self, obj):
+        if obj.meeting_required:
+            return obj.meeting_set.first().pk
+
+    def get_offer_id(self, obj):
+        if obj.expense_estimate_available:
+            return obj.expensesestimate_set.first().pk
